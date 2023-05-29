@@ -1,24 +1,24 @@
-package Classes;
+package Shared.Classes;
 
 import java.util.UUID;
 
 public class Genre {
-    private UUID genre_id;
+    private UUID genreId;
     private String name;
     private String description;
 
     //Constructor
 
-    public Genre(UUID genre_id, String name, String description) {
-        this.genre_id = genre_id;
+    public Genre(UUID genreId, String name, String description) {
+        this.genreId = genreId;
         this.name = name;
         this.description = description;
     }
 
     //Getters
 
-    public UUID getGenre_id() {
-        return genre_id;
+    public UUID getGenreId() {
+        return genreId;
     }
 
     public String getName() {
