@@ -42,24 +42,21 @@ public class Service implements Runnable {
     }
 
     public void doService() {
-        while (true){
-            //Listening until client sends request
-            String request = in.nextLine();
-            //Converting request to json
-            JsonObject jsonRequest = new Gson().fromJson(request, JsonObject.class);
+        //Listening until client sends request
+        String request = in.nextLine();
+        //Converting request to json
+        JsonObject jsonRequest = new Gson().fromJson(request, JsonObject.class);
 
-            if (jsonRequest.get("requestType").getAsString().equals("EXIT")){
-                //Terminate the program
-                return;
-            }
-            else {
-                //Execute desired request
-                executeRequest(jsonRequest);
-            }
+        if (jsonRequest.get("requestType").getAsString().equals("EXIT")) {
+            //Terminate the program
+            return;
+        } else {
+            //Execute desired request
+            executeRequest(jsonRequest);
         }
     }
 
-    public void executeRequest(JsonObject jsonRequest){
+    public void executeRequest(JsonObject jsonRequest) {
         //Switch on requestTypes
         //TODO
     }
