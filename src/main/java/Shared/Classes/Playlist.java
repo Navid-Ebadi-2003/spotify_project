@@ -1,31 +1,31 @@
-package Classes;
+package Shared.Classes;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class Playlist {
-    private UUID playlist_id;
+    private UUID playlistId;
     private String title;
     private String description;
-    private UUID user_id;
+    private UUID userId;
     private int popularity;
-    private ArrayList<Music> tracks;
+    private ArrayList<UUID> tracks;
 
     //Constructor
 
-    public Playlist(UUID playlist_id, String title, String description, UUID user_id, int popularity, ArrayList<Music> tracks) {
-        this.playlist_id = playlist_id;
+    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks) {
+        this.playlistId = playlistId;
         this.title = title;
         this.description = description;
-        this.user_id = user_id;
+        this.userId = userId;
         this.popularity = popularity;
         this.tracks = tracks;
     }
 
     //Getters
 
-    public UUID getPlaylist_id() {
-        return playlist_id;
+    public UUID getPlaylistId() {
+        return playlistId;
     }
 
     public String getTitle() {
@@ -36,15 +36,15 @@ public class Playlist {
         return description;
     }
 
-    public UUID getUser_id() {
-        return user_id;
+    public UUID getUserId() {
+        return userId;
     }
 
     public int getPopularity() {
         return popularity;
     }
 
-    public ArrayList<Music> getTracks() {
+    public ArrayList<UUID> getTracks() {
         return tracks;
     }
 }
