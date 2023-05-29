@@ -8,14 +8,14 @@ public class Artist {
     private UUID artistId;
     private String name;
     private UUID genreId;
-    private ArrayList<Genre> genres;
+    private ArrayList<UUID> genres;
     private String biography;
     private HashMap<String, String> socialMediaLinks;
-    private ArrayList<Album> albums;
+    private ArrayList<UUID> albums;
 
     //Constructor
 
-    public Artist(UUID artistId, String name, UUID genreId, ArrayList<Genre> genres, String biography, HashMap<String, String> socialMediaLinks, ArrayList<Album> albums) {
+    public Artist(UUID artistId, String name, UUID genreId, ArrayList<UUID> genres, String biography, HashMap<String, String> socialMediaLinks, ArrayList<UUID> albums) {
         this.artistId = artistId;
         this.name = name;
         this.genreId = genreId;
@@ -39,7 +39,7 @@ public class Artist {
         return genreId;
     }
 
-    public ArrayList<Genre> getGenres() {
+    public ArrayList<UUID> getGenres() {
         return genres;
     }
 
@@ -51,7 +51,7 @@ public class Artist {
         return socialMediaLinks;
     }
 
-    public ArrayList<Album> getAlbums() {
+    public ArrayList<UUID> getAlbums() {
         return albums;
     }
 }

@@ -11,11 +11,11 @@ public class Album {
     private UUID genreId;
     private LocalDate releaseDate;
     private int popularity;
-    private ArrayList<Music> tracks;
+    private ArrayList<UUID> tracks;
 
     //Constructor
 
-    public Album(UUID albumId, String title, UUID artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<Music> tracks) {
+    public Album(UUID albumId, String title, UUID artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<UUID> tracks) {
         this.albumId = albumId;
         this.title = title;
         this.artistId = artistId;
@@ -52,7 +52,7 @@ public class Album {
         return popularity;
     }
 
-    public ArrayList<Music> getTracks() {
+    public ArrayList<UUID> getTracks() {
         return tracks;
     }
 }

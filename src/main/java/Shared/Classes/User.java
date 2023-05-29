@@ -10,12 +10,12 @@ public class User {
     private String address;
     private String password;
     private String profilePath;
-    private ArrayList<Playlist> createdPlaylists;
-    private ArrayList<Playlist> likedPlaylists;
+    private ArrayList<UUID> createdPlaylists;
+    private ArrayList<UUID> likedPlaylists;
 
     //Constructor
 
-    public User(UUID userId, String username, String email, String address, String password, String profilePath, ArrayList<Playlist> createdPlaylists, ArrayList<Playlist> likedPlaylists) {
+    public User(UUID userId, String username, String email, String address, String password, String profilePath, ArrayList<UUID> createdPlaylists, ArrayList<UUID> likedPlaylists) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -52,11 +52,11 @@ public class User {
         return profilePath;
     }
 
-    public ArrayList<Playlist> getCreatedPlaylists() {
+    public ArrayList<UUID> getCreatedPlaylists() {
         return createdPlaylists;
     }
 
-    public ArrayList<Playlist> getLikedPlaylists() {
+    public ArrayList<UUID> getLikedPlaylists() {
         return likedPlaylists;
     }
 }

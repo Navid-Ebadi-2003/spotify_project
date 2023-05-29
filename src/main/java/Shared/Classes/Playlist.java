@@ -9,11 +9,11 @@ public class Playlist {
     private String description;
     private UUID userId;
     private int popularity;
-    private ArrayList<Music> tracks;
+    private ArrayList<UUID> tracks;
 
     //Constructor
 
-    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<Music> tracks) {
+    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks) {
         this.playlistId = playlistId;
         this.title = title;
         this.description = description;
@@ -44,7 +44,7 @@ public class Playlist {
         return popularity;
     }
 
-    public ArrayList<Music> getTracks() {
+    public ArrayList<UUID> getTracks() {
         return tracks;
     }
 }
