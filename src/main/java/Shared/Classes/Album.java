@@ -13,9 +13,12 @@ public class Album {
     private int popularity;
     private ArrayList<UUID> tracks;
 
+    //added profilePath because each Album has a profile Picture
+    private String profilePath;
+
     //Constructor
 
-    public Album(UUID albumId, String title, UUID artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<UUID> tracks) {
+    public Album(UUID albumId, String title, UUID artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<UUID> tracks, String profilePath) {
         this.albumId = albumId;
         this.title = title;
         this.artistId = artistId;
@@ -23,6 +26,7 @@ public class Album {
         this.releaseDate = releaseDate;
         this.popularity = popularity;
         this.tracks = tracks;
+        this.profilePath = profilePath;
     }
 
 
@@ -54,5 +58,9 @@ public class Album {
 
     public ArrayList<UUID> getTracks() {
         return tracks;
+    }
+
+    public String getProfilePath() {
+        return profilePath;
     }
 }
