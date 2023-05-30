@@ -1,6 +1,7 @@
 package Shared.Classes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class User {
@@ -10,12 +11,18 @@ public class User {
     private String address;
     private String password;
     private String profilePath;
-    private ArrayList<UUID> createdPlaylists;
-    private ArrayList<UUID> likedPlaylists;
+
+    //Hashmap because it has to save either if the playlist is public or private, if true:public, false:private
+    private HashMap<UUID, Boolean> createdPlaylists;
+    private HashMap<UUID, Boolean> likedPlaylists;
+
+    //added followers and following because users can follow artists and users and could be followed by other users
+    private ArrayList<UUID> followers;
+    private ArrayList<UUID> followings;
 
     //Constructor
 
-    public User(UUID userId, String username, String email, String address, String password, String profilePath, ArrayList<UUID> createdPlaylists, ArrayList<UUID> likedPlaylists) {
+    public User(UUID userId, String username, String email, String address, String password, String profilePath, HashMap<UUID, Boolean> createdPlaylists, HashMap<UUID, Boolean> likedPlaylists, ArrayList<UUID> followers, ArrayList<UUID> followings) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -24,7 +31,10 @@ public class User {
         this.profilePath = profilePath;
         this.createdPlaylists = createdPlaylists;
         this.likedPlaylists = likedPlaylists;
+        this.followers = followers;
+        this.followings = followings;
     }
+
 
     //Getters
 
@@ -52,11 +62,19 @@ public class User {
         return profilePath;
     }
 
-    public ArrayList<UUID> getCreatedPlaylists() {
+    public HashMap<UUID, Boolean> getCreatedPlaylists() {
         return createdPlaylists;
     }
 
-    public ArrayList<UUID> getLikedPlaylists() {
+    public HashMap<UUID, Boolean> getLikedPlaylists() {
         return likedPlaylists;
+    }
+
+    public ArrayList<UUID> getFollowers() {
+        return followers;
+    }
+
+    public ArrayList<UUID> getFollowings() {
+        return followings;
     }
 }

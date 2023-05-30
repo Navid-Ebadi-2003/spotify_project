@@ -11,16 +11,21 @@ public class Playlist {
     private int popularity;
     private ArrayList<UUID> tracks;
 
+    //added profilePath because each playlist has a profile picture
+    private String profilePath;
+
     //Constructor
 
-    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks) {
+    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks, String profile_path) {
         this.playlistId = playlistId;
         this.title = title;
         this.description = description;
         this.userId = userId;
         this.popularity = popularity;
         this.tracks = tracks;
+        this.profilePath = profile_path;
     }
+
 
     //Getters
 
@@ -46,5 +51,9 @@ public class Playlist {
 
     public ArrayList<UUID> getTracks() {
         return tracks;
+    }
+
+    public String getProfile_path() {
+        return profilePath;
     }
 }

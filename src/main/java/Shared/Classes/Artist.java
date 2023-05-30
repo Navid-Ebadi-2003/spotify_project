@@ -13,9 +13,12 @@ public class Artist {
     private HashMap<String, String> socialMediaLinks;
     private ArrayList<UUID> albums;
 
+    //added profilePath because each Artist has a profile picture
+    private String profilePath;
+
     //Constructor
 
-    public Artist(UUID artistId, String name, UUID genreId, ArrayList<UUID> genres, String biography, HashMap<String, String> socialMediaLinks, ArrayList<UUID> albums) {
+    public Artist(UUID artistId, String name, UUID genreId, ArrayList<UUID> genres, String biography, HashMap<String, String> socialMediaLinks, ArrayList<UUID> albums, String profilePath) {
         this.artistId = artistId;
         this.name = name;
         this.genreId = genreId;
@@ -23,7 +26,9 @@ public class Artist {
         this.biography = biography;
         this.socialMediaLinks = socialMediaLinks;
         this.albums = albums;
+        this.profilePath = profilePath;
     }
+
 
     //Getters
 
@@ -53,5 +58,9 @@ public class Artist {
 
     public ArrayList<UUID> getAlbums() {
         return albums;
+    }
+
+    public String getProfilePath() {
+        return profilePath;
     }
 }
