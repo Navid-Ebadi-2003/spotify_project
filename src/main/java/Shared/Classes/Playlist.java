@@ -16,14 +16,14 @@ public class Playlist {
 
     //Constructor
 
-    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks, String profile_path) {
+    public Playlist(UUID playlistId, String title, String description, UUID userId, int popularity, ArrayList<UUID> tracks, String profilePath) {
         this.playlistId = playlistId;
         this.title = title;
         this.description = description;
         this.userId = userId;
         this.popularity = popularity;
         this.tracks = tracks;
-        this.profilePath = profile_path;
+        this.profilePath = profilePath;
     }
 
 
@@ -53,7 +53,7 @@ public class Playlist {
         return tracks;
     }
 
-    public String getProfile_path() {
+    public String getProfilePath() {
         return profilePath;
     }
 }
