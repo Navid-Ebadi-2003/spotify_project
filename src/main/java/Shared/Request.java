@@ -33,6 +33,37 @@ public class Request {
     //It has some methods to send request for each of the clients to the server
     //Basically it takes some inputs in clientHandler and build up a json with this template {"requestType" : smth, "jsonBody" : smth} and send the request to the server through socket
 
+    public void signupReq(String username, String email, String password){
+        //Creating jsons
+        JsonObject jsonTemplate = new JsonObject();
+        JsonObject jsonBody = new JsonObject();
+        //Building jsons
+        jsonBody.addProperty("username", username);
+        jsonBody.addProperty("email", email);
+        jsonBody.addProperty("password", password);
+        jsonTemplate.addProperty("requestType", "signup request");
+        //putting jsonBody into template
+        jsonTemplate.add("jsonBody", jsonBody);
+        //Sending json over the socket
+        out.println(jsonTemplate);
+        out.flush();
+    }
+
+    public void loginReq(String username, String password){
+        //Creating jsons
+        JsonObject jsonTemplate = new JsonObject();
+        JsonObject jsonBody = new JsonObject();
+        //Building jsons
+        jsonBody.addProperty("username", username);
+        jsonBody.addProperty("password", password);
+        jsonTemplate.addProperty("requestType", "login request");
+        //putting jsonBody into template
+        jsonTemplate.add("jsonBody", jsonBody);
+        //Sending json over the socket
+        out.println(jsonTemplate);
+        out.flush();
+    }
+
     public void goHomePageReq(UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -132,6 +163,7 @@ public class Request {
     }
 
     //User-Page requests (Below, I will bring those method that have not been defined before)
+    //*This is a one-way operation*
     public void followReq(UUID selfId, UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -151,6 +183,7 @@ public class Request {
     //Nothing has been found to define
 
     //Music-Page requests (Below, I will bring those method that have not been defined before)
+    //*This is a one-way operation*
     public void likeMusicReq(UUID userId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -166,6 +199,7 @@ public class Request {
         out.flush();
     }
 
+    //*This is a one-way operation*
     public void downloadTrackReq(UUID userId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -181,6 +215,7 @@ public class Request {
         out.flush();
     }
 
+    //*This is a one-way operation*
     public void addToPlaylistReq(UUID userId, UUID playlistId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -201,6 +236,7 @@ public class Request {
     //Nothing has been found to define
 
     //Account-Page requests (Below, I will bring those method that have not been defined before)
+    //*This is a one-way operation*
     public void editPersonalInfoReq(User user){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -225,6 +261,7 @@ public class Request {
     }
 
     //Playlist requests (Below, I will bring those method that have not been defined before)
+    //*This is a one-way operation*
     public void createPlaylistReq(UUID userId, Playlist playlist){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -245,6 +282,7 @@ public class Request {
         out.flush();
     }
 
+    //*This is a one-way operation*
     public void downloadPlaylistReq(UUID playlistId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -258,6 +296,7 @@ public class Request {
         out.println(jsonTemplate);
         out.flush();
     }
+
 
     public void watchLikedTracksReq(UUID userId){
         //Creating jsons
