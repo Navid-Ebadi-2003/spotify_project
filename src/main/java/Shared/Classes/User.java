@@ -8,7 +8,6 @@ public class User {
     private UUID userId;
     private String username;
     private String email;
-    private String address;
     private String password;
     private String profilePath;
 
@@ -22,11 +21,10 @@ public class User {
 
     //Constructor
 
-    public User(UUID userId, String username, String email, String address, String password, String profilePath, HashMap<UUID, Boolean> createdPlaylists, HashMap<UUID, Boolean> likedPlaylists, ArrayList<UUID> followers, ArrayList<UUID> followings) {
+    public User(UUID userId, String username, String email, String password, String profilePath, HashMap<UUID, Boolean> createdPlaylists, HashMap<UUID, Boolean> likedPlaylists, ArrayList<UUID> followers, ArrayList<UUID> followings) {
         this.userId = userId;
         this.username = username;
         this.email = email;
-        this.address = address;
         this.password = password;
         this.profilePath = profilePath;
         this.createdPlaylists = createdPlaylists;
@@ -48,10 +46,6 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public String getPassword() {
