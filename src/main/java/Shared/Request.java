@@ -31,19 +31,19 @@ public class Request {
 
     //An Explanation on format of requests; Request could be an object that gets initialized automatically withing a socket connection from client side.
     //It has some methods to send request for each of the clients to the server
-    //Basically it takes some inputs in clientHandler and build up a json with this template {"requestType" : smth, "jsonBody" : smth} and send the request to the server through socket
+    //Basically it takes some inputs in clientHandler and build up a json with this template {"requestType" : smth, "jsonRequest" : smth} and send the request to the server through socket
 
     public void signupReq(String username, String email, String password){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("username", username);
-        jsonBody.addProperty("email", email);
-        jsonBody.addProperty("password", password);
+        jsonRequest.addProperty("username", username);
+        jsonRequest.addProperty("email", email);
+        jsonRequest.addProperty("password", password);
         jsonTemplate.addProperty("requestType", "signup request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -52,13 +52,13 @@ public class Request {
     public void loginReq(String username, String password){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("username", username);
-        jsonBody.addProperty("password", password);
+        jsonRequest.addProperty("username", username);
+        jsonRequest.addProperty("password", password);
         jsonTemplate.addProperty("requestType", "login request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -67,12 +67,12 @@ public class Request {
     public void goHomePageReq(UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
         jsonTemplate.addProperty("requestType", "go home page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -81,12 +81,12 @@ public class Request {
     public void searchReq(String searchedText){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("searchedText", searchedText);
+        jsonRequest.addProperty("searchedText", searchedText);
         jsonTemplate.addProperty("requestType", "search request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -95,12 +95,12 @@ public class Request {
     public void watchUserPageReq(UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
         jsonTemplate.addProperty("requestType", "watch user page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -109,12 +109,12 @@ public class Request {
     public void watchArtistPageReq(UUID artistId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("artistId", artistId.toString());
+        jsonRequest.addProperty("artistId", artistId.toString());
         jsonTemplate.addProperty("requestType", "watch artist page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -123,12 +123,12 @@ public class Request {
     public void watchMusicPageReq(UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("trackId", trackId.toString());
+        jsonRequest.addProperty("trackId", trackId.toString());
         jsonTemplate.addProperty("requestType", "watch music page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -137,12 +137,12 @@ public class Request {
     public void watchAlbumPageReq(UUID albumId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("albumId", albumId.toString());
+        jsonRequest.addProperty("albumId", albumId.toString());
         jsonTemplate.addProperty("requestType", "watch album page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -151,12 +151,12 @@ public class Request {
     public void watchPlaylistPageReq(UUID playlistId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("playlistId", playlistId.toString());
+        jsonRequest.addProperty("playlistId", playlistId.toString());
         jsonTemplate.addProperty("requestType", "watch playlist page request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -167,13 +167,13 @@ public class Request {
     public void followReq(UUID selfId, UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("selfId", selfId.toString());
-        jsonBody.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("selfId", selfId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
         jsonTemplate.addProperty("requestType", "follow request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -187,13 +187,13 @@ public class Request {
     public void likeMusicReq(UUID userId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
-        jsonBody.addProperty("trackId", trackId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("trackId", trackId.toString());
         jsonTemplate.addProperty("requestType", "like music request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -203,13 +203,13 @@ public class Request {
     public void downloadTrackReq(UUID userId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
-        jsonBody.addProperty("trackId", trackId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("trackId", trackId.toString());
         jsonTemplate.addProperty("requestType", "download track request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -219,14 +219,14 @@ public class Request {
     public void addToPlaylistReq(UUID userId, UUID playlistId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
-        jsonBody.addProperty("playlistId", playlistId.toString());
-        jsonBody.addProperty("trackId", trackId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("playlistId", playlistId.toString());
+        jsonRequest.addProperty("trackId", trackId.toString());
         jsonTemplate.addProperty("requestType", "add to playlist request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -240,21 +240,21 @@ public class Request {
     public void editPersonalInfoReq(User user){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", user.getUserId().toString());
-        jsonBody.addProperty("username", user.getUsername());
-        jsonBody.addProperty("email", user.getEmail());
-        jsonBody.addProperty("address", user.getAddress());
-        jsonBody.addProperty("password", user.getPassword());
-        jsonBody.addProperty("profilePath", user.getProfilePath());
-        jsonBody.add("createdPlaylists", hashmapToJson(user.getCreatedPlaylists()));
-        jsonBody.add("likedPlaylists", hashmapToJson(user.getLikedPlaylists()));
-        jsonBody.add("followers", arraylistToJsonArray(user.getFollowers()));
-        jsonBody.add("followings", arraylistToJsonArray(user.getFollowings()));
+        jsonRequest.addProperty("userId", user.getUserId().toString());
+        jsonRequest.addProperty("username", user.getUsername());
+        jsonRequest.addProperty("email", user.getEmail());
+        jsonRequest.addProperty("address", user.getAddress());
+        jsonRequest.addProperty("password", user.getPassword());
+        jsonRequest.addProperty("profilePath", user.getProfilePath());
+        jsonRequest.add("createdPlaylists", hashmapToJson(user.getCreatedPlaylists()));
+        jsonRequest.add("likedPlaylists", hashmapToJson(user.getLikedPlaylists()));
+        jsonRequest.add("followers", arraylistToJsonArray(user.getFollowers()));
+        jsonRequest.add("followings", arraylistToJsonArray(user.getFollowings()));
         jsonTemplate.addProperty("requestType", "edit personal info request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -265,18 +265,18 @@ public class Request {
     public void createPlaylistReq(UUID userId, Playlist playlist){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("playlistId", playlist.getPlaylistId().toString());
-        jsonBody.addProperty("title", playlist.getTitle());
-        jsonBody.addProperty("description", playlist.getDescription());
-        jsonBody.addProperty("userId", userId.toString());
-        jsonBody.addProperty("popularity", playlist.getPopularity());
-        jsonBody.add("tracks", arraylistToJsonArray(playlist.getTracks()));
-        jsonBody.addProperty("profilePath", playlist.getProfilePath());
+        jsonRequest.addProperty("playlistId", playlist.getPlaylistId().toString());
+        jsonRequest.addProperty("title", playlist.getTitle());
+        jsonRequest.addProperty("description", playlist.getDescription());
+        jsonRequest.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("popularity", playlist.getPopularity());
+        jsonRequest.add("tracks", arraylistToJsonArray(playlist.getTracks()));
+        jsonRequest.addProperty("profilePath", playlist.getProfilePath());
         jsonTemplate.addProperty("requestType", "create playlist request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -286,12 +286,12 @@ public class Request {
     public void downloadPlaylistReq(UUID playlistId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("playlistId", playlistId.toString());
+        jsonRequest.addProperty("playlistId", playlistId.toString());
         jsonTemplate.addProperty("requestType", "download playlist request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
@@ -301,12 +301,12 @@ public class Request {
     public void watchLikedTracksReq(UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
-        JsonObject jsonBody = new JsonObject();
+        JsonObject jsonRequest = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("userId", userId.toString());
+        jsonRequest.addProperty("userId", userId.toString());
         jsonTemplate.addProperty("requestType", "watch liked tracks request");
-        //putting jsonBody into template
-        jsonTemplate.add("jsonBody", jsonBody);
+        //putting jsonRequest into template
+        jsonTemplate.add("jsonRequest", jsonRequest);
         //Sending json over the socket
         out.println(jsonTemplate);
         out.flush();

@@ -1,5 +1,6 @@
 package Shared;
 
+import Shared.Classes.User;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -40,14 +41,27 @@ public class Response {
         out.flush();
     }
 
-    public void loginRes(Boolean result, UUID userId) {
+    public void loginRes(Boolean result, User user) {
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject jsonBody = new JsonObject();
         //Building jsons
-        jsonBody.addProperty("result", result);
-        jsonBody.addProperty("userId", userId.toString());
-        jsonTemplate.addProperty("requestType", "login response");
+        if (result) {
+            jsonBody.addProperty("result", result);
+            jsonBody.addProperty("userId", user.getUserId().toString());
+            jsonBody.addProperty("username", user.getUsername());
+            jsonBody.addProperty("email", user.getEmail());
+            jsonBody.addProperty("address", user.getAddress());
+            jsonBody.addProperty("password", user.getPassword());
+            jsonBody.addProperty("profilePath", user.getProfilePath());
+            jsonBody.add("createdPlaylists", Request.hashmapToJson(user.getCreatedPlaylists()));
+            jsonBody.add("likedPlaylists", Request.hashmapToJson(user.getLikedPlaylists()));
+            jsonBody.add("followers", Request.arraylistToJsonArray(user.getFollowers()));
+            jsonBody.add("followings", Request.arraylistToJsonArray(user.getFollowings()));
+            jsonTemplate.addProperty("requestType", "login response");
+        } else {
+            //jsonBody is gonna be a empty json
+        }
         //putting jsonBody into template
         jsonTemplate.add("jsonBody", jsonBody);
         //Sending json over the socket
@@ -112,7 +126,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchUserPageRes(JsonObject jsonResult){
+    public void watchUserPageRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{"userId:            %s,
         //"username:           %s,
@@ -145,7 +159,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchArtistPageRes(JsonObject jsonResult){
+    public void watchArtistPageRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{
         //"artistId":             %s,
@@ -176,7 +190,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchMusicPageRes(JsonObject jsonResult){
+    public void watchMusicPageRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{
         //"trackId":        %s,
@@ -209,7 +223,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchAlbumRes(JsonObject jsonResult){
+    public void watchAlbumRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{
         //"albumId": %s,
@@ -241,7 +255,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchPlaylistRes(JsonObject jsonResult){
+    public void watchPlaylistRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{
         //"playlistId":     %s,
@@ -272,7 +286,7 @@ public class Response {
         out.flush();
     }
 
-    public void watchLikedTracksRes(JsonObject jsonResult){
+    public void watchLikedTracksRes(JsonObject jsonResult) {
         //template of jsonResult:
         //{
         //"musicsResult": {%s}
