@@ -58,6 +58,60 @@ public class Service implements Runnable {
 
     public void executeRequest(JsonObject jsonRequest) {
         //Switch on requestTypes
-        //TODO
+        String requestType = jsonRequest.get("requestType").getAsString();
+
+        switch (requestType) {
+            case "signup request" -> {
+                //TODO
+            }
+            case "login request" -> {
+                //TODO
+            }
+            case "go home page request" -> {
+                //TODO
+            }
+            case "search request" -> {
+                //TODO
+            }
+            case "watch user page request" -> {
+                //TODO
+            }
+            case "watch artist page request" -> {
+                //TODO
+            }
+            case "watch music page request" -> {
+                //TODO
+            }
+            case "watch album page request" -> {
+                //TODO
+            }
+            case "watch playlist page request" -> {
+                //TODO
+            }
+            case "follow request" -> {
+                //TODO
+            }
+            case "like music request" -> {
+                //TODO
+            }
+            case "download track request" -> {
+                //TODO
+            }
+            case "add to playlist request" -> {
+                //TODO
+            }
+            case "edit personal info request" -> {
+                //TODO
+            }
+            case "create playlist request" -> {
+                //TODO
+            }
+            case "download playlist request" -> {
+                //TODO
+            }
+            case "watch liked tracks request" -> {
+                //TODO
+            }
+        }
     }
 }

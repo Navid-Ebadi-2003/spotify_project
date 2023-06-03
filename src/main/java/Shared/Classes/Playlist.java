@@ -26,7 +26,6 @@ public class Playlist {
         this.profilePath = profilePath;
     }
 
-
     //Getters
 
     public UUID getPlaylistId() {
