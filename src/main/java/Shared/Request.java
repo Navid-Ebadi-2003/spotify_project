@@ -164,7 +164,7 @@ public class Request {
 
     //User-Page requests (Below, I will bring those method that have not been defined before)
     //*This is a one-way operation*
-    public void followReq(UUID selfId, UUID userId){
+    public void toggleFollowReq(UUID selfId, UUID userId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject jsonRequest = new JsonObject();
@@ -184,7 +184,7 @@ public class Request {
 
     //Music-Page requests (Below, I will bring those method that have not been defined before)
     //*This is a one-way operation*
-    public void likeMusicReq(UUID userId, UUID trackId){
+    public void toggleLikeMusicReq(UUID userId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject jsonRequest = new JsonObject();
@@ -216,7 +216,7 @@ public class Request {
     }
 
     //*This is a one-way operation*
-    public void addToPlaylistReq(UUID userId, UUID playlistId, UUID trackId){
+    public void toggleAddToPlaylistReq(UUID userId, UUID playlistId, UUID trackId){
         //Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject jsonRequest = new JsonObject();
