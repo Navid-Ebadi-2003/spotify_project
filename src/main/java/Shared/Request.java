@@ -209,7 +209,6 @@ public class Request {
         jsonBody.addProperty("userId", user.getUserId().toString());
         jsonBody.addProperty("username", user.getUsername());
         jsonBody.addProperty("email", user.getEmail());
-        jsonBody.addProperty("address", user.getAddress());
         jsonBody.addProperty("password", user.getPassword());
         jsonBody.addProperty("profilePath", user.getProfilePath());
         jsonBody.add("createdPlaylists", hashmapToJson(user.getCreatedPlaylists()));
