@@ -1,0 +1,7 @@
+.split-pane {
+    -fx-border-color: black;
+}
+.separator-overlay {
+    -fx-background-color: black;
+    -fx-background-insets: 0;
+}

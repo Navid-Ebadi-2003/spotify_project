@@ -1,0 +1,8 @@
+.split-menu-button .arrow-button {
+    -fx-background-color: rgb(20,20,20);
+}
+
+.split-menu-button .button {
+    -fx-background-color :rgb(20,20,20);
+    -fx-text-fill : black ;
+}
