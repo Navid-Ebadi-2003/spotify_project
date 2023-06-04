@@ -1,11 +1,17 @@
 package Client;
 
 import Shared.Request;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
 
-public class ClientHandler {
+public class ClientHandler extends Application {
     private Socket clientSocket;
     private Request requestObject;
 
@@ -17,6 +23,7 @@ public class ClientHandler {
     }
 
     public static void main(String[] args) {
+        launch();
         Socket clientSocket = null;
         try {
             //Connecting to server
@@ -36,5 +43,13 @@ public class ClientHandler {
         //1. Showing menu to user
         //2. Sending request using request object to the server
         //TODO
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("welcome-page.fxml"));
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.show();
     }
 }
