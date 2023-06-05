@@ -43,7 +43,7 @@
       </ImageView>
       <Label layoutX="270.0" layoutY="42.0" text="Spotify" textFill="#fcfcfc">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="25.0" />
          </font>
       </Label>
       <Label layoutX="188.0" layoutY="111.0" text="Log in to continue." textFill="WHITE">
