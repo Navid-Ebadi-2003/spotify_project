@@ -10,3 +10,7 @@
 .split-menu-button .label {
     -fx-background-color: rgb(20,20,20);
 }
+
+.split-menu-button .menu-item {
+    -fx-background-color: rgb(20,20,20);
+}

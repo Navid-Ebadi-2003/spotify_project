@@ -1,0 +1,31 @@
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+.corner {
+    -fx-background-color: transparent;
+}
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgb(135, 206, 235);
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgb(135, 206, 235);
+}
+.scroll-pane {
+    -fx-background-color: red;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-region-background: black;
+}
