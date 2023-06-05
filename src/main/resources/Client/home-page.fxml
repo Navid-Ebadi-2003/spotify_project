@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.HomePageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.HomePageController">
    <center>
       <AnchorPane prefHeight="504.0" prefWidth="518.0" style="-fx-background-color: rgb(0,0,0);" BorderPane.alignment="CENTER" />
    </center>
@@ -77,9 +77,9 @@
       </SplitPane>
    </left>
    <top>
-      <AnchorPane prefHeight="45.0" prefWidth="739.0" style="-fx-background-color: rgb(20,20,20);" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="22.0" prefWidth="739.0" style="-fx-background-color: rgb(20,20,20);" BorderPane.alignment="CENTER">
          <children>
-            <SplitMenuButton fx:id="splitMenuButton" layoutX="652.0" layoutY="4.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="73.0" style="-fx-border-color: rgb(20,20,20); -fx-background-color: rgb(20,20,20);" stylesheets="@split-menu-button.css" textFill="#f5f3f3">
+            <SplitMenuButton fx:id="splitMenuButton" layoutX="657.0" layoutY="4.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="84.0" style="-fx-border-color: rgb(20,20,20); -fx-background-color: rgb(20,20,20);" stylesheets="@split-menu-button.css" textFill="#f5f3f3">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
