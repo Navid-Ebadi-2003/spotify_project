@@ -9,7 +9,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="446.0" prefWidth="600.0" style="-fx-background-color: rgb(0,0,0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField layoutX="181.0" layoutY="183.0" prefHeight="25.0" prefWidth="225.0" style="-fx-background-color: rgb(128,128,128);" text="Username">
@@ -39,7 +38,7 @@
       </Button>
       <ImageView fitHeight="100.0" fitWidth="56.0" layoutX="210.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../Downloads/social.png" />
+            <Image url="@../Icons/social.png" />
          </image>
       </ImageView>
       <Label layoutX="270.0" layoutY="42.0" text="Spotify" textFill="#fcfcfc">
