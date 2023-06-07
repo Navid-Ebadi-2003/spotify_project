@@ -4,32 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.UUID;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import Shared.Classes.Artist;
-import Shared.Classes.User;
-import java.util.Map;
-import java.util.Set;
 
 
 public class Query {
-    private Connection connection;
+    private static Connection connection;
 
     public Query(Connection connection) {
-        this.connection = connection;
+        Query.connection = connection;
     }
 
     // A query to check whether a particular username exists or not
-    public boolean doesUsernameExist(String username) {
+    public static synchronized boolean doesUsernameExist(String username) {
         final String query = """
                 SELECT username FROM User
                 WHERE username=?;
@@ -55,7 +44,7 @@ public class Query {
     }
 
     // A query to check whether a particular email exists or not
-    public boolean doesEmailExist(String email) {
+    public static synchronized boolean doesEmailExist(String email) {
         final String query = """
                 SELECT email FROM User
                 WHERE email=?;
@@ -80,7 +69,7 @@ public class Query {
 
     }
 
-    public void signUpUser(UUID userId, String username, String email, String password) {
+    public static synchronized void signUpUser(UUID userId, String username, String email, String password) {
         final String query = """
                 INSERT INTO User values(?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """; 
@@ -103,7 +92,7 @@ public class Query {
 
     }
 
-    public JsonObject getUser(UUID userId) {
+    public static synchronized JsonObject getUser(UUID userId) {
         final String query = """
                 SELECT * FROM User
                 WHERE user_id=?;
@@ -134,7 +123,7 @@ public class Query {
     }
 
     // If null is returned(and the username exists) then that means the password is incorrect
-    public JsonObject logIn(String username, String password) {
+    public static synchronized JsonObject logIn(String username, String password) {
         final String query = """
                 SELECT user_id,username,passowrd FROM User
                 WHERE username=?;
@@ -166,7 +155,7 @@ public class Query {
 
     // Editing a user's info. Users can only edit their username,
     // email or profile pictures
-    public void editUser(UUID userId, JsonObject newUserInfo) {
+    public static synchronized void editUser(UUID userId, JsonObject newUserInfo) {
         final String query = """
                 UPDATE User
                 SET username=?, email=?, profile_path=?
@@ -209,7 +198,7 @@ public class Query {
 
 
     // Get all of objects corresponding to a specific subject and action
-    public JsonArray getObjectsFromHistory(UUID subject, String action) {
+    public static synchronized JsonArray getObjectsFromHistory(UUID subject, String action) {
         final String query = """
                 SELECT * FROM History
                 WHERE subject=?
@@ -235,7 +224,7 @@ public class Query {
     }
 
     // Get all of subjects corresponding to a specific object and action
-    public JsonArray getSubjectsFromHistory(UUID object, String action) {
+    public static synchronized JsonArray getSubjectsFromHistory(UUID object, String action) {
         final String query = """
                 SELECT * FROM History
                 WHERE object=?
@@ -261,7 +250,7 @@ public class Query {
     }
 
 
-    public void addToHistory(UUID subject, UUID object, String action) {
+    public static synchronized void addToHistory(UUID subject, UUID object, String action) {
         final String query = """
                 INSERT INTO History values(?, ?, ?);
                 """;
@@ -277,7 +266,7 @@ public class Query {
         }
     }
 
-    public void deleteFromHistory(UUID subject, UUID object, String action) {
+    public static synchronized void deleteFromHistory(UUID subject, UUID object, String action) {
         final String query = """
             DELETE FROM History
             WHERE subject=?
@@ -298,7 +287,7 @@ public class Query {
 
 
     // Get an artist's info from id
-    public JsonObject getArtist(UUID artistId) {
+    public static synchronized JsonObject getArtist(UUID artistId) {
         final String query = """
                 SELECT * FROM Artist
                 WHERE artist_id=?;
@@ -337,7 +326,7 @@ public class Query {
     }
 
     // Get a track's info from id
-    public JsonObject getMusic(UUID trackId) {
+    public static synchronized JsonObject getMusic(UUID trackId) {
         final String query = """
                 SELECT * FROM Music
                 WHERE track_id=?;
@@ -384,7 +373,7 @@ public class Query {
     }
 
     // Get an album's info from id
-    public JsonObject getAlbum(UUID albumId) {
+    public static synchronized JsonObject getAlbum(UUID albumId) {
         final String query = """
                 SELECT * FROM Album
                 WHERE album_id=?;
@@ -428,7 +417,7 @@ public class Query {
     }
 
     // Get a playlist's info from id
-    public JsonObject getPlaylist(UUID playlistId) {
+    public static synchronized JsonObject getPlaylist(UUID playlistId) {
         final String query = """
                 SELECT * FROM Playlist
                 WHERE playlist_id=?;
@@ -472,7 +461,7 @@ public class Query {
 }
 
     // Follow/unfollow a user
-    public void toggleFollowUser(UUID selfId, UUID userId) {
+    public static synchronized void toggleFollowUser(UUID selfId, UUID userId) {
         final String query = """
             SELECT * FROM History
             WHERE subject=?
@@ -501,7 +490,7 @@ public class Query {
     }
 
     // Follow/unfollow an artist
-    public void toggleFollowArtist(UUID userId, UUID artistId) {
+    public static synchronized void toggleFollowArtist(UUID userId, UUID artistId) {
         final String query = """
             SELECT * FROM History
             WHERE subject=?
@@ -530,7 +519,7 @@ public class Query {
     }
 
     // Like/unlike a track
-    public void toggleLikeTrack(UUID userId, UUID trackId) {
+    public static synchronized void toggleLikeTrack(UUID userId, UUID trackId) {
         final String query = """
             SELECT * FROM History
             WHERE subject=?
@@ -561,7 +550,7 @@ public class Query {
     }
 
     // Like/unlike an album
-    public void toggleLikeAlbum(UUID userId, UUID albumId) {
+    public static synchronized void toggleLikeAlbum(UUID userId, UUID albumId) {
         final String query = """
             SELECT * FROM History
             WHERE subject=?
@@ -592,7 +581,7 @@ public class Query {
     }
 
     // Like/unlike a plalist
-    public void toggleLikePlaylist(UUID userId, UUID playlistId) {
+    public static synchronized void toggleLikePlaylist(UUID userId, UUID playlistId) {
         final String query = """
             SELECT * FROM History
             WHERE subject=?
@@ -622,7 +611,7 @@ public class Query {
         }
     }
 
-    public void updateMusicPopularity(UUID trackId, int popularity) {
+    public static synchronized void updateMusicPopularity(UUID trackId, int popularity) {
         final String query = """
                 UPDATE Music
                 SET popularity=?
@@ -641,7 +630,7 @@ public class Query {
             }
     }
 
-    public void updatePlaylistPopularity(UUID playlistId, int popularity) {
+    public static synchronized void updatePlaylistPopularity(UUID playlistId, int popularity) {
         final String query = """
                 UPDATE Playlist
                 SET popularity=?
@@ -660,7 +649,7 @@ public class Query {
             }
     }
 
-    public void updateAlbumPopularity(UUID albumId, int popularity) {
+    public static synchronized void updateAlbumPopularity(UUID albumId, int popularity) {
         final String query = """
                 UPDATE Album
                 SET popularity=?
@@ -680,7 +669,7 @@ public class Query {
     }
 
 
-    public String getMusicPath(UUID trackId){
+    public static synchronized String getMusicPath(UUID trackId){
         final String query = """
             SELECT * FROM Music
             WHERE track_id=?;
@@ -704,7 +693,7 @@ public class Query {
         }
     }
 
-    public String getUserPicPath(UUID userId){
+    public static synchronized String getUserPicPath(UUID userId){
         final String query = """
             SELECT * FROM User
             WHERE user_id=?;
@@ -728,7 +717,7 @@ public class Query {
         }
     }
 
-    public void createPlaylist(UUID userId, JsonObject playListJson) {
+    public static synchronized void createPlaylist(UUID userId, JsonObject playListJson) {
         final String query = """
             INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?, ?);
             """;
@@ -754,11 +743,11 @@ public class Query {
         }
     }
 
-    public JsonArray getUsersLikedTracks(UUID userId) {
+    public static synchronized JsonArray getUsersLikedTracks(UUID userId) {
         return getObjectsFromHistory(userId, "USER_LIKE_TRACK");
     }
 
-    public JsonArray getUsersPlaylists(UUID userId) {
+    public static synchronized JsonArray getUsersPlaylists(UUID userId) {
         return getObjectsFromHistory(userId, "USER_CREAT_PLAYLIST");
     }
 }
