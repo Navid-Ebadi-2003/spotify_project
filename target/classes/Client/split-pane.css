@@ -1,0 +1,14 @@
+
+.split-pane:vertical > .split-pane-divider {
+   -fx-background-color: rgb(20,20,20);
+}
+
+.split-pane {
+   -fx-background-color: rbg(20,20,20);
+}
+
+
+.separator-overlay {
+    -fx-background-color: rgb(20,20,20);
+    -fx-background-insets: 0;
+}

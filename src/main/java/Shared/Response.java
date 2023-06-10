@@ -51,7 +51,6 @@ public class Response {
             responseBody.addProperty("userId", user.getUserId().toString());
             responseBody.addProperty("username", user.getUsername());
             responseBody.addProperty("email", user.getEmail());
-            responseBody.addProperty("address", user.getAddress());
             responseBody.addProperty("password", user.getPassword());
             responseBody.addProperty("profilePath", user.getProfilePath());
             responseBody.add("createdPlaylists", Request.hashmapToJson(user.getCreatedPlaylists()));
