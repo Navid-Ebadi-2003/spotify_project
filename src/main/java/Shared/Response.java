@@ -23,81 +23,83 @@ public class Response {
         }
     }
 
-    //Methods to get called by service provider to send different kinds of responses
-    //An Explanation on format of requests; Request could be an object that gets initialized automatically withing a socket connection from server.
-    //Basically it takes some inputs in service and build up a json with this template {"responseType" : smth, "responseBody" : smth} and send the response to the client through socket
+    // Methods to get called by service provider to send different kinds of responses
+    // An Explanation on format of requests; Request could be an object that gets initialized automatically withing a socket connection from server.
+    // Basically it takes some inputs in service and build up a json with this template {"responseType" : smth, "responseBody" : smth} and send the response to the client through socket
     public void signupRes(Boolean result, UUID userId) {
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.addProperty("result", result);
         responseBody.addProperty("userId", userId.toString());
         jsonTemplate.addProperty("responseType", "signup response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void loginRes(Boolean result, User user) {
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         if (result) {
             responseBody.addProperty("result", result);
             responseBody.addProperty("userId", user.getUserId().toString());
             responseBody.addProperty("username", user.getUsername());
             responseBody.addProperty("email", user.getEmail());
             responseBody.addProperty("password", user.getPassword());
-            responseBody.addProperty("profilePath", user.getProfilePath());
+            // I have commented profilePath, because only and only server specifies where to save the profilePicture
+//            responseBody.addProperty("profilePath", user.getProfilePath());
             responseBody.add("createdPlaylists", Request.hashmapToJson(user.getCreatedPlaylists()));
             responseBody.add("likedPlaylists", Request.hashmapToJson(user.getLikedPlaylists()));
             responseBody.add("followers", Request.arraylistToJsonArray(user.getFollowers()));
-            responseBody.add("followings", Request.arraylistToJsonArray(user.getFollowings()));
+            // I have commented followings because we don't have it in the database structure anymore
+//            responseBody.add("followings", Request.arraylistToJsonArray(user.getFollowings()));
             jsonTemplate.addProperty("responseType", "login response");
         } else {
-            //responseBody is gonna be a empty json
+            // responseBody is gonna be a empty json
         }
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void goHomePageRes(JsonObject jsonResults) {
-        //template of jsonResult:
-        // {
-        // "createdPlaylistsResult":  {"downloadCount":%d, "playlists":   {%s},
-        // "likedPlaylistsResult":    {"downloadCount":%d, "playlists":   {%s},
-        // "likedMusicsResult":       {"downloadCount":%d, "musics":      {%s},
-        // "randomMusicsResult":      {"downloadCount":%d, "musics":      {%s}
-        // }
+        // template of jsonResult:
+        //  {
+        //  "createdPlaylistsResult":  {"downloadCount":%d, "playlists":   {%s},
+        //  "likedPlaylistsResult":    {"downloadCount":%d, "playlists":   {%s},
+        //  "likedMusicsResult":       {"downloadCount":%d, "musics":      {%s},
+        //  "randomMusicsResult":      {"downloadCount":%d, "musics":      {%s}
+        //  }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResults);
         jsonTemplate.addProperty("responseType", "go home page response");
-        //putting responseBody into template
+        // putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void searchRes(JsonObject jsonResults) {
-        //template of jsonResult:
+        // template of jsonResult:
         // {
         // "albumsResult":          {"downloadCount":%d, "albums":          {%s},
         // "artistsResult":         {"downloadCount":%d, "artists":         {%s},
@@ -106,206 +108,206 @@ public class Response {
         // "usersResult":           {"downloadCount":%d, "users":           {%s}
         // }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResults);
         jsonTemplate.addProperty("responseType", "search response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchUserPageRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{"userId:            %s,
-        //"username:           %s,
-        //"email:              %s,
-        //"address:            %s,
-        //"password:           %s,
-        //"profilePath:        %s,
-        //"createdPlaylists:  {%s},
-        //"likedPlaylists:    {%s},
-        //"followers:         {%s},
-        //"followings:        {%s}
-        // }
+        // template of jsonResult:
+        // {"userId:            %s,
+        // "username:           %s,
+        // "email:              %s,
+        // "address:            %s,
+        // "password:           %s,
+        // "profilePath:        %s,
+        // "createdPlaylists:  {%s},
+        // "likedPlaylists:    {%s},
+        // "followers:         {%s},
+        // "followings:        {%s}
+        //  }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch user page response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchArtistPageRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{
-        //"artistId":             %s,
-        //"name":                 %s,
-        //"genreId":              %s,
-        //"biography":            %s,
-        //"socialMediaLinks":   {%s},
-        //"albums":             {%s},
-        //"profilePath":          %s
-        // }
+        // template of jsonResult:
+        // {
+        // "artistId":             %s,
+        // "name":                 %s,
+        // "genreId":              %s,
+        // "biography":            %s,
+        // "socialMediaLinks":   {%s},
+        // "albums":             {%s},
+        // "profilePath":          %s
+        //  }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch artist page response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchMusicPageRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{
-        //"trackId":        %s,
-        //"title":          %s,
-        //"artistId":     {%s},
-        //"albumId":        %s,
-        //"genreId":        %s,
-        //"duration":       %d,
-        //"releaseDate":    %s,
-        //"popularity":     %d,
-        //"ProfilePath":    %s,
-        //}
+        // template of jsonResult:
+        // {
+        // "trackId":        %s,
+        // "title":          %s,
+        // "artistId":     {%s},
+        // "albumId":        %s,
+        // "genreId":        %s,
+        // "duration":       %d,
+        // "releaseDate":    %s,
+        // "popularity":     %d,
+        // "ProfilePath":    %s,
+        // }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch music page response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchAlbumRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{
-        //"albumId": %s,
-        //"title": %s,
-        //"artistId": {%s},
-        //"genreId": %s,
-        //"releaseDate": %s,
-        //"popularity": %d,
-        //"tracks": {%s},
-        //"profilePath": %s,
-        //}
+        // template of jsonResult:
+        // {
+        // "albumId": %s,
+        // "title": %s,
+        // "artistId": {%s},
+        // "genreId": %s,
+        // "releaseDate": %s,
+        // "popularity": %d,
+        // "tracks": {%s},
+        // "profilePath": %s,
+        // }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch album page response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchPlaylistRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{
-        //"playlistId":     %s,
-        //"title":          %s,
-        //"description":    %s,
-        //"userId":         %s,
-        //"popularity":     %s,
-        //"tracks":       {%s},
-        //"profilePath":    %s,
-        // }
+        // template of jsonResult:
+        // {
+        // "playlistId":     %s,
+        // "title":          %s,
+        // "description":    %s,
+        // "userId":         %s,
+        // "popularity":     %s,
+        // "tracks":       {%s},
+        // "profilePath":    %s,
+        //  }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch playlist page response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
 
     public void watchLikedTracksRes(JsonObject jsonResult) {
-        //template of jsonResult:
-        //{
-        //"musicsResult": {%s}
-        // }
+        // template of jsonResult:
+        // {
+        // "musicsResult": {%s}
+        //  }
 
-        //template of responseBody {"results":{jsonResult}}
+        // template of responseBody {"results":{jsonResult}}
 
-        //template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
+        // template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
-        //Also here we assume that each of the objects has been sent before.
+        // Also here we assume that each of the objects has been sent before.
 
-        //Creating jsons
+        // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
-        //Building jsons
+        // Building jsons
         responseBody.add("results", jsonResult);
         jsonTemplate.addProperty("responseType", "watch liked tracks response");
-        //putting responseBody into template
+        // Putting responseBody into template
         jsonTemplate.add("responseBody", responseBody);
-        //Sending json over the socket
+        // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
     }
