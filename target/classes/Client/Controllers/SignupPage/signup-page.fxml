@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,20 +22,26 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Icons/spotify.png" />
+                        <Image url="@../../../Icons/spotify.png" />
                      </image>
                   </ImageView>
-                  <Label stylesheets="@css-styles/early-pages-label-buttons.css" text="Spotify" textFill="#fcfcfc">
+                  <Label text="Spotify" textFill="#fcfcfc">
                      <font>
                         <Font name="Arial Bold" size="25.0" />
                      </font>
+                     <stylesheets>
+                        <URL value="@../../css-styles/early-pages-label-buttons.css" />
+                     </stylesheets>
                   </Label>
                </children>
             </HBox>
-            <Label alignment="CENTER" prefHeight="23.0" prefWidth="600.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Sign for free to start listening." textFill="#fcfcfc">
+            <Label alignment="CENTER" prefHeight="23.0" prefWidth="600.0" text="Sign for free to start listening." textFill="#fcfcfc">
                <font>
                   <Font name="Arial Bold" size="23.0" />
                </font>
+               <stylesheets>
+                  <URL value="@../../css-styles/early-pages-label-buttons.css" />
+               </stylesheets>
             </Label>
             <VBox>
                <children>
@@ -47,12 +55,16 @@
             </VBox>
             <VBox>
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Arial; -fx-font-weight: bold;" text="Create a password">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Arial; -fx-font-weight: bold;" text="Create a password.">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Text>
-                  <TextField prefHeight="26.0" prefWidth="320.0" promptText="Create a password." style="-fx-font-family: Arial;" />
+                  <PasswordField promptText="Enter a password">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </PasswordField>
                </children>
             </VBox>
             <VBox>
@@ -72,10 +84,10 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Text>
-                  <DatePicker prefHeight="26.0" prefWidth="423.0" />
+                  <DatePicker prefHeight="26.0" prefWidth="423.0" promptText="Enter a date." />
                </children>
             </VBox>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" style="-fx-background-color: rgb(30, 215,96); -fx-background-radius: 20px;" stylesheets="@css-styles/early-pages-label-buttons.css" text="Submit">
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" stylesheets="@../../css-styles/early-pages-label-buttons.css" text="Submit">
                <font>
                   <Font size="15.0" />
                </font>

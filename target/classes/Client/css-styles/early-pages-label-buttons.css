@@ -1,0 +1,20 @@
+/*
+Labels and Buttons of welcome-page.fxml & login-page.fxml & signup-page.fxml
+ */
+
+.label {
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 21;
+}
+
+.button {
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(0,0,0);
+    -fx-font-size: 17;
+    -fx-background-color: rgb(30,215,96);
+    -fx-background-radius: 20px;
+}
+
