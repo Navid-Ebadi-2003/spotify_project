@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private Connection connection;
-    private Query queryObject;
 
     //Constructor
 
@@ -21,6 +20,5 @@ public class DBConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        this.queryObject = new Query();
     }
 }

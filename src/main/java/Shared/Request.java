@@ -245,7 +245,6 @@ public class Request {
         requestBody.addProperty("userId", user.getUserId().toString());
         requestBody.addProperty("username", user.getUsername());
         requestBody.addProperty("email", user.getEmail());
-        requestBody.addProperty("address", user.getAddress());
         requestBody.addProperty("password", user.getPassword());
         requestBody.addProperty("profilePath", user.getProfilePath());
         requestBody.add("createdPlaylists", hashmapToJson(user.getCreatedPlaylists()));
