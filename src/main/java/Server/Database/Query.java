@@ -71,7 +71,7 @@ public class Query {
 
     public static synchronized void signUpUser(UUID userId, String username, String email, String password) {
         final String query = """
-                INSERT INTO User values(?, ?, ?, ?, ?, ?, ?, ?, ?);
+                INSERT INTO User values(?, ?, ?, ?, ?);
                 """; 
 
         try {
@@ -190,7 +190,7 @@ public class Query {
      * PLAYLIST_ADD_TRACK: Adding a track to a playlist
      * USER_FOLLOW_USER: User following a user
      * USER_FOLLOW_ARTIST: User following an artist
-     * USER_CREAT_PLAYLIST: User creating a playlist
+     * USER_CREATE_PLAYLIST: User creating a playlist
      * USER_LIKE_TRACK: User liking a track
      * USER_LIKE_ALBUM: User liking a album
      * USER_LIKE_PLAYLIST: User liking a playlist
@@ -719,7 +719,7 @@ public class Query {
 
     public static synchronized void createPlaylist(UUID userId, JsonObject playListJson) {
         final String query = """
-            INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?);
             """;
 
         try {
