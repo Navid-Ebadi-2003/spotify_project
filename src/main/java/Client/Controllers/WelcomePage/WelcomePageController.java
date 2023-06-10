@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -28,7 +29,7 @@ public class WelcomePageController implements Initializable {
 
     public void goLoginPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
-        FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("..\\LoginPage\\login-page.fxml"));
+        FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../LoginPage/login-page.fxml"));
         try {
             Scene loginScene = new Scene(loginPageLoader.load());
             currentStage.setScene(loginScene);
@@ -39,7 +40,7 @@ public class WelcomePageController implements Initializable {
 
     public void goSignupPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
-        FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("..\\SignupPage\\signup-page.fxml"));
+        FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../SignupPage/signup-page.fxml"));
         try {
             Scene loginScene = new Scene(loginPageLoader.load());
             currentStage.setScene(loginScene);

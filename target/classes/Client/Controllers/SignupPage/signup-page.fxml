@@ -2,7 +2,6 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="600.0" style="-fx-background-color: rgb(0,0,0);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="600.0" style="-fx-background-color: rgb(0,0,0);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.SignupPage.SignupPageController">
    <children>
       <VBox alignment="CENTER" layoutX="90.0" layoutY="93.0" prefHeight="462.0" prefWidth="419.0" spacing="30.0">
          <children>
@@ -50,7 +49,7 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Text>
-                  <TextField prefHeight="26.0" prefWidth="439.0" promptText="Enter your email." style="-fx-font-family: Arial;" />
+                  <TextField fx:id="emailField" prefHeight="26.0" prefWidth="439.0" promptText="Enter your email." style="-fx-font-family: Arial;" />
                </children>
             </VBox>
             <VBox>
@@ -60,7 +59,7 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Text>
-                  <PasswordField promptText="Enter a password">
+                  <PasswordField fx:id="passwordField" promptText="Enter a password">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -74,20 +73,10 @@
                         <Font name="Arial" size="14.0" />
                      </font>
                   </Text>
-                  <TextField prefHeight="26.0" prefWidth="320.0" promptText="Enter a username." style="-fx-font-family: Arial;" />
+                  <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="320.0" promptText="Enter a username." style="-fx-font-family: Arial;" />
                </children>
             </VBox>
-            <VBox>
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Arial; -fx-font-weight: bold;" text="What's your date of birth?">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font>
-                  </Text>
-                  <DatePicker prefHeight="26.0" prefWidth="423.0" promptText="Enter a date." />
-               </children>
-            </VBox>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" stylesheets="@../../css-styles/early-pages-label-buttons.css" text="Submit">
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="173.0" stylesheets="@../../css-styles/early-pages-label-buttons.css" text="Submit">
                <font>
                   <Font size="15.0" />
                </font>
