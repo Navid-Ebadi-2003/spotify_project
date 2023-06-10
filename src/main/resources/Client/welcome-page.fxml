@@ -5,41 +5,62 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" style="-fx-background-color: rgb(0,0,0);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.HomePageController">
    <children>
-      <Label alignment="CENTER" layoutY="119.0" prefHeight="27.0" prefWidth="600.0" text="Millions of songs." textFill="#fffcfc">
-         <font>
-            <Font name="Arial Bold" size="24.0" />
-         </font></Label>
-      <Button fx:id="button" alignment="CENTER" layoutX="156.0" layoutY="240.0" mnemonicParsing="false" onAction="#loginPage" prefHeight="34.0" prefWidth="287.0" style="-fx-background-color: rgb(30,215,96); -fx-background-radius: 20px;" text="Log in">
-         <font>
-            <Font name="Arial Bold" size="17.0" />
-         </font></Button>
-      <Label alignment="CENTER" layoutY="155.0" prefHeight="27.0" prefWidth="600.0" text="Free on spotify." textFill="#fffcfc">
-         <font>
-            <Font name="Arial Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="-3.0" layoutY="297.0" prefHeight="22.0" prefWidth="600.0" text="Don't have an account?" textFill="#fffefe">
-         <font>
-            <Font name="Arial Bold" size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="button1" alignment="CENTER" layoutX="221.0" layoutY="335.0" mnemonicParsing="false" onAction="#loginPage" prefHeight="15.0" prefWidth="157.0" style="-fx-background-color: rgb(30,215,96); -fx-background-radius: 20px;" text="Sign up">
-         <font>
-            <Font name="Arial Bold" size="17.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="50.0" fitWidth="104.0" layoutX="221.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Icons/spotify.png" />
-         </image></ImageView>
-      <Label layoutX="278.0" layoutY="66.0" text="Spotify" textFill="#fffefe">
-         <font>
-            <Font name="Arial Bold" size="25.0" />
-         </font>
-      </Label>
+      <VBox alignment="CENTER" layoutY="91.0" spacing="14.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="142.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/spotify.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="96.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Spotify" textFill="#fffefe">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="600.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Millions of songs." textFill="#fffcfc">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="600.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Free on spotify." textFill="#fffcfc">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" onAction="#loginPage" prefHeight="34.0" prefWidth="287.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Log in">
+               <font>
+                  <Font name="Symbol" size="17.0" />
+               </font>
+            </Button>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="22.0" prefWidth="600.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Don't have an account?" textFill="#fffefe">
+                     <font>
+                        <Font name="System Bold" size="1.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="button1" alignment="CENTER" mnemonicParsing="false" onAction="#loginPage" prefHeight="15.0" prefWidth="157.0" stylesheets="@css-styles/early-pages-label-buttons.css" text="Sign up">
+                     <font>
+                        <Font name="Arial Bold" size="17.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
