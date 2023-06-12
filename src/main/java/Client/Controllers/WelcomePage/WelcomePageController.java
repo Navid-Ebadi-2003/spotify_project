@@ -47,10 +47,9 @@ public class WelcomePageController implements Initializable {
         FXMLLoader signupPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../SignupPage/signup-page.fxml"));
         try {
             Scene loginScene = new Scene(signupPageLoader.load());
-            currentStage.setScene(loginScene);
             SignupPageController signupPageController = signupPageLoader.getController();
-            System.out.println(this.clientSocket.getLocalAddress());
-            signupPageController.clientSocket = this.clientSocket;
+            signupPageController.setter(clientSocket);
+            currentStage.setScene(loginScene);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

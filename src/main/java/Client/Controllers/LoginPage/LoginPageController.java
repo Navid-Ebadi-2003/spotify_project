@@ -42,18 +42,7 @@ public class LoginPageController {
         //TODO
     }
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        // Here we assume that clientSocket of this object is gonna get instantiated outside
-//        requestObject = new Request(clientSocket);
-//        try {
-//            in = new Scanner(clientSocket.getInputStream());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-    public void setter(Socket clientSocket){
+    public void setter(Socket clientSocket) {
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {
