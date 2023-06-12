@@ -1,4 +1,4 @@
 package Client.Controllers.Boxes.MusicSecondBox;
 
-public class MusicSecondBox {
+public class MusicSecondBoxController {
 }

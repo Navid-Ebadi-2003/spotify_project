@@ -1,4 +1,4 @@
 package Client.Controllers.Boxes.UserBox;
 
-public class UserBox {
+public class UserBoxController {
 }
