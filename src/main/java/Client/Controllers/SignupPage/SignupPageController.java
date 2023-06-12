@@ -1,12 +1,19 @@
 package Client.Controllers.SignupPage;
 
+import Client.Controllers.WelcomePage.WelcomePageController;
 import Shared.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -16,7 +23,7 @@ import java.util.Scanner;
 
 public class SignupPageController implements Initializable {
 
-    private Socket clientSocket;
+    public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
     @FXML
@@ -36,12 +43,34 @@ public class SignupPageController implements Initializable {
 
     @FXML
     void goLoginPage(ActionEvent event) {
-        //TODO
+        Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+        FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
+        try {
+            Scene loginScene = new Scene(loginPageLoader.load());
+            currentStage.setScene(loginScene);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     void submit(ActionEvent event) {
-        //TODO
+        // Taking input
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String username = usernameField.getText();
+        // Sending request to server
+        requestObject.signupReq(username, email, password);
+        // Receiving response from server
+        String response = in.nextLine();
+        JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
+        boolean result = jsonResponse.get("result").getAsBoolean();
+        if (result){
+            ActionEvent e = new ActionEvent();
+            goLoginPage(e);
+        } else {
+            //TODO
+        }
     }
 
 

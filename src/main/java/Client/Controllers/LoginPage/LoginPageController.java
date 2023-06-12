@@ -14,9 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class LoginPageController implements Initializable {
+public class LoginPageController {
 
-    private Socket clientSocket;
+    public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
 
@@ -42,12 +42,22 @@ public class LoginPageController implements Initializable {
         //TODO
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Here we assume that clientSocket of this object is gonna get instantiated outside
-        requestObject = new Request(clientSocket);
+//    @Override
+//    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        // Here we assume that clientSocket of this object is gonna get instantiated outside
+//        requestObject = new Request(clientSocket);
+//        try {
+//            in = new Scanner(clientSocket.getInputStream());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    public void setter(Socket clientSocket){
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
         try {
-            in = new Scanner(clientSocket.getInputStream());
+            this.in = new Scanner(clientSocket.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

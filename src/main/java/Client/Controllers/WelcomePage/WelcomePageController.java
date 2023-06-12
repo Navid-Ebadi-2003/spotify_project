@@ -1,6 +1,8 @@
 package Client.Controllers.WelcomePage;
 
 import Client.ClientHandler;
+import Client.Controllers.LoginPage.LoginPageController;
+import Client.Controllers.SignupPage.SignupPageController;
 import Shared.Request;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,8 @@ public class WelcomePageController implements Initializable {
         FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../LoginPage/login-page.fxml"));
         try {
             Scene loginScene = new Scene(loginPageLoader.load());
+            LoginPageController loginPageController = loginPageLoader.getController();
+            loginPageController.setter(clientSocket);
             currentStage.setScene(loginScene);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -40,10 +44,13 @@ public class WelcomePageController implements Initializable {
 
     public void goSignupPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
-        FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../SignupPage/signup-page.fxml"));
+        FXMLLoader signupPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../SignupPage/signup-page.fxml"));
         try {
-            Scene loginScene = new Scene(loginPageLoader.load());
+            Scene loginScene = new Scene(signupPageLoader.load());
             currentStage.setScene(loginScene);
+            SignupPageController signupPageController = signupPageLoader.getController();
+            System.out.println(this.clientSocket.getLocalAddress());
+            signupPageController.clientSocket = this.clientSocket;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
