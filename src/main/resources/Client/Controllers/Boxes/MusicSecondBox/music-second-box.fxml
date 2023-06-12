@@ -9,6 +9,6 @@
    <children>
       <ImageView fx:id="trackPicture" fitHeight="116.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" />
       <Label id="middle-label" fx:id="trackTitle" alignment="CENTER" prefHeight="45.0" prefWidth="176.0" text="Title" />
-      <HBox id="hbox" fx:id="artistHBox" alignment="CENTER" prefHeight="46.0" prefWidth="176.0" />
+      <HBox id="hbox" fx:id="artistHBox" prefHeight="46.0" prefWidth="176.0" />
    </children>
 </VBox>
