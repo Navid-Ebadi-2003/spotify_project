@@ -41,14 +41,18 @@ public class Response {
         out.flush();
     }
 
-    public void loginRes(Boolean result, User user) {
+    public void loginRes(Boolean result, JsonObject userJson) {
         // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
         // Building jsons
         if (result) {
-            responseBody.addProperty("result", result);
-            responseBody.addProperty("userId", user.getUserId().toString());
+            responseBody.add("userJson", userJson);
+            /*
+            I think all of these comments should be deleted because user information is passed through a JsonObject
+             */
+//            responseBody.addProperty("result", result);
+//            responseBody.addProperty("userId", user.getUserId().toString());
             // I have commented profilePath, because only and only server specifies where to save the profilePicture
 //            responseBody.addProperty("profilePath", user.getProfilePath());
 
@@ -65,7 +69,7 @@ public class Response {
 //            responseBody.add("followings", Request.arraylistToJsonArray(user.getFollowings()));
             jsonTemplate.addProperty("responseType", "login response");
         } else {
-            // responseBody is gonna be a empty json
+            // responseBody is going to be an empty json
         }
         // Putting responseBody into Template
         jsonTemplate.add("responseBody", responseBody);
