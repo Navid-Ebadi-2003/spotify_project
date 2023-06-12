@@ -3,15 +3,12 @@ package Client.Controllers.LoginPage;
 import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class LoginPageController {
@@ -21,7 +18,7 @@ public class LoginPageController {
     private Scanner in;
 
     @FXML
-    private Button loginPageButton;
+    private Button loginButton;
 
     @FXML
     private PasswordField passwordField;
@@ -33,7 +30,7 @@ public class LoginPageController {
     private TextField usernameField;
 
     @FXML
-    void goLoginPage(ActionEvent event) {
+    void login(ActionEvent event) {
         //TODO
     }
 
