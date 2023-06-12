@@ -19,10 +19,10 @@
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Icons/home.png" />
+                        <Image url="@../../../Icons/home.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="91.0" stylesheets="@css-styles/main-page-items.css" text="Home" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="91.0" stylesheets="@../../css-styles/main-page-items.css" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
@@ -33,10 +33,10 @@
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Icons/loupe.png" />
+                        <Image url="@../../../Icons/loupe.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="91.0" stylesheets="@css-styles/main-page-items.css" text="Search" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="91.0" stylesheets="@../../css-styles/main-page-items.css" text="Search" textFill="WHITE">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
@@ -47,10 +47,10 @@
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Icons/books.png" />
+                        <Image url="@../../../Icons/books.png" />
                      </image>
                   </ImageView>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" stylesheets="@css-styles/main-page-items.css" text="Library" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" stylesheets="@../../css-styles/main-page-items.css" text="Library" textFill="WHITE">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
@@ -59,21 +59,21 @@
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Icons/plus.png" />
+                              <Image url="@../../../Icons/plus.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
                </children>
             </HBox>
-            <ScrollPane prefHeight="491.0" prefWidth="208.0" stylesheets="@css-styles/main-page-items.css" vbarPolicy="ALWAYS" />
+            <ScrollPane prefHeight="491.0" prefWidth="208.0" stylesheets="@../../css-styles/main-page-items.css" vbarPolicy="ALWAYS" />
          </children>
       </VBox>
    </left>
    <top>
       <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="931.0" style="-fx-background-color: rgb(20,20,20);" BorderPane.alignment="CENTER">
          <children>
-            <SplitMenuButton mnemonicParsing="false" prefHeight="56.0" prefWidth="58.0" stylesheets="@css-styles/main-page-items.css">
+            <SplitMenuButton mnemonicParsing="false" prefHeight="56.0" prefWidth="58.0" stylesheets="@../../css-styles/main-page-items.css">
               <items>
                 <MenuItem mnemonicParsing="false" text="Account" />
                 <MenuItem mnemonicParsing="false" text="Profile" />
@@ -97,6 +97,6 @@
          </children></HBox>
    </bottom>
    <center>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" stylesheets="@css-styles/main-page-items.css" BorderPane.alignment="CENTER" />
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../css-styles/main-page-items.css" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

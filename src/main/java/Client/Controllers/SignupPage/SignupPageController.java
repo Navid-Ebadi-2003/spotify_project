@@ -62,7 +62,6 @@ public class SignupPageController {
         requestObject.signupReq(username, email, password);
         // Receiving response from server
         String response = in.nextLine();
-        System.out.println(response);
         JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();

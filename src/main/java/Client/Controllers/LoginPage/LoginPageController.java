@@ -1,8 +1,11 @@
 package Client.Controllers.LoginPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Client.Controllers.SignupPage.SignupPageController;
 import Client.Controllers.WelcomePage.WelcomePageController;
 import Shared.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +40,30 @@ public class LoginPageController {
 
     @FXML
     void login(ActionEvent event) {
-        //TODO
+        // Taking input
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        // Sending request to server
+        requestObject.loginReq(username, password);
+        // Receiving response from server
+        String response = in.nextLine();
+        JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
+        JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
+        boolean result = responseBody.get("result").getAsBoolean();
+        if (result){
+            Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+            FXMLLoader mainPageLoader = new FXMLLoader(LoginPageController.class.getResource("../MainPage/main-page.fxml"));
+            try {
+                Scene mainPageScene = new Scene(mainPageLoader.load());
+                MainPageController loginPageController = mainPageLoader.getController();
+//                loginPageController.setter(clientSocket);
+                currentStage.setScene(mainPageScene);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            //TODO
+        }
     }
 
     @FXML

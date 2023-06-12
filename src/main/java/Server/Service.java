@@ -81,7 +81,17 @@ public class Service implements Runnable {
                 }
             }
             case "login request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID userId = UUID.randomUUID();
+                String username = requestBody.get("username").getAsString();
+                String password = requestBody.get("password").getAsString();
+                JsonObject userJson = Query.logIn(username, password);
+
+                if (userJson != null){
+                    responseObject.loginRes(true, userJson);
+                } else {
+                    responseObject.loginRes(false, userJson);
+                }
             }
             case "go home page request" -> {
                 //TODO
