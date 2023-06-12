@@ -62,11 +62,21 @@ public class SignupPageController {
         requestObject.signupReq(username, email, password);
         // Receiving response from server
         String response = in.nextLine();
+        System.out.println(response);
         JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
-        boolean result = jsonResponse.get("result").getAsBoolean();
+        JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
+        boolean result = responseBody.get("result").getAsBoolean();
         if (result){
-            ActionEvent e = new ActionEvent();
-            goLoginPage(e);
+            Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+            FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
+            try {
+                Scene loginScene = new Scene(loginPageLoader.load());
+                LoginPageController loginPageController = loginPageLoader.getController();
+                loginPageController.setter(clientSocket);
+                currentStage.setScene(loginScene);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             //TODO
         }
