@@ -55,7 +55,7 @@ public class LoginPageController {
             FXMLLoader mainPageLoader = new FXMLLoader(LoginPageController.class.getResource("../MainPage/main-page.fxml"));
             try {
                 Scene mainPageScene = new Scene(mainPageLoader.load());
-                MainPageController loginPageController = mainPageLoader.getController();
+                MainPageController mainPageController = mainPageLoader.getController();
 //                loginPageController.setter(clientSocket);
                 currentStage.setScene(mainPageScene);
             } catch (IOException e) {
