@@ -11,7 +11,7 @@ public class DBConnection {
 
     public DBConnection() {
         //SQLite connection string
-        String url = "jdbc:sqlite:\\DatabaseBackup\\Spotify.db";
+        String url = "jdbc:sqlite:src\\main\\java\\DatabaseBackup\\Spotify.db";
         this.connection = null;
         try {
             this.connection = DriverManager.getConnection(url);
