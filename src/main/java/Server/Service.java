@@ -1,5 +1,7 @@
 package Server;
 
+import Server.Database.Query;
+import Shared.Response;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -7,14 +9,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Service implements Runnable {
     private Socket serverSocket;
     private Scanner in;
+    private Response responseObject;
 
     //Constructor
     public Service(Socket serverSocket) {
         this.serverSocket = serverSocket;
+        responseObject = new Response(serverSocket);
         try {
             this.in = new Scanner(serverSocket.getInputStream());
         } catch (IOException e) {
@@ -62,10 +67,31 @@ public class Service implements Runnable {
 
         switch (requestType) {
             case "signup request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID userId = UUID.randomUUID();
+                String email = requestBody.get("email").getAsString();
+                String username = requestBody.get("username").getAsString();
+                String password = requestBody.get("password").getAsString();
+                if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)){
+                    Query.signUpUser(userId, username, email, password);
+                    // Consider removing userId from that response because we have to login again
+                    responseObject.signupRes(true, userId);
+                } else {
+                    responseObject.signupRes(false, userId);
+                }
             }
             case "login request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID userId = UUID.randomUUID();
+                String username = requestBody.get("username").getAsString();
+                String password = requestBody.get("password").getAsString();
+                JsonObject userJson = Query.logIn(username, password);
+
+                if (userJson != null){
+                    responseObject.loginRes(true, userJson);
+                } else {
+                    responseObject.loginRes(false, userJson);
+                }
             }
             case "go home page request" -> {
                 //TODO
