@@ -736,7 +736,7 @@ public class Query {
 
             UUID playlistId = UUID.fromString(playListJson.get("playlistId").getAsString());
 
-            addToHistory(userId, playlistId, "USER_CREAT_PLAYLIST");
+            addToHistory(userId, playlistId, "USER_CREATE_PLAYLIST");
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -748,6 +748,6 @@ public class Query {
     }
 
     public static synchronized JsonArray getUsersPlaylists(UUID userId) {
-        return getObjectsFromHistory(userId, "USER_CREAT_PLAYLIST");
+        return getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
     }
 }
