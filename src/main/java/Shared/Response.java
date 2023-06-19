@@ -12,7 +12,7 @@ public class Response {
     private Socket serverSocket;
     private PrintWriter out;
 
-    //Constructor
+    // Constructor
 
     public Response(Socket serverSocket) {
         this.serverSocket = serverSocket;
@@ -87,7 +87,7 @@ public class Response {
         //  "randomMusicsResult":     [%s]
         //  }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -116,7 +116,7 @@ public class Response {
         // "usersResult":           [%s]
         // }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -150,7 +150,7 @@ public class Response {
         // "followings:        [%s]
         //  }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -179,9 +179,9 @@ public class Response {
         // "socialMediaLinks":   [%s],
         // "albums":             [%s],
         // "profilePath":          %s
-        //  }
+        // }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -214,7 +214,7 @@ public class Response {
         // "ProfilePath":    %s,
         // }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -246,7 +246,7 @@ public class Response {
         // "profilePath": %s,
         // }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -277,7 +277,7 @@ public class Response {
         // "profilePath":    %s,
         //  }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
@@ -302,7 +302,7 @@ public class Response {
         // "musicsResult": [%s]
         //  }
 
-        // Template of responseBody {"results":{jsonResult}}
+        // Template of responseBody {"results":jsonResult}
 
         // Template of jsonTemplate {"responseType":%s, "responseBody"{%s}}
 
