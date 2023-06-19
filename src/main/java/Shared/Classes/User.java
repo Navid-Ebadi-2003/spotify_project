@@ -18,10 +18,11 @@ public class User {
     //added followers and following because users can follow artists and users and could be followed by other users
     private ArrayList<UUID> followers;
     private ArrayList<UUID> followings;
+    private ArrayList<UUID> likedTracks;
 
     //Constructor
 
-    public User(UUID userId, String username, String email, String password, String profilePath, HashMap<UUID, Boolean> createdPlaylists, HashMap<UUID, Boolean> likedPlaylists, ArrayList<UUID> followers, ArrayList<UUID> followings) {
+    public User(UUID userId, String username, String email, String password, String profilePath, HashMap<UUID, Boolean> createdPlaylists, HashMap<UUID, Boolean> likedPlaylists, ArrayList<UUID> followers, ArrayList<UUID> followings, ArrayList<UUID> likedTracks) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -31,6 +32,7 @@ public class User {
         this.likedPlaylists = likedPlaylists;
         this.followers = followers;
         this.followings = followings;
+        this.likedTracks = likedTracks;
     }
 
 
@@ -70,5 +72,9 @@ public class User {
 
     public ArrayList<UUID> getFollowings() {
         return followings;
+    }
+
+    public ArrayList<UUID> getLikedTracks() {
+        return likedTracks;
     }
 }
