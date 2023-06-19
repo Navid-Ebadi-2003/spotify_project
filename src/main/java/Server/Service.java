@@ -3,6 +3,7 @@ package Server;
 import Server.Database.Query;
 import Shared.Response;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -138,6 +139,27 @@ public class Service implements Runnable {
             case "watch liked tracks request" -> {
                 //TODO
             }
+        }
+    }
+
+    // Upload method to send "goHomePage" Results from the server to the client
+    public void uploadHomePage(JsonObject jsonResults){
+        //  Template of jsonResult:
+        //  {
+        //  "createdPlaylistsResult": [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %s}, ...]
+        //  "likedPlaylistsResult":   [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %s}, ...],
+        //  "likedMusicsResult":      [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s}, ...],
+        //  "randomMusicsResult":     [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s}, ...]
+        //  }
+
+        // Parsing Results
+        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResults");
+        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResults");
+        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResults");
+        JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResults");
+
+        for (int i = 0; i < createdPlaylistsJson.size(); i++){
+            //TODO
         }
     }
 }
