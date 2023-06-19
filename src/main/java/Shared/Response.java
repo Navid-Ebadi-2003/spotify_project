@@ -80,12 +80,12 @@ public class Response {
 
     public void goHomePageRes(JsonObject jsonResults) {
         //  Template of jsonResult:
-        //  [
-        //  "createdPlaylistsResult":  {"downloadCount":%d, "playlists":   [%s] },
-        //  "likedPlaylistsResult":    {"downloadCount":%d, "playlists":   [%s] },
-        //  "likedMusicsResult":       {"downloadCount":%d, "musics":      [%s] },
-        //  "randomMusicsResult":      {"downloadCount":%d, "musics":      [%s] }
-        //  ]
+        //  {
+        //  "createdPlaylistsResult": [%s],
+        //  "likedPlaylistsResult":   [%s],
+        //  "likedMusicsResult":      [%s],
+        //  "randomMusicsResult":     [%s]
+        //  }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -108,13 +108,13 @@ public class Response {
 
     public void searchRes(JsonObject jsonResults) {
         // Template of jsonResult:
-        // [
-        // "albumsResult":          {"downloadCount":%d, "albums":          [%s] },
-        // "artistsResult":         {"downloadCount":%d, "artists":         [%s] },
-        // "musicsResult":          {"downloadCount":%d, "musics":          [%s] },
-        // "playlistsResult":       {"downloadCount":%d, "playlists":       [%s] },
-        // "usersResult":           {"downloadCount":%d, "users":           [%s] }
-        // ]
+        // {
+        // "albumsResult":          [%s],
+        // "artistsResult":         [%s],
+        // "musicsResult":          [%s],
+        // "playlistsResult":       [%s],
+        // "usersResult":           [%s]
+        // }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -137,18 +137,18 @@ public class Response {
 
     public void watchUserPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
-        // "userId:             %s ,
-        // "username:           %s ,
-        // "email:              %s ,
-        // "address:            %s ,
-        // "password:           %s ,
-        // "profilePath:        %s ,
+        // {
+        // "userId:             %s,
+        // "username:           %s,
+        // "email:              %s,
+        // "address:            %s,
+        // "password:           %s,
+        // "profilePath:        %s,
         // "createdPlaylists:  [%s],
         // "likedPlaylists:    [%s],
         // "followers:         [%s],
         // "followings:        [%s]
-        // ]
+        //  }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -171,15 +171,15 @@ public class Response {
 
     public void watchArtistPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
-        // "artistId":             %s ,
-        // "name":                 %s ,
-        // "genreId":              %s ,
-        // "biography":            %s ,
-        // "socialMediaLinks":    [%s],
-        // "albums":              [%s],
+        // {
+        // "artistId":             %s,
+        // "name":                 %s,
+        // "genreId":              %s,
+        // "biography":            %s,
+        // "socialMediaLinks":   [%s],
+        // "albums":             [%s],
         // "profilePath":          %s
-        // ]
+        // }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -202,17 +202,17 @@ public class Response {
 
     public void watchMusicPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
-        // "trackId":        %s ,
-        // "title":          %s ,
-        // "artistId":      [%s],
-        // "albumId":        %s ,
-        // "genreId":        %s ,
-        // "duration":       %d ,
-        // "releaseDate":    %s ,
-        // "popularity":     %d ,
-        // "ProfilePath":    %s ,
-        // ]
+        // {
+        // "trackId":        %s,
+        // "title":          %s,
+        // "artistId":     [%s],
+        // "albumId":        %s,
+        // "genreId":        %s,
+        // "duration":       %d,
+        // "releaseDate":    %s,
+        // "popularity":     %d,
+        // "ProfilePath":    %s,
+        // }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -235,16 +235,16 @@ public class Response {
 
     public void watchAlbumRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
-        // "albumId":       %s ,
-        // "title":         %s ,
-        // "artistId":     [%s],
-        // "genreId":       %s ,
-        // "releaseDate":   %s ,
-        // "popularity":    %d ,
-        // "tracks":       [%s],
-        // "profilePath":   %s ,
-        // ]
+        // {
+        // "albumId": %s,
+        // "title": %s,
+        // "artistId": [%s],
+        // "genreId": %s,
+        // "releaseDate": %s,
+        // "popularity": %d,
+        // "tracks": [%s],
+        // "profilePath": %s,
+        // }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -267,15 +267,15 @@ public class Response {
 
     public void watchPlaylistRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
-        // "playlistId":     %s ,
-        // "title":          %s ,
-        // "description":    %s ,
-        // "userId":         %s ,
-        // "popularity":     %s ,
-        // "tracks":        [%s],
-        // "profilePath":    %s
-        // ]
+        // {
+        // "playlistId":     %s,
+        // "title":          %s,
+        // "description":    %s,
+        // "userId":         %s,
+        // "popularity":     %s,
+        // "tracks":       [%s],
+        // "profilePath":    %s,
+        //  }
 
         // Template of responseBody {"results":jsonResult}
 
@@ -298,9 +298,9 @@ public class Response {
 
     public void watchLikedTracksRes(JsonObject jsonResult) {
         // Template of jsonResult:
-        // [
+        // {
         // "musicsResult": [%s]
-        // ]
+        //  }
 
         // Template of responseBody {"results":jsonResult}
 
