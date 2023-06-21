@@ -3,10 +3,10 @@ package Server;
 import Server.Database.Query;
 import Shared.Response;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.UUID;
@@ -138,6 +138,247 @@ public class Service implements Runnable {
             case "watch liked tracks request" -> {
                 //TODO
             }
+        }
+    }
+
+    // Upload method to send "goHomePage" Results from the server to the client
+    public void uploadHomePage(JsonObject jsonResults) throws IOException {
+        //  Template of jsonResult:
+        //  {
+        //  "createdPlaylistsResult": [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d}, ...]
+        //  "likedPlaylistsResult":   [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d}, ...],
+        //  "likedMusicsResult":      [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...],
+        //  "randomMusicsResult":     [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
+        //  }
+
+        // Parsing Results
+        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
+        JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+
+        OutputStream outputStream = serverSocket.getOutputStream();
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+
+        for (int i = 0; i < createdPlaylistsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonCreatedPlaylist = createdPlaylistsJson.get(i).getAsJsonObject();
+            String profilePath = jsonCreatedPlaylist.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < likedPlaylistsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonLikedPlaylist = likedPlaylistsJson.get(i).getAsJsonObject();
+            String profilePath = jsonLikedPlaylist.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < likedMusicsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonLikedMusic = likedMusicsJson.get(i).getAsJsonObject();
+            String profilePath = jsonLikedMusic.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < randomMusicsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonRandomMusic = randomMusicsJson.get(i).getAsJsonObject();
+            String profilePath = jsonRandomMusic.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+    }
+
+    public void uploadSearchPage(JsonObject jsonResults) throws IOException {
+        //  Template of jsonResult:
+        //  {
+        //  "albumResult":              [{"albumId" : %s, "title" : %s, "artistId" : %s, "genreId" : %s, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s}, ...]
+        //  "artistsResult":            [{"artistId" : %s, "name" : %s, "genreId" : %s, "biography" : %s, "profileFile" : %s}, ...]
+        //  "musicsResult":             [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
+        //  "playlistsResult":          [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d}, ...]
+        //  "userResult":               [{"userId" : %s, "username" : %s, "email" : %s, "password" : %s, "profilePath" : %s}, ...]
+        //  }
+
+        // Parsing Results
+        JsonArray albumsJson = jsonResults.getAsJsonArray("albumsResult");
+        JsonArray artistsJson = jsonResults.getAsJsonArray("artistsResult");
+        JsonArray musicsJson = jsonResults.getAsJsonArray("musicsResult");
+        JsonArray playlistsJson = jsonResults.getAsJsonArray("playlistsResult");
+        JsonArray usersJson = jsonResults.getAsJsonArray("usersResult");
+
+        OutputStream outputStream = serverSocket.getOutputStream();
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+
+        for (int i = 0; i < albumsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonAlbum = albumsJson.get(i).getAsJsonObject();
+            String profilePath = jsonAlbum.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < artistsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonArtist = artistsJson.get(i).getAsJsonObject();
+            String profilePath = jsonArtist.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < musicsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonMusic = musicsJson.get(i).getAsJsonObject();
+            String profilePath = jsonMusic.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < playlistsJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonPlaylist = playlistsJson.get(i).getAsJsonObject();
+            String profilePath = jsonPlaylist.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
+        }
+        for (int i = 0; i < usersJson.size(); i++) {
+            // Extract profilePath
+            JsonObject jsonUser = usersJson.get(i).getAsJsonObject();
+            String profilePath = jsonUser.get("profilePath").getAsString();
+            File file = new File(profilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            // Send the file size to client
+            long fileSize = file.length();
+            dataOutputStream.writeLong(fileSize);
+
+            // Send the file data
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            dataOutputStream.flush();
+            outputStream.flush();
+            fileInputStream.close();
         }
     }
 }

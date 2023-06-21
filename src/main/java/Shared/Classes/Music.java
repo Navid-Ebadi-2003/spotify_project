@@ -13,11 +13,11 @@ public class Music {
     private LocalDate releaseDate;
     private int popularity;
     //added profilePath because each Music has a profile picture
-    private String profilePath;
+    private String filePath;
 
     //Constructor
 
-    public Music(UUID trackId, String title, UUID artistId, UUID albumId, UUID genreId, int duration, LocalDate releaseDate, int popularity, String profilePath) {
+    public Music(UUID trackId, String title, UUID artistId, UUID albumId, UUID genreId, int duration, LocalDate releaseDate, int popularity, String filePath) {
         this.trackId = trackId;
         this.title = title;
         this.artistId = artistId;
@@ -26,7 +26,7 @@ public class Music {
         this.duration = duration;
         this.releaseDate = releaseDate;
         this.popularity = popularity;
-        this.profilePath = profilePath;
+        this.filePath = filePath;
     }
 
 
@@ -64,7 +64,7 @@ public class Music {
         return popularity;
     }
 
-    public String getProfilePath() {
-        return profilePath;
+    public String getFilePath() {
+        return filePath;
     }
 }
