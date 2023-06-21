@@ -752,9 +752,12 @@ public class Query {
     }
 
     public static synchronized JsonArray searchUser (String userInput){
+
+        userInput = "%" + userInput + "%";
+
         final String query = """
                 SELECT * FROM User
-                WHERE username LIKE %?%;
+                WHERE username LIKE ?;
                 """;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -793,9 +796,12 @@ public class Query {
 
 
     public static synchronized JsonArray searchPlaylist (String userInput){
+
+        userInput = "%" + userInput + "%";
+
         final String query = """
                 SELECT * FROM Playlist
-                WHERE title LIKE %?%;
+                WHERE title LIKE ?;
                 """;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -846,9 +852,12 @@ public class Query {
 
 
     public static synchronized JsonArray searchMusic (String userInput){
+
+        userInput = "%" + userInput + "%";
+
         final String query = """
                 SELECT * FROM Music
-                WHERE title LIKE %?%;
+                WHERE title LIKE ?;
                 """;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -908,9 +917,12 @@ public class Query {
 
 
     public static synchronized JsonArray searchArtist (String userInput){
+
+        userInput = "%" + userInput + "%";
+
         final String query = """
                 SELECT * FROM Artist
-                WHERE name LIKE %?%;
+                WHERE name LIKE ?;
                 """;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -955,9 +967,12 @@ public class Query {
 
 
     public static synchronized JsonArray searchAlbum (String userInput){
+
+        userInput = "%" + userInput + "%";
+
         final String query = """
                 SELECT * FROM Album
-                WHERE title LIKE %?%;
+                WHERE title LIKE ?;
                 """;
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
