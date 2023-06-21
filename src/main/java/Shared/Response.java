@@ -65,10 +65,10 @@ public class Response {
     public void goHomePageRes(JsonObject jsonResults) {
         //  Template of jsonResult:
         //  {
-        //  "createdPlaylistsResult": [%s],
-        //  "likedPlaylistsResult":   [%s],
-        //  "likedMusicsResult":      [%s],
-        //  "randomMusicsResult":     [%s]
+        //  "createdPlaylistsResult":       [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...],
+        //  "likedPlaylistsResult":         [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...],
+        //  "likedMusicsResult":            [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...],
+        //  "randomMusicsResult":           [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
         //  }
 
         // Template of responseBody {"results":jsonResult}
@@ -93,11 +93,11 @@ public class Response {
     public void searchRes(JsonObject jsonResults) {
         // Template of jsonResult:
         // {
-        // "albumsResult":          [%s],
-        // "artistsResult":         [%s],
-        // "musicsResult":          [%s],
-        // "playlistsResult":       [%s],
-        // "usersResult":           [%s]
+        //  "albumsResult":              [{"albumId" : %s, "title" : %s, "artistId" : %s, "genreId" : %s, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s}, ...],
+        //  "artistsResult":             [{"artistId" : %s, "name" : %s, "genreId" : %s, "biography" : %s, "profilePath" : %s, "socialMediaLinks" : [], "albums" : []}, ...],
+        //  "musicsResult":              [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...],
+        //  "playlistsResult":           [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...],
+        //  "usersResult":               [{"userId" : %s, "username" : %s, "profilePath" : %s}, ...]
         // }
 
         // Template of responseBody {"results":jsonResult}
@@ -122,16 +122,9 @@ public class Response {
     public void watchUserPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "userId:             %s,
-        // "username:           %s,
-        // "email:              %s,
-        // "address:            %s,
-        // "password:           %s,
-        // "profilePath:        %s,
-        // "createdPlaylists:  [%s],
-        // "likedPlaylists:    [%s],
-        // "followers:         [%s],
-        // "followings:        [%s]
+        // "userId" : %s,
+        // "username" : %s,
+        // "profilePath" : %s
         //  }
 
         // Template of responseBody {"results":jsonResult}
@@ -156,13 +149,13 @@ public class Response {
     public void watchArtistPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "artistId":             %s,
-        // "name":                 %s,
-        // "genreId":              %s,
-        // "biography":            %s,
-        // "socialMediaLinks":   [%s],
-        // "albums":             [%s],
-        // "profilePath":          %s
+        // "artistId" : %s,
+        // "name" : %s,
+        // "genreId" : %s,
+        // "biography" : %s,
+        // "profilePath" : %s,
+        // "socialMediaLinks" : [],
+        // "albums" : []
         // }
 
         // Template of responseBody {"results":jsonResult}
@@ -187,15 +180,16 @@ public class Response {
     public void watchMusicPageRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "trackId":        %s,
-        // "title":          %s,
-        // "artistId":     [%s],
-        // "albumId":        %s,
-        // "genreId":        %s,
-        // "duration":       %d,
-        // "releaseDate":    %s,
-        // "popularity":     %d,
-        // "ProfilePath":    %s,
+        // "trackId" : %s,
+        // "title" : %s,
+        // "artistId" : [],
+        // "albumId" : %s,
+        // "genreId" : %s,
+        // "duration" : %d,
+        // "releaseDate" : %s,
+        // "popularity" : %d,
+        // "profilePath" : %s,
+        // "trackPath" : %s
         // }
 
         // Template of responseBody {"results":jsonResult}
@@ -220,14 +214,13 @@ public class Response {
     public void watchAlbumRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "albumId": %s,
-        // "title": %s,
-        // "artistId": [%s],
-        // "genreId": %s,
-        // "releaseDate": %s,
-        // "popularity": %d,
-        // "tracks": [%s],
-        // "profilePath": %s,
+        // "albumId" : %s,
+        // "title" : %s,
+        // "artistId" : %s,
+        // "genreId" : %s,
+        // "releaseDate" : %s,
+        // "popularity" : %d,
+        // "profilePath" : %s
         // }
 
         // Template of responseBody {"results":jsonResult}
@@ -252,13 +245,14 @@ public class Response {
     public void watchPlaylistRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "playlistId":     %s,
-        // "title":          %s,
-        // "description":    %s,
-        // "userId":         %s,
-        // "popularity":     %s,
-        // "tracks":       [%s],
-        // "profilePath":    %s,
+        // "playlistId" : %s,
+        // "title" : %s,
+        // "description" : %s,
+        // "userId" : %s,
+        // "popularity" : %d,
+        // "profilePath" : %s,
+        // "isPrivate" : %d,
+        // "tracks" : []
         //  }
 
         // Template of responseBody {"results":jsonResult}
@@ -283,8 +277,8 @@ public class Response {
     public void watchLikedTracksRes(JsonObject jsonResult) {
         // Template of jsonResult:
         // {
-        // "musicsResult": [%s]
-        //  }
+        // "musicsResult":      [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
+        // }
 
         // Template of responseBody {"results":jsonResult}
 
