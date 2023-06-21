@@ -67,9 +67,9 @@
                   </Button>
                </children>
             </HBox>
-            <ScrollPane prefHeight="491.0" prefWidth="208.0" stylesheets="@main-page-items.css" vbarPolicy="ALWAYS">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="491.0" prefWidth="208.0" stylesheets="@main-page-items.css" vbarPolicy="ALWAYS">
                <content>
-                  <VBox fx:id="playlistVbox" alignment="TOP_CENTER" prefHeight="439.0" prefWidth="189.0" />
+                  <VBox fx:id="playlistVbox" prefHeight="414.0" prefWidth="190.0" spacing="10.0" />
                </content></ScrollPane>
          </children>
       </VBox>
