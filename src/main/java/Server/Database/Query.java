@@ -347,8 +347,8 @@ public class Query {
                 String title = rs.getString("title");
                 musicJson.addProperty("title", title);
 
-                String artistId = rs.getString("artist_id");
-                musicJson.addProperty("artistId", artistId);
+                JsonArray artists = getSubjectsFromHistory(trackId, "ARTIST_ADD_TRACK");
+                musicJson.add("artists", artists);
 
                 String albumId = rs.getString("album_id");
                 musicJson.addProperty("albumId", albumId);
@@ -364,6 +364,12 @@ public class Query {
 
                 int popularity = rs.getInt("popularity");
                 musicJson.addProperty("popularity", popularity);
+
+                String profilePath = rs.getString("profile_path");
+                musicJson.addProperty("profilePath", profilePath);
+    
+                String trackPath = rs.getString("track_path");
+                musicJson.addProperty("trackPath", trackPath);
 
                 return musicJson;
             } else {
@@ -409,6 +415,9 @@ public class Query {
                 JsonArray tracks = getObjectsFromHistory(albumId, "ALBUM_ADD_TRACK");
                 albumJson.add("tracks", tracks);
 
+                String profilePath = rs.getString("profile_path");
+                albumJson.addProperty("profilePath", profilePath);
+
                 return albumJson;
             } else {
                 // If null, then that means the album doesn't exist
@@ -432,28 +441,31 @@ public class Query {
             pstmt.setString(1, playlistId.toString());
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
-                JsonObject albumJson = new JsonObject();
-                albumJson.addProperty("playlistId", playlistId.toString());
+                JsonObject playlistJson = new JsonObject();
+                playlistJson.addProperty("playlistId", playlistId.toString());
 
                 String title = rs.getString("title");
-                albumJson.addProperty("title", title);
+                playlistJson.addProperty("title", title);
 
                 String description = rs.getString("description");
-                albumJson.addProperty("description", description);
+                playlistJson.addProperty("description", description);
 
                 String userId = rs.getString("user_id");
-                albumJson.addProperty("userId", userId);
+                playlistJson.addProperty("userId", userId);
 
                 int popularity = rs.getInt("popularity");
-                albumJson.addProperty("popularity", popularity);
+                playlistJson.addProperty("popularity", popularity);
 
                 int isPrivate = rs.getInt("is_private");
-                albumJson.addProperty("isPrivate", isPrivate);
+                playlistJson.addProperty("isPrivate", isPrivate);
+        
+                String profilePath = rs.getString("profile_path");
+                playlistJson.addProperty("profilePath", profilePath);
 
                 JsonArray tracks = getObjectsFromHistory(playlistId, "PLAYLIST_ADD_TRACK");
-                albumJson.add("tracks", tracks);
+                playlistJson.add("tracks", tracks);
 
-                return albumJson;
+                return playlistJson;
             } else {
                 // If null, then that means the album doesn't exist
                 return null;
