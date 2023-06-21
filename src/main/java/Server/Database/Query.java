@@ -750,4 +750,107 @@ public class Query {
     public static synchronized JsonArray getUsersPlaylists(UUID userId) {
         return getObjectsFromHistory(userId, "USER_CREAT_PLAYLIST");
     }
+
+    public static synchronized JsonArray searchUser (String userInput){
+        final String query = """
+                SELECT * FROM User
+                WHERE username LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , userInput );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray usersResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject user = new JsonObject();
+
+                String userId = rs.getString("user_id");
+                user.addProperty("userId", userId);
+
+                String username = rs.getString("username");
+                user.addProperty("username", username);
+
+                String email = rs.getString("email");
+                user.addProperty("email" , email);
+
+                String password = rs.getString("password");
+                user.addProperty("password" , password);
+
+                String profilePath = rs.getString("profile_path");
+                user.addProperty("profilePath" , profilePath);
+
+                usersResult.add(user);
+            }
+
+            if (usersResult.isEmpty()){
+                return null;
+            }
+            else {
+                return usersResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchPlaylist (String userInput){
+        final String query = """
+                SELECT * FROM Playlist
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , userInput );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray playlistsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject playlist = new JsonObject();
+
+                String playlistId = rs.getString("Playlist_id");
+                playlist.addProperty("playlistId", playlistId);
+
+                String title = rs.getString("title");
+                playlist.addProperty("title", title);
+
+                String userId = rs.getString("user_id");
+                playlist.addProperty("userId" , userId);
+
+                String profilePath = rs.getString("profile_path");
+                playlist.addProperty("profilePath" , profilePath);
+
+                String description = rs.getString("description");
+                playlist.addProperty("description" , description);
+
+                int popularity = rs.getInt("popularity");
+                playlist.addProperty("popularity" , popularity);
+
+                int isPrivate = rs.getInt("is_private");
+                playlist.addProperty("isPrivate" , isPrivate);
+
+                playlistsResult.add(playlist);
+            }
+
+            if (playlistsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return playlistsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    
+
+
 }
