@@ -21,6 +21,10 @@ public class Query {
         Query.connection = connection;
     }
 
+    /*
+     * Methods related to user-management
+     */
+
     // A query to check whether a particular username exists or not
     public static synchronized boolean doesUsernameExist(String username) {
         final String query = """
@@ -96,36 +100,6 @@ public class Query {
 
     }
 
-    public static synchronized JsonObject getUser(UUID userId) {
-        final String query = """
-                SELECT * FROM User
-                WHERE user_id=?;
-                """;
-
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            // Setting the userId value into the query
-            pstmt.setString(1, userId.toString());
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                JsonObject userJson = new JsonObject();
-                userJson.addProperty("userId", userId.toString());
-                
-                String username = rs.getString("username");
-                userJson.addProperty("username", username);
-                String email = rs.getString("email");
-                userJson.addProperty("email", email);
-                return userJson;
-            } else {
-                // Means that the user doesn't exist
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     // If null is returned(and the username exists) then that means the password is incorrect
     public static synchronized UUID logIn(String username, String password) {
         final String query = """
@@ -179,6 +153,10 @@ public class Query {
             e.printStackTrace();
         } 
     }
+
+    /*
+     * Methods related to history
+     */
 
     /*
      * History in general stores what users, artists and etc have done in Spotify
@@ -252,7 +230,6 @@ public class Query {
         }
     }
 
-
     public static synchronized void addToHistory(UUID subject, UUID object, String action) {
         final String query = """
                 INSERT INTO History values(?, ?, ?);
@@ -288,6 +265,10 @@ public class Query {
         }
     }
 
+
+    /*
+     * Methods related to getting an entity from an id
+     */
 
     // Get an artist's info from id
     public static synchronized JsonObject getArtist(UUID artistId) {
@@ -475,6 +456,10 @@ public class Query {
         }
 }
 
+    /*
+     * Methods related to a user doing an action
+     */
+
     // Follow/unfollow a user
     public static synchronized void toggleFollowUser(UUID selfId, UUID userId) {
         final String query = """
@@ -626,6 +611,10 @@ public class Query {
         }
     }
 
+    /*
+     * Methods related to synchronization
+     */
+
     public static synchronized void updateMusicPopularity(UUID trackId, int popularity) {
         final String query = """
                 UPDATE Music
@@ -732,6 +721,10 @@ public class Query {
         }
     }
 
+    /*
+     * Methods related to creation
+     */
+
     public static synchronized void createPlaylist(UUID userId, JsonObject playListJson) {
         final String query = """
             INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?);
@@ -758,7 +751,39 @@ public class Query {
         }
     }
 
+    public static synchronized JsonObject getUser(UUID userId) {
+        final String query = """
+                SELECT * FROM User
+                WHERE user_id=?;
+                """;
 
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            // Setting the userId value into the query
+            pstmt.setString(1, userId.toString());
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                JsonObject userJson = new JsonObject();
+                userJson.addProperty("userId", userId.toString());
+                
+                String username = rs.getString("username");
+                userJson.addProperty("username", username);
+                String email = rs.getString("email");
+                userJson.addProperty("email", email);
+                return userJson;
+            } else {
+                // Means that the user doesn't exist
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*
+     * Methods related to fetching all entites from database
+     */
 
     // get all existing tracks' id
     public static synchronized JsonArray getAllTracksId() {
@@ -784,7 +809,9 @@ public class Query {
         }
     }
 
-    // All methods related to homepage
+    /*
+     * Methods related to homepage
+     */
 
     // get some random number of tracks
     public static synchronized JsonArray getRandomTracks(int amount) {
@@ -911,9 +938,10 @@ public class Query {
         return homePageJson;
     }
 
+    /*
+     * Miscellaneous methods
+     */
 
-
-    // Miscellaneous methods
 
     // select some random elements from a json array
     public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
