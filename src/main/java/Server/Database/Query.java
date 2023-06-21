@@ -772,12 +772,6 @@ public class Query {
                 String username = rs.getString("username");
                 user.addProperty("username", username);
 
-                String email = rs.getString("email");
-                user.addProperty("email" , email);
-
-                String password = rs.getString("password");
-                user.addProperty("password" , password);
-
                 String profilePath = rs.getString("profile_path");
                 user.addProperty("profilePath" , profilePath);
 
@@ -883,6 +877,9 @@ public class Query {
 
                 String profilePath = rs.getString("profile_path");
                 music.addProperty("profilePath" , profilePath);
+
+                String trackPath = rs.getString("track_path");
+                music.addProperty("trackPath" , trackPath);
 
                 String releaseDate = rs.getString("release_date");
                 music.addProperty("releaseDate" , releaseDate);
