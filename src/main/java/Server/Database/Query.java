@@ -956,4 +956,73 @@ public class Query {
         }
     }
 
+
+    public static synchronized JsonArray searchAlbum (String userInput){
+        final String query = """
+                SELECT * FROM Album
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , userInput );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray albumsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject album = new JsonObject();
+
+                String albumId = rs.getString("album_id");
+                album.addProperty("albumId", albumId);
+
+                String title = rs.getString("title");
+                album.addProperty("title", title);
+
+                String artistId = rs.getString("artist_id");
+                album.addProperty("artistId", artistId);
+
+                String genreId = rs.getString("genre_id");
+                album.addProperty("gereId" , genreId);
+
+                String profilePath = rs.getString("profile_path");
+                album.addProperty("profilePath" , profilePath);
+
+                String releaseDate = rs.getString("release_date");
+                album.addProperty("releaseDate" , releaseDate);
+
+                int popularity = rs.getInt("popularity");
+                album.addProperty("popularity" , popularity);
+
+
+                albumsResult.add(album);
+            }
+
+            if (albumsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return albumsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonObject search (String userInput){
+
+        JsonObject searchResult = new JsonObject();
+
+        searchResult.add("usersResult" , searchUser(userInput));
+        searchResult.add("playlistsResult" , searchPlaylist(userInput));
+        searchResult.add("musicsResult" , searchMusic(userInput));
+        searchResult.add("artistsResult" , searchArtist(userInput));
+        searchResult.add("albumResult" , searchAlbum(userInput));
+
+
+        return searchResult;
+    }
+
 }
