@@ -768,8 +768,13 @@ public class Query {
                 
                 String username = rs.getString("username");
                 userJson.addProperty("username", username);
+
                 String email = rs.getString("email");
                 userJson.addProperty("email", email);
+
+                String profilePath = rs.getString("profile_path");
+                userJson.addProperty("profilePath", profilePath);
+
                 return userJson;
             } else {
                 // Means that the user doesn't exist
@@ -810,7 +815,7 @@ public class Query {
     }
 
     /*
-     * Methods related to homepage
+     * Methods related to pages
      */
 
     // get some random number of tracks
@@ -895,7 +900,7 @@ public class Query {
     }
 
     // get all users a given user has followed
-    public static synchronized JsonArray getFollowedUsers(UUID userId) {
+    public static synchronized JsonArray getUsersFollowings(UUID userId) {
         JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
         JsonArray followedUserdId = new JsonArray();
         for(JsonElement followedUserIdString: followedUsersId) {
@@ -908,11 +913,11 @@ public class Query {
 
     // get all followed users' playlists of a given user (if they're public)
     public static synchronized JsonArray getFollowedUsersPlaylists(UUID userId) {
-        JsonArray followedUsers = getFollowedUsers(userId);
+        JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
         JsonArray usersPlaylists = new JsonArray();
 
         // loop over users and get the their playlists
-        for(JsonElement followedUserElement: followedUsers) {
+        for(JsonElement followedUserElement: followedUsersId) {
             UUID followedUserId = UUID.fromString(followedUserElement.getAsString());
             JsonArray playlists = getCreatedPlaylists(followedUserId);
             for(JsonElement playlist: playlists) {
@@ -925,6 +930,18 @@ public class Query {
             }
         }
         return usersPlaylists;
+    }  
+
+    // get all users a given user has followed
+    public static synchronized JsonArray getUsersFollowers(UUID userId) {
+        JsonArray followedUsersId = getSubjectsFromHistory(userId, "USER_FOLLOW_USER");
+        JsonArray followedUserdId = new JsonArray();
+        for(JsonElement followedUserIdString: followedUsersId) {
+            UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
+            // get user's meta-data
+            followedUserdId.add(getUser(followedUserId));
+        }
+        return followedUserdId;
     }
 
     // get all meta data a user needs for their homepage
@@ -936,6 +953,27 @@ public class Query {
         homePageJson.add("randomMusicsResult", getRandomTracks(8));
 
         return homePageJson;
+    }
+
+    // get all meta data a user needs for their page
+    public static synchronized JsonObject getUserPage(UUID userId) {
+        // User page consists of a user's info plus other things
+        JsonObject userPage = getUser(userId);
+
+        JsonArray createdPlaylists = getCreatedPlaylists(userId);
+        userPage.add("createdPlaylists", createdPlaylists);
+
+        JsonArray likedPlaylists = getLikedPlaylists(userId);
+        userPage.add("likedPlaylists", likedPlaylists);
+
+        JsonArray followers = getUsersFollowers(userId);
+        userPage.add("followers", followers);
+
+        JsonArray followings = getUsersFollowings(userId);
+        userPage.add("followings", followings);
+
+        return userPage;
+
     }
 
     /*
