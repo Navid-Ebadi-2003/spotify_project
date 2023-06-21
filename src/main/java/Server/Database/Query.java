@@ -850,7 +850,110 @@ public class Query {
         }
     }
 
-    
 
+    public static synchronized JsonArray searchMusic (String userInput){
+        final String query = """
+                SELECT * FROM Music
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , userInput );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray musicsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject music = new JsonObject();
+
+                String trackId = rs.getString("track_id");
+                music.addProperty("trackId", trackId);
+
+                String title = rs.getString("title");
+                music.addProperty("title", title);
+
+                String artistId = rs.getString("artist_id");
+                music.addProperty("artistId" , artistId);
+
+                String albumId = rs.getString("album_id");
+                music.addProperty("albumId" , albumId);
+
+                String genreId = rs.getString("genre_id");
+                music.addProperty("genreId" , genreId);
+
+                String profilePath = rs.getString("profile_path");
+                music.addProperty("profilePath" , profilePath);
+
+                String releaseDate = rs.getString("release_date");
+                music.addProperty("releaseDate" , releaseDate);
+
+                int popularity = rs.getInt("popularity");
+                music.addProperty("popularity" , popularity);
+
+                int duration = rs.getInt("duration");
+                music.addProperty("duration" , duration);
+
+                musicsResult.add(music);
+            }
+
+            if (musicsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return musicsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchArtist (String userInput){
+        final String query = """
+                SELECT * FROM Artist
+                WHERE name LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , userInput );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray artistsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject artist = new JsonObject();
+
+                String artistId = rs.getString("artist_id");
+                artist.addProperty("artistId", artistId);
+
+                String name = rs.getString("name");
+                artist.addProperty("name", name);
+
+                String genreId = rs.getString("genre_id");
+                artist.addProperty("gereId" , genreId);
+
+                String biography = rs.getString("biography");
+                artist.addProperty("biography" , biography);
+
+                String profilePath = rs.getString("profile_path");
+                artist.addProperty("profilePath" , profilePath);
+
+                artistsResult.add(artist);
+            }
+
+            if (artistsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return artistsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
