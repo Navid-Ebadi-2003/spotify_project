@@ -142,38 +142,11 @@ public class Service implements Runnable {
     }
 
     // Upload method to send "goHomePage" Results from the server to the client
-    public void uploadProfilePics(JsonArray jsonArray) throws IOException {
+    public void uploadFile(String filePathKey) throws IOException {
         OutputStream outputStream = serverSocket.getOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-        for (int i = 0; i < jsonArray.size(); i++) {
-            // Extract profilePath
-            JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();
-            String profilePath = arrayItem.get("profilePath").getAsString();
-            File file = new File(profilePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            // Send the file size to client
-            long fileSize = file.length();
-            dataOutputStream.writeLong(fileSize);
-
-            // Send the file data
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            dataOutputStream.flush();
-            outputStream.flush();
-            fileInputStream.close();
-        }
-    }
-    public void uploadProfilePic(String profilePath) throws IOException {
-        OutputStream outputStream = serverSocket.getOutputStream();
-        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-
-        File file = new File(profilePath);
+        File file = new File(filePathKey);
         FileInputStream fileInputStream = new FileInputStream(file);
 
         // Send the file size to client
@@ -191,31 +164,15 @@ public class Service implements Runnable {
         outputStream.flush();
         fileInputStream.close();
     }
-    public void uploadTracks(JsonArray jsonArray) throws IOException {
+    public void uploadFiles(JsonArray jsonArray, String filePathKey) throws IOException {
         OutputStream outputStream = serverSocket.getOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
         for (int i = 0; i < jsonArray.size(); i++) {
             // Extract profilePath
             JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();
-            String profilePath = arrayItem.get("profilePath").getAsString();
-            File file = new File(profilePath);
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            // Send the file size to client
-            long fileSize = file.length();
-            dataOutputStream.writeLong(fileSize);
-
-            // Send the file data
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            dataOutputStream.flush();
-            outputStream.flush();
-            fileInputStream.close();
+            String profilePath = arrayItem.get(filePathKey).getAsString();
+            uploadFile(profilePath);
         }
     }
     public void uploadHomePage(JsonObject jsonResults) throws IOException {
@@ -234,10 +191,10 @@ public class Service implements Runnable {
         JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
 
         // Uploading profile pictures
-        uploadProfilePics(createdPlaylistsJson);
-        uploadProfilePics(likedPlaylistsJson);
-        uploadProfilePics(likedMusicsJson);
-        uploadProfilePics(randomMusicsJson);
+        uploadFiles(createdPlaylistsJson, "profilePath");
+        uploadFiles(likedPlaylistsJson, "profilePath");
+        uploadFiles(likedMusicsJson, "profilePath");
+        uploadFiles(randomMusicsJson, "profilePath");
     }
     public void uploadSearchPage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResult:
@@ -257,11 +214,11 @@ public class Service implements Runnable {
         JsonArray usersJson = jsonResults.getAsJsonArray("usersResult");
 
         // Uploading profile pictures
-        uploadProfilePics(albumsJson);
-        uploadProfilePics(artistsJson);
-        uploadProfilePics(musicsJson);
-        uploadProfilePics(playlistsJson);
-        uploadProfilePics(usersJson);
+        uploadFiles(albumsJson, "profilePath");
+        uploadFiles(artistsJson, "profilePath");
+        uploadFiles(musicsJson, "profilePath");
+        uploadFiles(playlistsJson, "profilePath");
+        uploadFiles(usersJson, "profilePath");
     }
     public void uploadWatchUserPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
@@ -277,9 +234,9 @@ public class Service implements Runnable {
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylists");
 
         // Uploading profile pictures
-        uploadProfilePic(profilePath);
-        uploadProfilePics(createdPlaylistsJson);
-        uploadProfilePics(likedPlaylistsJson);
+        uploadFile(profilePath);
+        uploadFiles(createdPlaylistsJson, "profilePath");
+        uploadFiles(likedPlaylistsJson, "profilePath");
     }
     public void uploadWatchArtistPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
@@ -298,8 +255,8 @@ public class Service implements Runnable {
         JsonArray albumsJson = jsonResults.getAsJsonArray("albums");
 
         // Uploading profile pictures
-        uploadProfilePic(profilePath);
-        uploadProfilePics(albumsJson);
+        uploadFile(profilePath);
+        uploadFiles(albumsJson, "profilePath");
     }
     public void uploadWatchMusicPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
@@ -321,8 +278,8 @@ public class Service implements Runnable {
         String trackPath = jsonResults.get("trackPath").getAsString();
 
         // Uploading profile pictures
-        uploadProfilePic(profilePath);
-        uploadProfilePic(trackPath);
+        uploadFile(profilePath);
+        uploadFile(trackPath);
     }
     public void uploadWatchAlbum(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
@@ -341,9 +298,9 @@ public class Service implements Runnable {
         JsonArray tracksJson = jsonResults.getAsJsonArray("tracks");
 
         // Uploading profile pictures
-        uploadProfilePic(profilePath);
-        uploadProfilePics(tracksJson);
-        uploadTracks(tracksJson);
+        uploadFile(profilePath);
+        uploadFiles(tracksJson, "profilePath");
+        uploadFiles(tracksJson, "trackPath");
     }
     public void uploadWatchPlaylist(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
@@ -363,15 +320,15 @@ public class Service implements Runnable {
         JsonArray tracksJson = jsonResults.getAsJsonArray("tracks");
 
         // Uploading profile pictures
-        uploadProfilePic(profilePath);
-        uploadProfilePics(tracksJson);
-        uploadTracks(tracksJson);
+        uploadFile(profilePath);
+        uploadFiles(tracksJson, "profilePath");
+        uploadFiles(tracksJson, "trackPath");
     }
     public void uploadWatchLikedTracks(JsonArray jsonResults) throws IOException {
         // Template of jsonResults : [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
 
         // Uploading profile pictures
-        uploadProfilePics(jsonResults);
-        uploadTracks(jsonResults);
+        uploadFiles(jsonResults, "profilePath");
+        uploadFiles(jsonResults, "trackPath");
     }
 }
