@@ -127,7 +127,7 @@ public class Query {
     }
 
     // If null is returned(and the username exists) then that means the password is incorrect
-    public static synchronized JsonObject logIn(String username, String password) {
+    public static synchronized UUID logIn(String username, String password) {
         final String query = """
                 SELECT user_id,username,passowrd FROM User
                 WHERE username=?;
@@ -140,10 +140,10 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()) {
                 String storedPass = rs.getString("password");
-                UUID userid = UUID.fromString(rs.getString("user_id"));
+                UUID userId = UUID.fromString(rs.getString("user_id"));
                 // TODO: hash the password
                 if(storedPass.equals(storedPass)) {
-                    return getUser(userid);
+                    return userId;
                 } else {
                     // If null then it means that the password is incorrect
                     return null;
@@ -157,8 +157,7 @@ public class Query {
         }
     }
 
-    // Editing a user's info. Users can only edit their username,
-    // email or profile pictures
+    // Editing a user's info. Users can only edit their username, email or profile pictures
     public static synchronized void editUser(UUID userId, JsonObject newUserInfo) {
         final String query = """
                 UPDATE User
