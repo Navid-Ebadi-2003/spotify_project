@@ -75,22 +75,21 @@ public class Service implements Runnable {
                 if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)){
                     Query.signUpUser(userId, username, email, password);
                     // Consider removing userId from that response because we have to login again
-                    responseObject.signupRes(true, userId);
+                    responseObject.signupRes(true);
                 } else {
-                    responseObject.signupRes(false, userId);
+                    responseObject.signupRes(false);
                 }
             }
             case "login request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
-                UUID userId = UUID.randomUUID();
                 String username = requestBody.get("username").getAsString();
                 String password = requestBody.get("password").getAsString();
-                JsonObject userJson = Query.logIn(username, password);
+                UUID userId = Query.logIn(username, password);
 
-                if (userJson != null){
-                    responseObject.loginRes(true, userJson);
+                if (userId != null){
+                    responseObject.loginRes(true, userId);
                 } else {
-                    responseObject.loginRes(false, userJson);
+                    responseObject.loginRes(false, null);
                 }
             }
             case "go home page request" -> {
