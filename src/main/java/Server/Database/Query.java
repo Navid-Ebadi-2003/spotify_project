@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 
@@ -743,11 +747,176 @@ public class Query {
         }
     }
 
-    public static synchronized JsonArray getUsersLikedTracks(UUID userId) {
-        return getObjectsFromHistory(userId, "USER_LIKE_TRACK");
+
+
+    // get all existing tracks' id
+    public static synchronized JsonArray getAllTracksId() {
+        final String query = """
+            SELECT track_id FROM Music;
+            """;
+
+
+        try {
+            JsonArray tracks = new JsonArray();
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                tracks.add(rs.getString("track_id"));
+            }
+            return tracks;
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    // All methods related to homepage
+
+    // get some random number of tracks
+    public static synchronized JsonArray getRandomTracks(int amount) {
+        // get all tracks
+        JsonArray allTracksId = getAllTracksId();
+        // select some random tracks
+        JsonArray randomTracksId = getRandomElements(allTracksId, amount);
+
+        JsonArray randomTracks = new JsonArray();
+
+        for(JsonElement randomTrackId: randomTracksId) {
+            UUID trackId = UUID.fromString(randomTrackId.getAsString());
+            // get music's meta-data
+            randomTracks.add(getMusic(trackId));
+        }
+        return randomTracks;
+
+    }
+
+    // get all tracks a given user has liked
+    public static synchronized JsonArray getUsersLikedTracks(UUID userId) {
+        // get all user's liked tracks
+        JsonArray likedTracksId = getObjectsFromHistory(userId, "USER_LIKE_TRACK");
+        JsonArray likedTracks = new JsonArray();
+        for(JsonElement trackIdString: likedTracksId) {
+            UUID trackId = UUID.fromString(trackIdString.getAsString());
+            // get music's meta-data
+            likedTracks.add(getMusic(trackId));
+        }
+        return likedTracks;
+
+    }
+
+    // get all playlists a given user has created
     public static synchronized JsonArray getUsersPlaylists(UUID userId) {
-        return getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
+        // get all user's created playlists
+        JsonArray usersPlaylistId = getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
+        JsonArray usersPlaylist = new JsonArray();
+        for(JsonElement playlistIdString: usersPlaylistId) {
+            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
+            // get playlist's meta-data
+            usersPlaylist.add(getMusic(playlistId));
+        }
+        return usersPlaylist;
+    }
+
+    // get all playlists a given user has liked
+    public static synchronized JsonArray getUsersLikedPlaylists(UUID userId) {
+        JsonArray usersLikedPlaylistId = getObjectsFromHistory(userId, "USER_LIKE_PLAYLIST");
+        JsonArray usersLikedPlaylist = new JsonArray();
+        for(JsonElement playlistIdString: usersLikedPlaylistId) {
+            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
+            // get playlist's meta-data
+            usersLikedPlaylist.add(getPlaylist(playlistId));
+        }
+        return usersLikedPlaylist;
+    }
+
+    // get all albums a given user has liked
+    public static synchronized JsonArray getUsersLikedAlbums(UUID userId) {
+        JsonArray usersAlbumId = getObjectsFromHistory(userId, "USER_LIKE_ALBUM");
+        JsonArray usersAlbum = new JsonArray();
+        for(JsonElement albumIdString: usersAlbumId) {
+            UUID albumId = UUID.fromString(albumIdString.getAsString());
+            // get album's meta-data
+            usersAlbum.add(getAlbum(albumId));
+        }
+        return usersAlbum;
+    }
+
+    // get all artists a given user has followed
+    public static synchronized JsonArray getUsersFollowedArtists(UUID userId) {
+        JsonArray usersArtistsId = getObjectsFromHistory(userId, "USER_FOLLOW_ARTIST");
+        JsonArray usersArtists = new JsonArray();
+        for(JsonElement artistIdString: usersArtistsId) {
+            UUID artistId = UUID.fromString(artistIdString.getAsString());
+            // get artist's meta-data
+            usersArtists.add(getArtist(artistId));
+        }
+        return usersArtists;
+    }
+
+    // get all users a given user has followed
+    public static synchronized JsonArray getUsersFollowedUsers(UUID userId) {
+        JsonArray usersUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
+        JsonArray usersUsers = new JsonArray();
+        for(JsonElement userIdString: usersUsersId) {
+            UUID userFollowId = UUID.fromString(userIdString.getAsString());
+            // get user's meta-data
+            usersUsers.add(getUser(userFollowId));
+        }
+        return usersUsers;
+    }
+
+    // get all friends playlists of a given user (if they're public)
+    public static synchronized JsonArray getUsersFriendsPlaylists(UUID userId) {
+        JsonArray usersFriends = getUsersFollowedUsers(userId);
+        JsonArray friendsPlaylist = new JsonArray();
+
+        // loop over user's friends and get the friend's playlists
+        for(JsonElement userFriendElement: usersFriends) {
+            UUID userFriendId = UUID.fromString(userFriendElement.getAsString());
+            JsonArray friendPlaylists = getUsersPlaylists(userFriendId);
+            for(JsonElement friendPlaylist: friendPlaylists) {
+                UUID friendPlaylistId = UUID.fromString(friendPlaylist.getAsString());
+                JsonObject friendPlaylistJson = getPlaylist(friendPlaylistId);
+                // checking whether a playlists is private or not
+                if(friendPlaylistJson.get("isPrivate").getAsInt() == 0) {
+                    friendsPlaylist.add(friendPlaylistJson);
+                }
+            }
+        }
+        return friendsPlaylist;
+    }
+
+    // get all meta data a user needs for their homepage
+    public static synchronized JsonObject getHomePage(UUID userId) {
+        JsonObject homePageJson = new JsonObject();
+        homePageJson.add("likedMusicsResult", getUsersLikedTracks(userId));
+        homePageJson.add("createdPlaylistsResult", getUsersPlaylists(userId));
+        homePageJson.add("likedPlaylistsResult", getUsersLikedPlaylists(userId));
+        homePageJson.add("randomMusicsResult", getRandomTracks(8));
+
+        return homePageJson;
+    }
+
+
+
+    // Miscellaneous methods
+
+    // select some random elements from a json array
+    public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
+        Random rand = new Random();
+ 
+        JsonArray newArray = new JsonArray();
+        for (int i = 0; i < totalItems; i++) {
+ 
+            // take a random index between 0 to size of given jsonArray
+            int randomIndex = rand.nextInt(jsonArray.size());
+ 
+            // add element in temporary jsonArray
+            newArray.add(jsonArray.get(randomIndex));
+        }
+        return newArray;
     }
 }
