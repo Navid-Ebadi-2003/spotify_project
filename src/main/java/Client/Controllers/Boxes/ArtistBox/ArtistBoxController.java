@@ -12,7 +12,4 @@ public class ArtistBoxController {
 
     @FXML
     private Label artistTitle;
-
-    @FXML
-    private HBox artistHBox;
 }

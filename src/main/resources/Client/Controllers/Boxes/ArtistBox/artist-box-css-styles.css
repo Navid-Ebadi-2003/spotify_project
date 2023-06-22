@@ -15,8 +15,7 @@
 }
 
 #artist-label{
-    -fx-font-family: arial;
-    -fx-font-weight: bold;
-    -fx-text-fill: rgb(146,146,146);
-    -fx-font-size: 30;
+    -fx-text-fill: rgb(168,168,168);
+    -fx-font-size: 13;
+    -fx-font-family: CircularSp;
 }
