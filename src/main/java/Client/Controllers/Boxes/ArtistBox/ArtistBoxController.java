@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class ArtistBoxController {
     @FXML
-    private ImageView artistPicture;
+    private ImageView userPicture;
 
     @FXML
-    private Label artistTitle;
+    private Label username;
 }
