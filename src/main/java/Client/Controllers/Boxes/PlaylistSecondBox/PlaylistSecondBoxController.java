@@ -5,23 +5,29 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
+import java.util.UUID;
+
 public class PlaylistSecondBoxController {
     @FXML
     private Hyperlink creatorNameHyperLink;
 
     @FXML
-    private Hyperlink playlistHyperLink;
-
-    @FXML
     private ImageView playlistPicture;
 
     @FXML
-    public void goCreatorPage(ActionEvent event) {
+    private Hyperlink playlistTitleHyperLink;
+
+    // These store id of creator and playlist
+    private UUID creatorId;
+    private UUID playlistId;
+
+    @FXML
+    void goCreatorPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPlaylistPage(ActionEvent event) {
+    void goPlaylistPage(ActionEvent event) {
 
     }
 
@@ -29,27 +35,43 @@ public class PlaylistSecondBoxController {
         setter and getters
      */
 
+    public Hyperlink getCreatorNameHyperLink() {
+        return creatorNameHyperLink;
+    }
+
     public void setCreatorNameHyperLink(Hyperlink creatorNameHyperLink) {
         this.creatorNameHyperLink = creatorNameHyperLink;
     }
 
-    public void setPlaylistHyperLink(Hyperlink playlistHyperLink) {
-        this.playlistHyperLink = playlistHyperLink;
+    public ImageView getPlaylistPicture() {
+        return playlistPicture;
     }
 
     public void setPlaylistPicture(ImageView playlistPicture) {
         this.playlistPicture = playlistPicture;
     }
 
-    public Hyperlink getCreatorNameHyperLink() {
-        return creatorNameHyperLink;
+    public Hyperlink getPlaylistTitleHyperLink() {
+        return playlistTitleHyperLink;
     }
 
-    public Hyperlink getPlaylistHyperLink() {
-        return playlistHyperLink;
+    public void setPlaylistTitleHyperLink(Hyperlink playlistTitleHyperLink) {
+        this.playlistTitleHyperLink = playlistTitleHyperLink;
     }
 
-    public ImageView getPlaylistPicture() {
-        return playlistPicture;
+    public UUID getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(UUID creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public UUID getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(UUID playlistId) {
+        this.playlistId = playlistId;
     }
 }

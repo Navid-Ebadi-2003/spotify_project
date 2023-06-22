@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -22,10 +22,10 @@
          <image>
             <Image url="@../../../../Icons/unknownFile.png" />
          </image></ImageView>
-      <VBox prefHeight="80.0" prefWidth="77.0">
+      <VBox prefHeight="80.0" prefWidth="195.0">
          <children>
-            <Label id="music-label" fx:id="trackTitle" alignment="CENTER" prefHeight="31.0" prefWidth="78.0" text="Label" />
-            <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER" prefHeight="50.0" prefWidth="78.0" />
+            <Hyperlink id="track-title-hyperlink" fx:id="trackTitleHyperLink" onAction="#goToAlbumPage" prefHeight="35.0" prefWidth="198.0" text="TrackTitleHyperLink" />
+            <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="132.0" />
          </children>
       </VBox>
    </children>

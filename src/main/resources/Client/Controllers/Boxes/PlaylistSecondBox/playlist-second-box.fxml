@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox id="main-hbox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="188.0" stylesheets="@playlist-second-box-css-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="playlistPicture" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -16,7 +15,7 @@
       </ImageView>
       <VBox alignment="CENTER" prefHeight="58.0" prefWidth="128.0">
          <children>
-            <Hyperlink id="playlist-hyperlink" fx:id="playlistHyperLink" onAction="#goPlaylistPage" prefHeight="20.0" prefWidth="100.0" text="PlaylistTitle" />
+            <Hyperlink id="playlist-title-hyperlink" fx:id="playlistTitleHyperLink" onAction="#goPlaylistPage" prefHeight="20.0" prefWidth="100.0" text="PlaylistTitle" />
             <Hyperlink id="creator-name-hyperlink" fx:id="creatorNameHyperLink" onAction="#goCreatorPage" prefHeight="26.0" prefWidth="100.0" text="CreatorName" />
          </children>
       </VBox>
