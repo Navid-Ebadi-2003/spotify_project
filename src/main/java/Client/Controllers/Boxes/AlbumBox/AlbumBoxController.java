@@ -1,19 +1,33 @@
 package Client.Controllers.Boxes.AlbumBox;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class AlbumBoxController {
     @FXML
     private ImageView albumPicture;
 
     @FXML
-    private Label albumTitle;
+    private Hyperlink albumTitleHyperLink;
 
     @FXML
-    private HBox artistHBox;
+    private HBox artistsHbox;
+    // This is for sending request if a user clicks on hyperlink
+    private UUID albumId;
+    // This stores artistName, artistId
+    private HashMap<String, UUID> artists;
+
+    @FXML
+    public void goToAlbumPage(ActionEvent event) {
+
+    }
 
     /*
         setter and getters
@@ -27,19 +41,35 @@ public class AlbumBoxController {
         this.albumPicture = albumPicture;
     }
 
-    public Label getAlbumTitle() {
-        return albumTitle;
+    public Hyperlink getAlbumTitleHyperLink() {
+        return albumTitleHyperLink;
     }
 
-    public void setAlbumTitle(Label albumTitle) {
-        this.albumTitle = albumTitle;
+    public void setAlbumTitleHyperLink(Hyperlink albumTitleHyperLink) {
+        this.albumTitleHyperLink = albumTitleHyperLink;
     }
 
-    public HBox getArtistHBox() {
-        return artistHBox;
+    public HBox getArtistsHbox() {
+        return artistsHbox;
     }
 
-    public void setArtistHBox(HBox artistHBox) {
-        this.artistHBox = artistHBox;
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
+    }
+
+    public UUID getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(UUID albumId) {
+        this.albumId = albumId;
+    }
+
+    public HashMap<String, UUID> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(HashMap<String, UUID> artists) {
+        this.artists = artists;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -12,7 +12,7 @@
          <image>
             <Image url="@../../../../Icons/unknownFile.png" />
          </image></ImageView>
-      <Label id="middle-label" fx:id="albumTitle" alignment="CENTER" prefHeight="46.0" prefWidth="209.0" text="Title" />
-      <HBox id="hbox" fx:id="artistHBox" alignment="CENTER" prefHeight="88.0" prefWidth="200.0" />
+      <Hyperlink id="album-title-hyperlink" fx:id="albumTitleHyperLink" alignment="CENTER" onAction="#goToAlbumPage" prefHeight="24.0" prefWidth="199.0" text="AlbumTitle" />
+      <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER" prefHeight="88.0" prefWidth="200.0" />
    </children>
 </VBox>

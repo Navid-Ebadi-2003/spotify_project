@@ -3,58 +3,37 @@ package Client.Controllers.Boxes.ArtistBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+import java.util.UUID;
+
 
 public class ArtistBoxController {
     @FXML
-    private HBox albumsHbox;
-
-    @FXML
-    private Text artistAboutText;
-
-    @FXML
-    private Label artistName;
+    private Hyperlink artistHyperLink;
 
     @FXML
     private ImageView artistPicture;
+    private UUID artistId;
 
     @FXML
-    private Button followButton;
-
-    @FXML
-    void toggleFollow(ActionEvent event) {
+    void goToArtistPage(ActionEvent event) {
 
     }
     /*
         setter and getters
      */
 
-    public HBox getAlbumsHbox() {
-        return albumsHbox;
+    public Hyperlink getArtistHyperLink() {
+        return artistHyperLink;
     }
 
-    public void setAlbumsHbox(HBox albumsHbox) {
-        this.albumsHbox = albumsHbox;
-    }
-
-    public Text getArtistAboutText() {
-        return artistAboutText;
-    }
-
-    public void setArtistAboutText(Text artistAboutText) {
-        this.artistAboutText = artistAboutText;
-    }
-
-    public Label getArtistName() {
-        return artistName;
-    }
-
-    public void setArtistName(Label artistName) {
-        this.artistName = artistName;
+    public void setArtistHyperLink(Hyperlink artistHyperLink) {
+        this.artistHyperLink = artistHyperLink;
     }
 
     public ImageView getArtistPicture() {
@@ -65,11 +44,11 @@ public class ArtistBoxController {
         this.artistPicture = artistPicture;
     }
 
-    public Button getFollowButton() {
-        return followButton;
+    public UUID getArtistId() {
+        return artistId;
     }
 
-    public void setFollowButton(Button followButton) {
-        this.followButton = followButton;
+    public void setArtistId(UUID artistId) {
+        this.artistId = artistId;
     }
 }

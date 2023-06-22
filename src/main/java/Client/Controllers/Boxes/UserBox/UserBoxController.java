@@ -5,12 +5,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
+import java.util.UUID;
+
 public class UserBoxController {
     @FXML
     private ImageView userPicture;
 
     @FXML
     private Hyperlink usernameHyperLink;
+    // This stores id of the user
+    private UUID userId;
 
     @FXML
     void goToUserPage(ActionEvent event) {
@@ -34,5 +38,13 @@ public class UserBoxController {
 
     public void setUsernameHyperLink(Hyperlink usernameHyperLink) {
         this.usernameHyperLink = usernameHyperLink;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

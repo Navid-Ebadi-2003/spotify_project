@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
@@ -11,7 +11,7 @@
          <image>
             <Image url="@../../../../Icons/unknownFile.png" />
          </image></ImageView>
-      <Label id="middle-label" fx:id="playlistTitle" alignment="CENTER" prefHeight="46.0" prefWidth="209.0" text="Title" />
-      <Label id="creator-name" fx:id="playlistCreatorName" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="200.0" text="creatorLabel" />
+      <Hyperlink id="playlist-title-hyperlink" fx:id="playlistTitleHyperLink" alignment="CENTER" onAction="#goToPlaylistPage" prefHeight="35.0" prefWidth="198.0" text="PlaylistTitle" />
+      <Hyperlink id="playlist-creator-hyperlink" fx:id="creatorNameHyperLink" alignment="CENTER" onAction="#goToCreatorPage" prefHeight="24.0" prefWidth="199.0" text="CreatorName" />
    </children>
 </VBox>

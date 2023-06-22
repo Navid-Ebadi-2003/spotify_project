@@ -3,9 +3,13 @@ package Client.Controllers.Boxes.MusicThirdBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class MusicThirdBoxController {
     @FXML
@@ -21,10 +25,19 @@ public class MusicThirdBoxController {
     private ImageView trackPicture;
 
     @FXML
-    private Label trackTitle;
+    private Hyperlink trackTitleHyperLink;
+    // This stores id of the track
+    private UUID trackId;
+    // This stores artistName, artistId
+    private HashMap<String, UUID> artists;
 
     @FXML
     void downPlay(ActionEvent event) {
+
+    }
+
+    @FXML
+    void goToAlbumPage(ActionEvent event) {
 
     }
     /*
@@ -63,11 +76,27 @@ public class MusicThirdBoxController {
         this.trackPicture = trackPicture;
     }
 
-    public Label getTrackTitle() {
-        return trackTitle;
+    public Hyperlink getTrackTitleHyperLink() {
+        return trackTitleHyperLink;
     }
 
-    public void setTrackTitle(Label trackTitle) {
-        this.trackTitle = trackTitle;
+    public void setTrackTitleHyperLink(Hyperlink trackTitleHyperLink) {
+        this.trackTitleHyperLink = trackTitleHyperLink;
+    }
+
+    public UUID getTrackId() {
+        return trackId;
+    }
+
+    public void setTrackId(UUID trackId) {
+        this.trackId = trackId;
+    }
+
+    public HashMap<String, UUID> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(HashMap<String, UUID> artists) {
+        this.artists = artists;
     }
 }
