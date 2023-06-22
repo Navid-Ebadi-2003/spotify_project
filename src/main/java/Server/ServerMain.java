@@ -1,5 +1,8 @@
 package Server;
 
+import Server.Database.DBConnection;
+import Server.Database.Query;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +13,9 @@ public class ServerMain {
             //Establishing server connection
             ServerSocket serverSocket = new ServerSocket(8888);
             System.out.println("SERVER HAS STARTED LISTENING ON PORT '8888'");
+
+            DBConnection dbConnection = new DBConnection();
+            Query query = new Query(dbConnection.getConnection());
 
             while (true){
                 //Waiting for clients to connect

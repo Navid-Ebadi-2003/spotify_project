@@ -63,7 +63,7 @@
                   </PasswordField>
                </children>
             </VBox>
-            <Button fx:id="loginPageButton" mnemonicParsing="false" onAction="#goLoginPage" prefHeight="45.0" prefWidth="211.0" stylesheets="@../../css-styles/early-pages-label-buttons.css" text="Log In">
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="211.0" stylesheets="@../../css-styles/early-pages-label-buttons.css" text="Log In">
                <font>
                   <Font name="System Bold" size="1.0" />
                </font>

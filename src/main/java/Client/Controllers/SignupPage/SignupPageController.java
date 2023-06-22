@@ -1,13 +1,12 @@
 package Client.Controllers.SignupPage;
 
-import Client.Controllers.WelcomePage.WelcomePageController;
+import Client.Controllers.LoginPage.LoginPageController;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,8 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class SignupPageController {
@@ -47,6 +44,8 @@ public class SignupPageController {
         FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
         try {
             Scene loginScene = new Scene(loginPageLoader.load());
+            LoginPageController loginPageController = loginPageLoader.getController();
+            loginPageController.setter(clientSocket);
             currentStage.setScene(loginScene);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -64,10 +63,19 @@ public class SignupPageController {
         // Receiving response from server
         String response = in.nextLine();
         JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
-        boolean result = jsonResponse.get("result").getAsBoolean();
+        JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
+        boolean result = responseBody.get("result").getAsBoolean();
         if (result){
-            ActionEvent e = new ActionEvent();
-            goLoginPage(e);
+            Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+            FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
+            try {
+                Scene loginScene = new Scene(loginPageLoader.load());
+                LoginPageController loginPageController = loginPageLoader.getController();
+                loginPageController.setter(clientSocket);
+                currentStage.setScene(loginScene);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             //TODO
         }
