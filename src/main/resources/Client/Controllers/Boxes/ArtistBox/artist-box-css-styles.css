@@ -13,3 +13,10 @@
     -fx-font-size: 15;
     -fx-font-family: Arial;
 }
+
+#artist-label{
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgb(146,146,146);
+    -fx-font-size: 30;
+}

@@ -4,10 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.awt.*;
+
 public class ArtistBoxController {
     @FXML
-    private HBox artistHBox;
+    private ImageView artistPicture;
 
     @FXML
-    private ImageView artistPicture;
+    private Label artistTitle;
+
+    @FXML
+    private HBox artistHBox;
 }
