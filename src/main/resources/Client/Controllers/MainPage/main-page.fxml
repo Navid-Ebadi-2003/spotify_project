@@ -14,7 +14,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox prefHeight="606.0" prefWidth="208.0" spacing="10.0" style="-fx-background-color: rgb(20,20,20);" BorderPane.alignment="CENTER">
+      <VBox id="left-vbox" prefHeight="606.0" prefWidth="208.0" spacing="10.0" stylesheets="@main-page-items.css" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="201.0" spacing="10.0">
                <children>
@@ -75,7 +75,7 @@
       </VBox>
    </left>
    <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="931.0" style="-fx-background-color: rgb(20,20,20);" BorderPane.alignment="CENTER">
+      <HBox id="top-hbox" alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="931.0" BorderPane.alignment="CENTER">
          <children>
             <SplitMenuButton mnemonicParsing="false" prefHeight="56.0" prefWidth="58.0" stylesheets="@main-page-items.css">
               <items>
@@ -93,7 +93,7 @@
          </children></HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="90.0" prefWidth="930.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+      <HBox id="bottom-hbox" alignment="CENTER" prefHeight="90.0" prefWidth="930.0" stylesheets="@main-page-items.css" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="90.0" prefWidth="427.0" />
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="427.0">
@@ -149,7 +149,7 @@
                   </Button>
                   <Button mnemonicParsing="false" prefHeight="11.0" prefWidth="191.0">
                      <graphic>
-                        <Slider max="200.0" prefHeight="20.0" prefWidth="190.0" value="100.0" />
+                        <Slider max="200.0" prefHeight="0.0" prefWidth="169.0" stylesheets="@main-page-items.css" value="100.0" />
                      </graphic>
                   </Button>
                </children>

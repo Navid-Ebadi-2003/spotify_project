@@ -1,5 +1,8 @@
-#main-anchor-pane {
-    -fx-background-color: rgb(20,20,20);
+/*#main-anchor-pane {*/
+/*    -fx-background-color: rgb(20,20,20);*/
+/*}*/
+.root {
+    -fx-background-color: rgb(0,0,0);
 }
 
 .label {
@@ -12,10 +15,6 @@
 /*
     scroll-pane css styles
  */
-
-.scroll-pane > .viewport {
-    -fx-background-color: transparent;
-}
 
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
