@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="main-vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController">
+<VBox id="main-vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" stylesheets="@music-main-box-css-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController">
    <children>
       <ImageView fx:id="trackPicture" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
