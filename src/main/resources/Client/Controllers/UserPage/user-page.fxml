@@ -69,15 +69,15 @@
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="profilePicture" fx:id="profilePicture" fitHeight="150.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../Icons/unknownFile.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="followButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Follow" />
+                  <Button id="followButton" fx:id="followButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Follow" />
                </children>
             </VBox>
-            <Label fx:id="username" alignment="CENTER" text="username" />
+            <Label id="username" fx:id="username" alignment="CENTER" text="username" />
          </children>
       </HBox>
     </children>
