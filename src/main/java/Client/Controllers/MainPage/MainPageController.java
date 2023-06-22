@@ -1,13 +1,23 @@
 package Client.Controllers.MainPage;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-public class MainPageController {
+import java.io.IOException;
+import java.net.Socket;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.UUID;
+
+public class MainPageController implements Initializable {
 
     @FXML
     private MenuItem accountPageButton;
@@ -69,64 +79,96 @@ public class MainPageController {
     @FXML
     private ImageView shuffleButtonIcon;
 
+    private Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private UUID userId;
+
     @FXML
-    void createPlaylist(ActionEvent event) {
+    public void createPlaylist(ActionEvent event) {
 
     }
 
     @FXML
-    void goAccountPage(ActionEvent event) {
+    public void goAccountPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goHomePage(ActionEvent event) {
+    public void goHomePage(ActionEvent event) {
 
     }
 
     @FXML
-    void goLyricsPage(ActionEvent event) {
+    public void goLyricsPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goNextTrack(ActionEvent event) {
+    public void goNextTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void goPlaylistPage(ActionEvent event) {
+    public void goPlaylistPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goPreviousTrack(ActionEvent event) {
+    public void goPreviousTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void goProfilePage(ActionEvent event) {
+    public void goProfilePage(ActionEvent event) {
 
     }
 
     @FXML
-    void goSearchPage(ActionEvent event) {
+    public void goSearchPage(ActionEvent event) {
 
     }
 
     @FXML
-    void logout(ActionEvent event) {
+    public void logout(ActionEvent event) {
 
     }
 
     @FXML
-    void playStopTrack(ActionEvent event) {
+    public void playStopTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void shufflePlaylist(ActionEvent event) {
+    public void shufflePlaylist(ActionEvent event) {
 
     }
 
+    /*
+        methods related to initializing object
+     */
+
+
+
+    public void setter(Socket clientSocket, UUID userId) {
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(clientSocket);
+        this.userId = userId;
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException io){
+            io.printStackTrace();
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
+        try {
+            this.pageHolder.setContent(homePageLoader.load());
+
+        } catch (IOException io){
+
+        }
+    }
 }
