@@ -1,11 +1,11 @@
-package Client.Controllers.Boxes.MusicSecondBox;
+package Client.Controllers.Boxes.MusicThirdBox;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class MusicSecondBoxController {
+public class MusicThirdBoxController {
     @FXML
     private HBox artistsHbox;
 
@@ -13,5 +13,5 @@ public class MusicSecondBoxController {
     private ImageView trackPicture;
 
     @FXML
-    private Hyperlink trackTitle;
+    private Label trackTitle;
 }

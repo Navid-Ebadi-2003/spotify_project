@@ -2,13 +2,20 @@
     -fx-background-color: rgb(40,40,40);
 }
 #middle-label {
-    -fx-font-family: arial;
     -fx-font-weight: bold;
     -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 15;
+    -fx-font-size: 18;
+    -fx-font-family: CircularSp;
 }
 
 #hbox .label{
     -fx-text-fill: rgb(168,168,168);
-    -fx-font-size: 12;
+    -fx-font-size: 11;
+    -fx-font-family: CircularSp;
+}
+
+#creator-name{
+    -fx-text-fill: rgb(168,168,168);
+    -fx-font-size: 13;
+    -fx-font-family: CircularSp;
 }

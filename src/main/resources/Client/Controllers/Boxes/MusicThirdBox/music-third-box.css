@@ -1,0 +1,16 @@
+#main-hbox {
+    -fx-background-color: rgb(20,20,20);
+}
+
+#music-label {
+    -fx-font-family: CircularSp;
+    -fx-font-size: 18;
+    -fx-text-fill: rgb(256,256,256);
+    -fx-font-weight: bold;
+}
+
+#artists-hbox .hyperlink {
+    -fx-font-family: CircularSp;
+    -fx-font-size: 10;
+    -fx-text-fill: rgb(256,256,256);
+}
