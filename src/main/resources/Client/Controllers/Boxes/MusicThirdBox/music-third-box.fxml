@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Client.Controllers.Boxes.MusicThirdBox.MusicThirdBox"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<HBox id="main-hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1072.0" stylesheets="@music-third-box.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="trackPicture" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox prefHeight="80.0" prefWidth="77.0">
+         <children>
+            <Label id="music-label" fx:id="trackTitle" alignment="CENTER" prefHeight="31.0" prefWidth="78.0" text="Label" />
+            <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER" prefHeight="50.0" prefWidth="78.0" />
+         </children>
+      </VBox>
+   </children>
+</HBox>
