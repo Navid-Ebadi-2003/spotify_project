@@ -22,4 +22,48 @@ public class ArtistPageController {
 
     @FXML
     private Label artistName;
+
+    /*
+        setter and getters
+     */
+
+    public HBox getAlbumsHBox() {
+        return albumsHBox;
+    }
+
+    public void setAlbumsHBox(HBox albumsHBox) {
+        this.albumsHBox = albumsHBox;
+    }
+
+    public Label getAboutArtist() {
+        return aboutArtist;
+    }
+
+    public void setAboutArtist(Label aboutArtist) {
+        this.aboutArtist = aboutArtist;
+    }
+
+    public ImageView getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(ImageView profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public Button getFollowButton() {
+        return followButton;
+    }
+
+    public void setFollowButton(Button followButton) {
+        this.followButton = followButton;
+    }
+
+    public Label getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(Label artistName) {
+        this.artistName = artistName;
+    }
 }

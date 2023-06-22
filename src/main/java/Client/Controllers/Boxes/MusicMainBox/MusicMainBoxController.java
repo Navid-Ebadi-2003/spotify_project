@@ -22,5 +22,31 @@ public class MusicMainBoxController {
     void goToAlbumPage(ActionEvent event) {
 
     }
+    /*
+        setter and getters
+     */
 
+    public HBox getArtistHBox() {
+        return artistHBox;
+    }
+
+    public void setArtistHBox(HBox artistHBox) {
+        this.artistHBox = artistHBox;
+    }
+
+    public ImageView getTrackPicture() {
+        return trackPicture;
+    }
+
+    public void setTrackPicture(ImageView trackPicture) {
+        this.trackPicture = trackPicture;
+    }
+
+    public Hyperlink getTrackTitle() {
+        return trackTitle;
+    }
+
+    public void setTrackTitle(Hyperlink trackTitle) {
+        this.trackTitle = trackTitle;
+    }
 }
