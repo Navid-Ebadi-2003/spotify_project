@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+
+<TextFlow id="lyrics-flow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="1072.0" stylesheets="@lyrics-page.css" textAlignment="CENTER" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="lyricsText" fill="#fffdfd" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="805.7011108398438">
+         <font>
+            <Font name="Arial Black" size="29.0" />
+         </font>
+      </Text>
+   </children>
+</TextFlow>

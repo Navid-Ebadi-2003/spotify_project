@@ -45,14 +45,18 @@
     -fx-region-background: black;
 }
 
-.button {
+#main-anchor-pane {
     -fx-background-color: rgb(20,20,20);
 }
 
-.text-field {
-    -fx-background-radius: 20px;
-    -fx-background-color: rgb(36,36,36);
-    -fx-font-family: Arial;
-    -fx-font-size: 15;
-    -fx-text-fill: rgb(111,111,111);
+
+#artistName {
+    -fx-font-size : 60;
+}
+
+#followButton {
+    -fx-font-size : 15;
+    -fx-background-color: transparent;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-border-color: rgb(255,255,255);
 }
