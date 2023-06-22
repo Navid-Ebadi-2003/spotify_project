@@ -104,21 +104,14 @@
     -fx-background-radius: 20px;
 }
 
-#topHbox {
+#top-hbox {
     -fx-background-color: rgb(20,20,20);
 }
 
-#leftVbox {
+#left-vbox {
     -fx-background-color: rgb(20,20,20);
 }
 
-#buttomHbox {
+#bottom-hbox {
     -fx-background-color: rgb(0,0,0);
-}
-
-#volumeSlider .track{
-    -fx-background-color: rgb(256,256,256);
-}
-#volumeSlider .thumb{
-    
 }
