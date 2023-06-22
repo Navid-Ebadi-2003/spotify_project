@@ -36,4 +36,16 @@ public class PlaylistSecondBoxController {
     public void setPlaylistPicture(ImageView playlistPicture) {
         this.playlistPicture = playlistPicture;
     }
+
+    public Hyperlink getCreatorNameHyperLink() {
+        return creatorNameHyperLink;
+    }
+
+    public Hyperlink getPlaylistHyperLink() {
+        return playlistHyperLink;
+    }
+
+    public ImageView getPlaylistPicture() {
+        return playlistPicture;
+    }
 }
