@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 
 public class PlaylistMainBoxController {
     @FXML
-    private HBox creatorHBox;
+    private HBox artistHBox;
 
     @FXML
     private ImageView playlistPicture;
