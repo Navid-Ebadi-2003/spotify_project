@@ -8,8 +8,14 @@
     -fx-font-family: CircularSp;
 }
 
-#hbox .label{
+#hbox .hyperlink{
     -fx-text-fill: rgb(168,168,168);
     -fx-font-size: 11;
+    -fx-font-family: CircularSp;
+}
+
+#track-title {
+    -fx-text-fill: rgb(256,256,256);
+    -fx-font-size: 18;
     -fx-font-family: CircularSp;
 }
