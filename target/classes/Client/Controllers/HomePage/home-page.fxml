@@ -6,20 +6,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="main-anchor-pane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.HomePage.HomePageController">
+<AnchorPane id="main-anchor-pane" fx:id="homePageAnchorPane" prefHeight="652.0" prefWidth="1072.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.HomePage.HomePageController">
    <children>
-      <VBox layoutX="-1.0" prefHeight="600.0" prefWidth="800.0">
+      <VBox layoutX="-1.0" prefHeight="652.0" prefWidth="1072.0" spacing="20.0">
          <children>
-            <VBox spacing="10.0">
+            <VBox prefHeight="325.0" prefWidth="1072.0" spacing="10.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="188.0" text="Suggested Musics" />
+                  <Label prefHeight="25.0" prefWidth="1072.0" text="Suggested Musics" />
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="300.0" prefWidth="200.0">
+                     <content>
+                        <HBox fx:id="suggestedMusicsHbox" prefHeight="276.0" prefWidth="1027.0" />
+                     </content>
+                  </ScrollPane>
                </children>
             </VBox>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER">
-               <content>
-                  <HBox fx:id="tracksHBox" prefHeight="186.0" prefWidth="800.0" spacing="15.0" />
-               </content>
-            </ScrollPane>
+            <VBox prefHeight="325.0" prefWidth="1072.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="1072.0" text="Musics you like" />
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="300.0" prefWidth="200.0">
+                     <content>
+                        <HBox fx:id="likedMusicsHbox" prefHeight="276.0" prefWidth="1027.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>
