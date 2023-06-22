@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="main-anchor-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1072.0" stylesheets="@album-page.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="-0.800000011920929" layoutY="-0.800000011920929">
+         <children>
+            <HBox id="top-hbox" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="1072.0">
+               <children>
+                  <ImageView fx:id="albumPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Icons/unknownFile.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <Label id="album-label" prefHeight="18.0" prefWidth="580.0" text="Album" />
+                        <Label id="album-title" fx:id="albumTitle" prefHeight="118.0" prefWidth="578.0" text="Album Title" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <ScrollPane fx:id="bottomScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="200.0" vbarPolicy="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
