@@ -1,5 +1,10 @@
 package Client.Controllers.MainPage;
+import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Shared.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.lang.management.GarbageCollectorMXBean;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.UUID;
@@ -163,12 +171,32 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
+            // Setting putting homePage into pageHolder
             this.pageHolder.setContent(homePageLoader.load());
+            // Sending goHomePageRequest
+            requestObject.goHomePageReq(userId);
+            // Receiving response
+            String response = in.nextLine();
+            JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
+
 
         } catch (IOException io){
 
+        }
+    }
+
+    public ArrayList<HBox> buildLeftSidePlaylists(JsonObject jsonResults) {
+        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+        ArrayList<HBox> playlistBoxes = new ArrayList<>();
+        for (JsonElement arrayItem : createdPlaylistsJson) {
+            FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
+            PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
+            arrayItem = (JsonObject) arrayItem;
+            // Fill its controller
         }
     }
 }
