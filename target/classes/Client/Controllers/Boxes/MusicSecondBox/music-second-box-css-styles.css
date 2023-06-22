@@ -1,14 +1,16 @@
-#main-vbox {
-    -fx-background-color: rgb(40,40,40);
-}
-#middle-label {
-    -fx-font-family: arial;
-    -fx-font-weight: bold;
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-font-size: 15;
+#main-hbox {
+    -fx-background-color: rgb(0,0,0);
 }
 
-#hbox .label{
-    -fx-text-fill: rgb(168,168,168);
-    -fx-font-size: 12;
+#trackTitle {
+    -fx-text-fill: rgb(255,255,255);
+    -fx-font-size: 16;
+    -fx-font-family: CircularSp;
+    -fx-font-weight: bold;
+}
+
+#artistsHbox .hyperlink{
+    -fx-font-family: CircularSp;
+    -fx-text-fill: rgb(255,255,255);
+    -fx-font-size: 13;
 }
