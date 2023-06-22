@@ -2,17 +2,17 @@
     -fx-background-color: rgb(20,20,20);
 }
 
-#music-label {
-    -fx-font-family: CircularSp;
-    -fx-font-size: 18;
-    -fx-text-fill: rgb(256,256,256);
+#track-title-hyperlink {
     -fx-font-weight: bold;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 18;
+    -fx-font-family: CircularSp;
 }
 
 #artists-hbox .hyperlink {
+    -fx-text-fill: rgb(145,145,145);
+    -fx-font-size: 14;
     -fx-font-family: CircularSp;
-    -fx-font-size: 10;
-    -fx-text-fill: rgb(256,256,256);
 }
 
 #down-play-button {
