@@ -7,7 +7,9 @@ import java.util.UUID;
 public class Album {
     private UUID albumId;
     private String title;
-    private UUID artistId;
+
+    // Changed datatype of artistId to ArrayList<UUID> because an album could belong to multiple artists
+    private ArrayList<UUID> artistId;
     private UUID genreId;
     private LocalDate releaseDate;
     private int popularity;
@@ -18,7 +20,7 @@ public class Album {
 
     //Constructor
 
-    public Album(UUID albumId, String title, UUID artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<UUID> tracks, String profilePath) {
+    public Album(UUID albumId, String title, ArrayList<UUID> artistId, UUID genreId, LocalDate releaseDate, int popularity, ArrayList<UUID> tracks, String profilePath) {
         this.albumId = albumId;
         this.title = title;
         this.artistId = artistId;
@@ -40,7 +42,7 @@ public class Album {
         return title;
     }
 
-    public UUID getArtistId() {
+    public ArrayList<UUID> getArtistId() {
         return artistId;
     }
 
