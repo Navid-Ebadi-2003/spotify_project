@@ -16,12 +16,24 @@ public class PlaylistSecondBoxController {
     private ImageView playlistPicture;
 
     @FXML
-    void goCreatorPage(ActionEvent event) {
+    public void goCreatorPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goPlaylistPage(ActionEvent event) {
+    public void goPlaylistPage(ActionEvent event) {
 
+    }
+
+    public void setCreatorNameHyperLink(Hyperlink creatorNameHyperLink) {
+        this.creatorNameHyperLink = creatorNameHyperLink;
+    }
+
+    public void setPlaylistHyperLink(Hyperlink playlistHyperLink) {
+        this.playlistHyperLink = playlistHyperLink;
+    }
+
+    public void setPlaylistPicture(ImageView playlistPicture) {
+        this.playlistPicture = playlistPicture;
     }
 }
