@@ -18,4 +18,40 @@ public class AlbumPageController{
 
     @FXML
     private VBox tracksVbox;
+
+    /*
+        setter and getters
+     */
+
+    public ImageView getAlbumPicture() {
+        return albumPicture;
+    }
+
+    public void setAlbumPicture(ImageView albumPicture) {
+        this.albumPicture = albumPicture;
+    }
+
+    public Label getAlbumTitle() {
+        return albumTitle;
+    }
+
+    public void setAlbumTitle(Label albumTitle) {
+        this.albumTitle = albumTitle;
+    }
+
+    public ScrollPane getBottomScrollPane() {
+        return bottomScrollPane;
+    }
+
+    public void setBottomScrollPane(ScrollPane bottomScrollPane) {
+        this.bottomScrollPane = bottomScrollPane;
+    }
+
+    public VBox getTracksVbox() {
+        return tracksVbox;
+    }
+
+    public void setTracksVbox(VBox tracksVbox) {
+        this.tracksVbox = tracksVbox;
+    }
 }

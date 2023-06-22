@@ -14,4 +14,32 @@ public class AlbumBoxController {
 
     @FXML
     private HBox artistHBox;
+
+    /*
+        setter and getters
+     */
+
+    public ImageView getAlbumPicture() {
+        return albumPicture;
+    }
+
+    public void setAlbumPicture(ImageView albumPicture) {
+        this.albumPicture = albumPicture;
+    }
+
+    public Label getAlbumTitle() {
+        return albumTitle;
+    }
+
+    public void setAlbumTitle(Label albumTitle) {
+        this.albumTitle = albumTitle;
+    }
+
+    public HBox getArtistHBox() {
+        return artistHBox;
+    }
+
+    public void setArtistHBox(HBox artistHBox) {
+        this.artistHBox = artistHBox;
+    }
 }

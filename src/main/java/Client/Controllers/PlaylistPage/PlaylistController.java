@@ -28,4 +28,47 @@ public class PlaylistController {
     void like_unlike(ActionEvent event) {
 
     }
+    /*
+        setter and getters
+     */
+
+    public ScrollPane getBottomScrollPane() {
+        return bottomScrollPane;
+    }
+
+    public void setBottomScrollPane(ScrollPane bottomScrollPane) {
+        this.bottomScrollPane = bottomScrollPane;
+    }
+
+    public Button getLikeButton() {
+        return likeButton;
+    }
+
+    public void setLikeButton(Button likeButton) {
+        this.likeButton = likeButton;
+    }
+
+    public ImageView getPlaylistPicture() {
+        return playlistPicture;
+    }
+
+    public void setPlaylistPicture(ImageView playlistPicture) {
+        this.playlistPicture = playlistPicture;
+    }
+
+    public Label getPlaylistTitle() {
+        return playlistTitle;
+    }
+
+    public void setPlaylistTitle(Label playlistTitle) {
+        this.playlistTitle = playlistTitle;
+    }
+
+    public VBox getTracksVbox() {
+        return tracksVbox;
+    }
+
+    public void setTracksVbox(VBox tracksVbox) {
+        this.tracksVbox = tracksVbox;
+    }
 }

@@ -37,6 +37,73 @@ public class SignupPageController {
 
     @FXML
     private TextField usernameField;
+    /*
+        setter and getters
+     */
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+    public Request getRequestObject() {
+        return requestObject;
+    }
+
+    public void setRequestObject(Request requestObject) {
+        this.requestObject = requestObject;
+    }
+
+    public Scanner getIn() {
+        return in;
+    }
+
+    public void setIn(Scanner in) {
+        this.in = in;
+    }
+
+    public TextField getEmailField() {
+        return emailField;
+    }
+
+    public void setEmailField(TextField emailField) {
+        this.emailField = emailField;
+    }
+
+    public Button getLoginPageButton() {
+        return loginPageButton;
+    }
+
+    public void setLoginPageButton(Button loginPageButton) {
+        this.loginPageButton = loginPageButton;
+    }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public Button getSubmitButton() {
+        return submitButton;
+    }
+
+    public void setSubmitButton(Button submitButton) {
+        this.submitButton = submitButton;
+    }
+
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(TextField usernameField) {
+        this.usernameField = usernameField;
+    }
 
     @FXML
     void goLoginPage(ActionEvent event) {
