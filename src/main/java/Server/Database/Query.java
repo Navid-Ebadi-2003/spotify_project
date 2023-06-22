@@ -995,5 +995,473 @@ public class Query {
             newArray.add(jsonArray.get(randomIndex));
         }
         return newArray;
+    /*
+     * Methods related to pages
+     */
+
+    // get some random number of tracks
+    public static synchronized JsonArray getRandomTracks(int amount) {
+        // get all tracks
+        JsonArray allTracksId = getAllTracksId();
+        // select some random tracks
+        JsonArray randomTracksId = getRandomElements(allTracksId, amount);
+
+        JsonArray randomTracks = new JsonArray();
+
+        for(JsonElement randomTrackId: randomTracksId) {
+            UUID trackId = UUID.fromString(randomTrackId.getAsString());
+            // get music's meta-data
+            randomTracks.add(getMusic(trackId));
+        }
+        return randomTracks;
+
     }
+
+    // get all tracks a given user has liked
+    public static synchronized JsonArray getLikedTracks(UUID userId) {
+        // get all user's liked tracks
+        JsonArray likedTracksId = getObjectsFromHistory(userId, "USER_LIKE_TRACK");
+        JsonArray likedTracks = new JsonArray();
+        for(JsonElement trackIdString: likedTracksId) {
+            UUID trackId = UUID.fromString(trackIdString.getAsString());
+            // get music's meta-data
+            likedTracks.add(getMusic(trackId));
+        }
+        return likedTracks;
+
+    }
+
+    // get all playlists a given user has created
+    public static synchronized JsonArray getCreatedPlaylists(UUID userId) {
+        // get all user's created playlists
+        JsonArray createdPlaylistId = getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
+        JsonArray createdPlaylist = new JsonArray();
+        for(JsonElement playlistIdString: createdPlaylistId) {
+            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
+            // get playlist's meta-data
+            createdPlaylist.add(getMusic(playlistId));
+        }
+        return createdPlaylist;
+    }
+
+    // get all playlists a given user has liked
+    public static synchronized JsonArray getLikedPlaylists(UUID userId) {
+        JsonArray likedPlaylistId = getObjectsFromHistory(userId, "USER_LIKE_PLAYLIST");
+        JsonArray likedPlaylist = new JsonArray();
+        for(JsonElement playlistIdString: likedPlaylistId) {
+            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
+            // get playlist's meta-data
+            likedPlaylist.add(getPlaylist(playlistId));
+        }
+        return likedPlaylist;
+    }
+
+    // get all albums a given user has liked
+    public static synchronized JsonArray getLikedAlbums(UUID userId) {
+        JsonArray likedAlbumIds = getObjectsFromHistory(userId, "USER_LIKE_likedALBUM");
+        JsonArray likedAlbums = new JsonArray();
+        for(JsonElement likedAlbumIdString: likedAlbumIds) {
+            UUID likedAlbumId = UUID.fromString(likedAlbumIdString.getAsString());
+            // get likedalbum's meta-data
+            likedAlbums.add(getAlbum(likedAlbumId));
+        }
+        return likedAlbums;
+    }
+
+    // get all artists a given user has followed
+    public static synchronized JsonArray getFollowedArtists(UUID userId) {
+        JsonArray artistsId = getObjectsFromHistory(userId, "USER_FOLLOW_ARTIST");
+        JsonArray artists = new JsonArray();
+        for(JsonElement artistIdString: artistsId) {
+            UUID artistId = UUID.fromString(artistIdString.getAsString());
+            // get artist's meta-data
+            artists.add(getArtist(artistId));
+        }
+        return artists;
+    }
+
+    // get all users a given user has followed
+    public static synchronized JsonArray getUsersFollowings(UUID userId) {
+        JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
+        JsonArray followedUserdId = new JsonArray();
+        for(JsonElement followedUserIdString: followedUsersId) {
+            UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
+            // get user's meta-data
+            followedUserdId.add(getUser(followedUserId));
+        }
+        return followedUserdId;
+    }
+
+    // get all followed users' playlists of a given user (if they're public)
+    public static synchronized JsonArray getFollowedUsersPlaylists(UUID userId) {
+        JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
+        JsonArray usersPlaylists = new JsonArray();
+
+        // loop over users and get the their playlists
+        for(JsonElement followedUserElement: followedUsersId) {
+            UUID followedUserId = UUID.fromString(followedUserElement.getAsString());
+            JsonArray playlists = getCreatedPlaylists(followedUserId);
+            for(JsonElement playlist: playlists) {
+                UUID playlistId = UUID.fromString(playlist.getAsString());
+                JsonObject playlistJson = getPlaylist(playlistId);
+                // checking whether a playlists is private or not
+                if(playlistJson.get("isPrivate").getAsInt() == 0) {
+                    usersPlaylists.add(playlistJson);
+                }
+            }
+        }
+        return usersPlaylists;
+    }  
+
+    // get all users a given user has followed
+    public static synchronized JsonArray getUsersFollowers(UUID userId) {
+        JsonArray followedUsersId = getSubjectsFromHistory(userId, "USER_FOLLOW_USER");
+        JsonArray followedUserdId = new JsonArray();
+        for(JsonElement followedUserIdString: followedUsersId) {
+            UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
+            // get user's meta-data
+            followedUserdId.add(getUser(followedUserId));
+        }
+        return followedUserdId;
+    }
+
+    // get all meta data a user needs for their homepage
+    public static synchronized JsonObject getHomePage(UUID userId) {
+        JsonObject homePageJson = new JsonObject();
+        homePageJson.add("likedMusicsResult", getLikedTracks(userId));
+        homePageJson.add("createdPlaylistsResult", getCreatedPlaylists(userId));
+        homePageJson.add("likedPlaylistsResult", getLikedPlaylists(userId));
+        homePageJson.add("randomMusicsResult", getRandomTracks(8));
+
+        return homePageJson;
+    }
+
+    // get all meta data a user needs for their page
+    public static synchronized JsonObject getUserPage(UUID userId) {
+        // User page consists of a user's info plus other things
+        JsonObject userPage = getUser(userId);
+
+        JsonArray createdPlaylists = getCreatedPlaylists(userId);
+        userPage.add("createdPlaylists", createdPlaylists);
+
+        JsonArray likedPlaylists = getLikedPlaylists(userId);
+        userPage.add("likedPlaylists", likedPlaylists);
+
+        JsonArray followers = getUsersFollowers(userId);
+        userPage.add("followers", followers);
+
+        JsonArray followings = getUsersFollowings(userId);
+        userPage.add("followings", followings);
+
+        return userPage;
+
+    }
+
+    /*
+     * Miscellaneous methods
+     */
+
+
+    // select some random elements from a json array
+    public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
+        Random rand = new Random();
+ 
+        JsonArray newArray = new JsonArray();
+        for (int i = 0; i < totalItems; i++) {
+ 
+            // take a random index between 0 to size of given jsonArray
+            int randomIndex = rand.nextInt(jsonArray.size());
+ 
+            // add element in temporary jsonArray
+            newArray.add(jsonArray.get(randomIndex));
+        }
+        return newArray;
+    }
+
+    public static synchronized JsonArray searchUser (String pattern){
+
+        pattern = "%" + pattern + "%";
+
+        final String query = """
+                SELECT * FROM User
+                WHERE username LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , pattern );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray usersResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject user = new JsonObject();
+
+                String userId = rs.getString("user_id");
+                user.addProperty("userId", userId);
+
+                String username = rs.getString("username");
+                user.addProperty("username", username);
+
+                String profilePath = rs.getString("profile_path");
+                user.addProperty("profilePath" , profilePath);
+
+                usersResult.add(user);
+            }
+
+            if (usersResult.isEmpty()){
+                return null;
+            }
+            else {
+                return usersResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchPlaylist (String pattern){
+
+        pattern = "%" + pattern + "%";
+
+        final String query = """
+                SELECT * FROM Playlist
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , pattern );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray playlistsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject playlist = new JsonObject();
+
+                String playlistId = rs.getString("Playlist_id");
+                playlist.addProperty("playlistId", playlistId);
+
+                String title = rs.getString("title");
+                playlist.addProperty("title", title);
+
+                String userId = rs.getString("user_id");
+                playlist.addProperty("userId" , userId);
+
+                String profilePath = rs.getString("profile_path");
+                playlist.addProperty("profilePath" , profilePath);
+
+                String description = rs.getString("description");
+                playlist.addProperty("description" , description);
+
+                int popularity = rs.getInt("popularity");
+                playlist.addProperty("popularity" , popularity);
+
+                int isPrivate = rs.getInt("is_private");
+                playlist.addProperty("isPrivate" , isPrivate);
+
+                playlistsResult.add(playlist);
+            }
+
+            if (playlistsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return playlistsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchMusic (String pattern){
+
+        pattern = "%" + pattern + "%";
+
+        final String query = """
+                SELECT * FROM Music
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , pattern );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray musicsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject music = new JsonObject();
+
+                String trackId = rs.getString("track_id");
+                music.addProperty("trackId", trackId);
+
+                String title = rs.getString("title");
+                music.addProperty("title", title);
+
+                String artistId = rs.getString("artist_id");
+                music.addProperty("artistId" , artistId);
+
+                String albumId = rs.getString("album_id");
+                music.addProperty("albumId" , albumId);
+
+                String genreId = rs.getString("genre_id");
+                music.addProperty("genreId" , genreId);
+
+                String profilePath = rs.getString("profile_path");
+                music.addProperty("profilePath" , profilePath);
+
+                String trackPath = rs.getString("track_path");
+                music.addProperty("trackPath" , trackPath);
+
+                String releaseDate = rs.getString("release_date");
+                music.addProperty("releaseDate" , releaseDate);
+
+                int popularity = rs.getInt("popularity");
+                music.addProperty("popularity" , popularity);
+
+                int duration = rs.getInt("duration");
+                music.addProperty("duration" , duration);
+
+                musicsResult.add(music);
+            }
+
+            if (musicsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return musicsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchArtist (String pattern){
+
+        pattern = "%" + pattern + "%";
+
+        final String query = """
+                SELECT * FROM Artist
+                WHERE name LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , pattern );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray artistsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject artist = new JsonObject();
+
+                String artistId = rs.getString("artist_id");
+                artist.addProperty("artistId", artistId);
+
+                String name = rs.getString("name");
+                artist.addProperty("name", name);
+
+                String genreId = rs.getString("genre_id");
+                artist.addProperty("gereId" , genreId);
+
+                String biography = rs.getString("biography");
+                artist.addProperty("biography" , biography);
+
+                String profilePath = rs.getString("profile_path");
+                artist.addProperty("profilePath" , profilePath);
+
+                artistsResult.add(artist);
+            }
+
+            if (artistsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return artistsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonArray searchAlbum (String pattern){
+
+        pattern = "%" + pattern + "%";
+
+        final String query = """
+                SELECT * FROM Album
+                WHERE title LIKE ?;
+                """;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1 , pattern );
+            ResultSet rs = pstmt.executeQuery();
+
+            JsonArray albumsResult = new JsonArray();
+
+            while (rs.next()) {
+                JsonObject album = new JsonObject();
+
+                String albumId = rs.getString("album_id");
+                album.addProperty("albumId", albumId);
+
+                String title = rs.getString("title");
+                album.addProperty("title", title);
+
+                String artistId = rs.getString("artist_id");
+                album.addProperty("artistId", artistId);
+
+                String genreId = rs.getString("genre_id");
+                album.addProperty("gereId" , genreId);
+
+                String profilePath = rs.getString("profile_path");
+                album.addProperty("profilePath" , profilePath);
+
+                String releaseDate = rs.getString("release_date");
+                album.addProperty("releaseDate" , releaseDate);
+
+                int popularity = rs.getInt("popularity");
+                album.addProperty("popularity" , popularity);
+
+
+                albumsResult.add(album);
+            }
+
+            if (albumsResult.isEmpty()){
+                return null;
+            }
+            else {
+                return albumsResult;
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static synchronized JsonObject search (String pattern){
+
+        JsonObject searchResult = new JsonObject();
+
+        searchResult.add("usersResult" , searchUser(pattern));
+        searchResult.add("playlistsResult" , searchPlaylist(pattern));
+        searchResult.add("musicsResult" , searchMusic(pattern));
+        searchResult.add("artistsResult" , searchArtist(pattern));
+        searchResult.add("albumResult" , searchAlbum(pattern));
+
+
+        return searchResult;
+    }
+
 }
