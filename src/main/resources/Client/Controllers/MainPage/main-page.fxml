@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -98,15 +99,15 @@
             <HBox prefHeight="90.0" prefWidth="427.0" />
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="427.0">
                <children>
-                  <Button fx:id="shuffleButton" mnemonicParsing="false" onAction="#shufflePlaylist" prefHeight="42.0" prefWidth="52.0">
+                  <ToggleButton fx:id="shuffleToggleButton" mnemonicParsing="false" onAction="#shuffleTracks" prefHeight="40.0" prefWidth="40.0">
                      <graphic>
-                        <ImageView fx:id="shuffleButtonIcon" fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="shuffleButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Icons/shuffle.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
+                  </ToggleButton>
                   <Button fx:id="previousButton" layoutX="116.0" layoutY="10.0" mnemonicParsing="false" onAction="#goPreviousTrack" prefHeight="30.0" prefWidth="50.0">
                      <graphic>
                         <ImageView fx:id="previousButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
@@ -116,15 +117,15 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="playStopButton" layoutX="40.0" layoutY="10.0" mnemonicParsing="false" onAction="#playStopTrack" prefHeight="45.0" prefWidth="51.0">
+                  <ToggleButton fx:id="playStopToggleButton" mnemonicParsing="false" onAction="#playStopTrack" prefHeight="40.0" prefWidth="40.0">
                      <graphic>
-                        <ImageView fx:id="playStopButtonIcon" fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="playStopButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../Icons/play.png" />
                            </image>
                         </ImageView>
                      </graphic>
-                  </Button>
+                  </ToggleButton>
                   <Button fx:id="nextButton" layoutX="192.0" layoutY="10.0" mnemonicParsing="false" onAction="#goNextTrack" prefHeight="30.0" prefWidth="50.0">
                      <graphic>
                         <ImageView fx:id="nextButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">

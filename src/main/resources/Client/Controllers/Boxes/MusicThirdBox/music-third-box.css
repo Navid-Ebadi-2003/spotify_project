@@ -14,3 +14,7 @@
     -fx-font-size: 10;
     -fx-text-fill: rgb(256,256,256);
 }
+
+#down-play-button {
+    -fx-background-color: transparent;
+}
