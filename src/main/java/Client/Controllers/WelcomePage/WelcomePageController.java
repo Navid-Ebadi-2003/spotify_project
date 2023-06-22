@@ -28,6 +28,41 @@ public class WelcomePageController implements Initializable {
 
     @FXML
     private Button signupPageButton;
+    /*
+        setter and getters
+     */
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+    public Request getRequestObject() {
+        return requestObject;
+    }
+
+    public void setRequestObject(Request requestObject) {
+        this.requestObject = requestObject;
+    }
+
+    public Button getLoginPageButton() {
+        return loginPageButton;
+    }
+
+    public void setLoginPageButton(Button loginPageButton) {
+        this.loginPageButton = loginPageButton;
+    }
+
+    public Button getSignupPageButton() {
+        return signupPageButton;
+    }
+
+    public void setSignupPageButton(Button signupPageButton) {
+        this.signupPageButton = signupPageButton;
+    }
 
     public void goLoginPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());

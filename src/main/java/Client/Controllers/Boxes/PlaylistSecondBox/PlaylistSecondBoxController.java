@@ -25,6 +25,10 @@ public class PlaylistSecondBoxController {
 
     }
 
+    /*
+        setter and getters
+     */
+
     public void setCreatorNameHyperLink(Hyperlink creatorNameHyperLink) {
         this.creatorNameHyperLink = creatorNameHyperLink;
     }

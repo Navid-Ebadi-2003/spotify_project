@@ -14,4 +14,31 @@ public class MusicSecondBoxController {
 
     @FXML
     private Hyperlink trackTitle;
+    /*
+        setter and getters
+     */
+
+    public HBox getArtistsHbox() {
+        return artistsHbox;
+    }
+
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
+    }
+
+    public ImageView getTrackPicture() {
+        return trackPicture;
+    }
+
+    public void setTrackPicture(ImageView trackPicture) {
+        this.trackPicture = trackPicture;
+    }
+
+    public Hyperlink getTrackTitle() {
+        return trackTitle;
+    }
+
+    public void setTrackTitle(Hyperlink trackTitle) {
+        this.trackTitle = trackTitle;
+    }
 }

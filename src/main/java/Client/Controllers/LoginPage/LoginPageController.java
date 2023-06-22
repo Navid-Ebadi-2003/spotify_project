@@ -38,6 +38,66 @@ public class LoginPageController {
     @FXML
     private TextField usernameField;
 
+    /*
+        setter and getters
+     */
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+    public Request getRequestObject() {
+        return requestObject;
+    }
+
+    public void setRequestObject(Request requestObject) {
+        this.requestObject = requestObject;
+    }
+
+    public Scanner getIn() {
+        return in;
+    }
+
+    public void setIn(Scanner in) {
+        this.in = in;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+
+    public void setLoginButton(Button loginButton) {
+        this.loginButton = loginButton;
+    }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public Button getSignupPageButton() {
+        return signupPageButton;
+    }
+
+    public void setSignupPageButton(Button signupPageButton) {
+        this.signupPageButton = signupPageButton;
+    }
+
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(TextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
     @FXML
     void login(ActionEvent event) {
         // Taking input

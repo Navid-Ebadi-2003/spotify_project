@@ -29,4 +29,47 @@ public class ArtistBoxController {
     void toggleFollow(ActionEvent event) {
 
     }
+    /*
+        setter and getters
+     */
+
+    public HBox getAlbumsHbox() {
+        return albumsHbox;
+    }
+
+    public void setAlbumsHbox(HBox albumsHbox) {
+        this.albumsHbox = albumsHbox;
+    }
+
+    public Text getArtistAboutText() {
+        return artistAboutText;
+    }
+
+    public void setArtistAboutText(Text artistAboutText) {
+        this.artistAboutText = artistAboutText;
+    }
+
+    public Label getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(Label artistName) {
+        this.artistName = artistName;
+    }
+
+    public ImageView getArtistPicture() {
+        return artistPicture;
+    }
+
+    public void setArtistPicture(ImageView artistPicture) {
+        this.artistPicture = artistPicture;
+    }
+
+    public Button getFollowButton() {
+        return followButton;
+    }
+
+    public void setFollowButton(Button followButton) {
+        this.followButton = followButton;
+    }
 }
