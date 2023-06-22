@@ -18,7 +18,7 @@ public class AlbumBoxController {
     private Hyperlink albumTitleHyperLink;
 
     @FXML
-    private HBox artistHBox;
+    private HBox artistsHbox;
     // This is for sending request if a user clicks on hyperlink
     private UUID albumId;
     // This stores artistName, artistId
@@ -49,12 +49,12 @@ public class AlbumBoxController {
         this.albumTitleHyperLink = albumTitleHyperLink;
     }
 
-    public HBox getArtistHBox() {
-        return artistHBox;
+    public HBox getArtistsHbox() {
+        return artistsHbox;
     }
 
-    public void setArtistHBox(HBox artistHBox) {
-        this.artistHBox = artistHBox;
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
     }
 
     public UUID getAlbumId() {
