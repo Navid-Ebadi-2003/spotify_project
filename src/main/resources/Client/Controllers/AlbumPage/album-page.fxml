@@ -19,15 +19,18 @@
                         <Image url="@../../../Icons/unknownFile.png" />
                      </image>
                   </ImageView>
-                  <VBox alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="463.0">
                      <children>
-                        <Label id="album-label" prefHeight="18.0" prefWidth="580.0" text="Album" />
-                        <Label id="album-title" fx:id="albumTitle" prefHeight="118.0" prefWidth="578.0" text="Album Title" />
+                        <Label id="playlist-label" prefHeight="18.0" prefWidth="580.0" text="Album" />
+                        <Label id="playlist-title" fx:id="albumTitle" prefHeight="118.0" prefWidth="578.0" text="Album Title" />
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <ScrollPane fx:id="bottomScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="200.0" vbarPolicy="ALWAYS" />
+            <ScrollPane fx:id="bottomScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+               <content>
+                  <VBox fx:id="tracksVbox" prefHeight="1000.0" prefWidth="1072.0" />
+               </content></ScrollPane>
          </children>
       </VBox>
    </children>
