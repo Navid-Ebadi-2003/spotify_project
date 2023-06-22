@@ -2,15 +2,15 @@
     -fx-background-color: rgb(0,0,0);
 }
 
-#trackTitle {
-    -fx-text-fill: rgb(255,255,255);
-    -fx-font-size: 16;
-    -fx-font-family: CircularSp;
+#track-title-hyperlink {
     -fx-font-weight: bold;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 18;
+    -fx-font-family: CircularSp;
 }
 
-#artistsHbox .hyperlink{
+#artists-hbox .hyperlink{
+    -fx-text-fill: rgb(145,145,145);
+    -fx-font-size: 14;
     -fx-font-family: CircularSp;
-    -fx-text-fill: rgb(255,255,255);
-    -fx-font-size: 13;
 }
