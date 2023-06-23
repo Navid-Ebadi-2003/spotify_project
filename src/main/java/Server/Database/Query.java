@@ -167,6 +167,7 @@ public class Query {
      * Type of actions:
      * ADD_ARTIST_SOCIALMEDIA: Artist adding a social media to their page
      * ADD_ARTIST_ALBUM: Artist adding an album to their page
+     * ARTIST_ADD_TRACK: Artist adding a track
      * ALBUM_ADD_TRACK: Adding a track to an album
      * PLAYLIST_ADD_TRACK: Adding a track to a playlist
      * USER_FOLLOW_USER: User following a user
@@ -312,6 +313,15 @@ public class Query {
         }
     }
 
+    public static synchronized JsonArray getArtists(JsonArray artistsArray) {
+        JsonArray artists = new JsonArray();
+        for(JsonElement artistsIdString: artistsArray) {
+            UUID artistsId = UUID.fromString(artistsIdString.getAsString());
+            artists.add(getArtist(artistsId));
+        }
+        return artists;
+    }
+
     // Get a track's info from id
     public static synchronized JsonObject getMusic(UUID trackId) {
         final String query = """
@@ -330,7 +340,8 @@ public class Query {
                 String title = rs.getString("title");
                 musicJson.addProperty("title", title);
 
-                JsonArray artists = getSubjectsFromHistory(trackId, "ARTIST_ADD_TRACK");
+                JsonArray artistsId = getSubjectsFromHistory(trackId, "ARTIST_ADD_TRACK");
+                JsonArray artists = getArtists(artistsId);
                 musicJson.add("artists", artists);
 
                 String albumId = rs.getString("album_id");
@@ -386,8 +397,9 @@ public class Query {
                 String title = rs.getString("title");
                 albumJson.addProperty("title", title);
 
-                String artistId = rs.getString("artist_id");
-                albumJson.addProperty("artistId", artistId);
+                JsonArray artistsId = getSubjectsFromHistory(albumId, "ADD_ARTIST_ALBUM");
+                JsonArray artists = getArtists(artistsId);
+                albumJson.add("artists", artists);
 
                 String genreId = rs.getString("genre_id");
                 albumJson.addProperty("genreId", genreId);
@@ -435,6 +447,11 @@ public class Query {
 
                 String title = rs.getString("title");
                 playlistJson.addProperty("title", title);
+
+                JsonArray creatorIdArray = getSubjectsFromHistory(playlistId, "USER_CREATE_PLAYLIST");
+                UUID creatorId = UUID.fromString(creatorIdArray.get(0).getAsString());
+                JsonObject creator = getUser(creatorId);
+                playlistJson.add("creator", creator);
 
                 String description = rs.getString("description");
                 playlistJson.addProperty("description", description);
