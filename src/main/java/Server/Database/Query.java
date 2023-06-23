@@ -103,7 +103,7 @@ public class Query {
     // If null is returned(and the username exists) then that means the password is incorrect
     public static synchronized UUID logIn(String username, String password) {
         final String query = """
-                SELECT user_id,username,passowrd FROM User
+                SELECT user_id,username,password FROM User
                 WHERE username=?;
                 """;
 
