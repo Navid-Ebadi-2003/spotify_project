@@ -291,6 +291,9 @@ public class Query {
                 String biography = rs.getString("biography");
                 artistJson.addProperty("biography", biography);
 
+                // file name will be the id of the artist
+                artistJson.addProperty("fileName", artistId.toString());
+
                 
                 JsonArray socialMediaLinks = getObjectsFromHistory(artistId, "ADD_ARTIST_SOCIALMEDIA");
                 artistJson.add("socialMediaLinks", socialMediaLinks);
@@ -351,6 +354,9 @@ public class Query {
                 String trackPath = rs.getString("track_path");
                 musicJson.addProperty("trackPath", trackPath);
 
+                // file name will be the id of the track
+                musicJson.addProperty("fileName", trackId.toString());
+
                 return musicJson;
             } else {
                 // If null, then that means the track doesn't exist
@@ -398,6 +404,9 @@ public class Query {
                 String profilePath = rs.getString("profile_path");
                 albumJson.addProperty("profilePath", profilePath);
 
+                // file name will be the id of the album
+                albumJson.addProperty("fileName", albumId.toString());
+
                 return albumJson;
             } else {
                 // If null, then that means the album doesn't exist
@@ -441,6 +450,9 @@ public class Query {
         
                 String profilePath = rs.getString("profile_path");
                 playlistJson.addProperty("profilePath", profilePath);
+
+                // file name will be the id of the playlist
+                playlistJson.addProperty("fileName", playlistId.toString());
 
                 JsonArray tracks = getObjectsFromHistory(playlistId, "PLAYLIST_ADD_TRACK");
                 playlistJson.add("tracks", tracks);
