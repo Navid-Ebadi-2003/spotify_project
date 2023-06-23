@@ -1,13 +1,32 @@
 package Client.Controllers.MainPage;
+import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Shared.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class MainPageController {
+import java.io.IOException;
+import java.lang.management.GarbageCollectorMXBean;
+import java.net.Socket;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+import java.util.UUID;
+
+public class MainPageController implements Initializable {
 
     @FXML
     private MenuItem accountPageButton;
@@ -69,69 +88,133 @@ public class MainPageController {
     @FXML
     private ImageView shuffleButtonIcon;
 
+    private Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private UUID userId;
+
     @FXML
-    void createPlaylist(ActionEvent event) {
+    public void createPlaylist(ActionEvent event) {
 
     }
 
     @FXML
-    void goAccountPage(ActionEvent event) {
+    public void goAccountPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goHomePage(ActionEvent event) {
+    public void goHomePage(ActionEvent event) {
 
     }
 
     @FXML
-    void goLyricsPage(ActionEvent event) {
+    public void goLyricsPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goNextTrack(ActionEvent event) {
+    public void goNextTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void goPlaylistPage(ActionEvent event) {
+    public void goPlaylistPage(ActionEvent event) {
 
     }
 
     @FXML
-    void goPreviousTrack(ActionEvent event) {
+    public void goPreviousTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void goProfilePage(ActionEvent event) {
+    public void goProfilePage(ActionEvent event) {
 
     }
 
     @FXML
-    void goSearchPage(ActionEvent event) {
+    public void goSearchPage(ActionEvent event) {
 
     }
 
     @FXML
-    void logout(ActionEvent event) {
+    public void logout(ActionEvent event) {
 
     }
 
     @FXML
-    void playStopTrack(ActionEvent event) {
+    public void playStopTrack(ActionEvent event) {
 
     }
 
     @FXML
-    void shufflePlaylist(ActionEvent event) {
+    public void shufflePlaylist(ActionEvent event) {
 
     }
+
+    /*
+        methods related to initializing object
+     */
+
+
+    public void setter(Socket clientSocket, UUID userId) {
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(clientSocket);
+        this.userId = userId;
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Loading homePage
+        FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
+        try {
+            // Setting putting homePage into pageHolder
+            this.pageHolder.setContent(homePageLoader.load());
+            // Sending goHomePageRequest
+            requestObject.goHomePageReq(userId);
+            // Receiving response
+            String response = in.nextLine();
+            JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
+
+
+        } catch (IOException io) {
+
+        }
+    }
+
+    public ArrayList<HBox> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
+        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+        JsonArray allPlaylistsJson = new JsonArray();
+        allPlaylistsJson.addAll(createdPlaylistsJson);
+        allPlaylistsJson.addAll(likedPlaylistsJson);
+        ArrayList<HBox> playlistBoxes = new ArrayList<>();
+
+        for (JsonElement arrayItem : allPlaylistsJson) {
+            JsonObject playlistJson = (JsonObject) arrayItem;
+            JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
+            FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
+            PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
+            // Fill its controller
+            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
+            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
+            playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
+            playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
+            playlistBoxes.add(playlistBoxLoader.load());
+        }
+        return playlistBoxes;
+        // Pass to Downloader
+    }
+
     /*
         setter and getters
      */
-
     public MenuItem getAccountPageButton() {
         return accountPageButton;
     }
@@ -290,5 +373,37 @@ public class MainPageController {
 
     public void setShuffleButtonIcon(ImageView shuffleButtonIcon) {
         this.shuffleButtonIcon = shuffleButtonIcon;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+    }
+
+    public Request getRequestObject() {
+        return requestObject;
+    }
+
+    public void setRequestObject(Request requestObject) {
+        this.requestObject = requestObject;
+    }
+
+    public Scanner getIn() {
+        return in;
+    }
+
+    public void setIn(Scanner in) {
+        this.in = in;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

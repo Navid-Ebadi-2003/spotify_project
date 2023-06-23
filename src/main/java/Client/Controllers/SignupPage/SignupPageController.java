@@ -107,11 +107,14 @@ public class SignupPageController {
 
     @FXML
     void goLoginPage(ActionEvent event) {
+        // Taking stage from even
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
         FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
         try {
+            // Loading loginPage into Scene
             Scene loginScene = new Scene(loginPageLoader.load());
             LoginPageController loginPageController = loginPageLoader.getController();
+            // Setting clientSocket for it's controller
             loginPageController.setter(clientSocket);
             currentStage.setScene(loginScene);
         } catch (IOException e) {
@@ -133,11 +136,14 @@ public class SignupPageController {
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();
         if (result){
+            // Taking stage from even
             Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
             FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));
             try {
+                // Loading loginPage into Scene
                 Scene loginScene = new Scene(loginPageLoader.load());
                 LoginPageController loginPageController = loginPageLoader.getController();
+                // Setting clientSocket for it's controller
                 loginPageController.setter(clientSocket);
                 currentStage.setScene(loginScene);
             } catch (IOException e) {

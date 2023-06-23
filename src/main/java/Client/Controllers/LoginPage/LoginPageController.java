@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class LoginPageController {
 
@@ -111,12 +112,13 @@ public class LoginPageController {
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();
         if (result){
+            UUID userId = UUID.fromString(responseBody.get("userId").getAsString());
             Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
             FXMLLoader mainPageLoader = new FXMLLoader(LoginPageController.class.getResource("../MainPage/main-page.fxml"));
             try {
                 Scene mainPageScene = new Scene(mainPageLoader.load());
                 MainPageController mainPageController = mainPageLoader.getController();
-//                loginPageController.setter(clientSocket);
+                mainPageController.setter(clientSocket, userId);
                 currentStage.setScene(mainPageScene);
             } catch (IOException e) {
                 throw new RuntimeException(e);
