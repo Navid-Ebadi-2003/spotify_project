@@ -1025,17 +1025,18 @@ public class Query {
         return newArray;
     }
 
-    public static synchronized JsonArray searchUser (String pattern){
-
-        pattern = "%" + pattern + "%";
+    public static synchronized JsonArray searchUser (String userInput){
 
         final String query = """
                 SELECT * FROM User
                 WHERE username LIKE ?;
                 """;
+        
+        final String pattern = "%" + userInput + "%";
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1 , pattern );
+            pstmt.setString(1, pattern);
             ResultSet rs = pstmt.executeQuery();
 
             JsonArray usersResult = new JsonArray();
@@ -1069,17 +1070,18 @@ public class Query {
     }
 
 
-    public static synchronized JsonArray searchPlaylist (String pattern){
-
-        pattern = "%" + pattern + "%";
+    public static synchronized JsonArray searchPlaylist (String userInput){
 
         final String query = """
                 SELECT * FROM Playlist
                 WHERE title LIKE ?;
                 """;
+        
+        final String pattern = "%" + userInput + "%";
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1 , pattern );
+            pstmt.setString(1, pattern);
             ResultSet rs = pstmt.executeQuery();
 
             JsonArray playlistsResult = new JsonArray();
@@ -1125,17 +1127,18 @@ public class Query {
     }
 
 
-    public static synchronized JsonArray searchMusic (String pattern){
-
-        pattern = "%" + pattern + "%";
+    public static synchronized JsonArray searchMusic (String userInput){
 
         final String query = """
                 SELECT * FROM Music
                 WHERE title LIKE ?;
                 """;
+        
+        final String pattern = "%" + userInput + "%";
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1 , pattern );
+            pstmt.setString(1, pattern);
             ResultSet rs = pstmt.executeQuery();
 
             JsonArray musicsResult = new JsonArray();
@@ -1190,17 +1193,18 @@ public class Query {
     }
 
 
-    public static synchronized JsonArray searchArtist (String pattern){
-
-        pattern = "%" + pattern + "%";
+    public static synchronized JsonArray searchArtist (String userInput){
 
         final String query = """
                 SELECT * FROM Artist
                 WHERE name LIKE ?;
                 """;
+        
+        final String pattern = "%" + userInput + "%";
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1 , pattern );
+            pstmt.setString(1, pattern);
             ResultSet rs = pstmt.executeQuery();
 
             JsonArray artistsResult = new JsonArray();
@@ -1240,17 +1244,18 @@ public class Query {
     }
 
 
-    public static synchronized JsonArray searchAlbum (String pattern){
-
-        pattern = "%" + pattern + "%";
+    public static synchronized JsonArray searchAlbum (String userInput){
 
         final String query = """
                 SELECT * FROM Album
                 WHERE title LIKE ?;
                 """;
+        
+        final String pattern = "%" + userInput + "%";
+        
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1 , pattern );
+            pstmt.setString(1, pattern);
             ResultSet rs = pstmt.executeQuery();
 
             JsonArray albumsResult = new JsonArray();
@@ -1297,15 +1302,15 @@ public class Query {
     }
 
 
-    public static synchronized JsonObject search (String pattern){
+    public static synchronized JsonObject search (String userInput){
 
         JsonObject searchResult = new JsonObject();
 
-        searchResult.add("usersResult" , searchUser(pattern));
-        searchResult.add("playlistsResult" , searchPlaylist(pattern));
-        searchResult.add("musicsResult" , searchMusic(pattern));
-        searchResult.add("artistsResult" , searchArtist(pattern));
-        searchResult.add("albumResult" , searchAlbum(pattern));
+        searchResult.add("usersResult" , searchUser(userInput));
+        searchResult.add("playlistsResult" , searchPlaylist(userInput));
+        searchResult.add("musicsResult" , searchMusic(userInput));
+        searchResult.add("artistsResult" , searchArtist(userInput));
+        searchResult.add("albumResult" , searchAlbum(userInput));
 
 
         return searchResult;
