@@ -173,13 +173,13 @@ public class Service implements Runnable {
         }
     }
     public void uploadHomePage(JsonObject jsonResults) throws IOException {
-        //  Template of jsonResult:
+        //  Template of jsonResults:
         //  {
-        //  "createdPlaylistsResult": [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...]
-        //  "likedPlaylistsResult":   [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...],
-        //  "likedMusicsResult":      [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...],
-        //  "randomMusicsResult":     [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
-        //  }
+        //  "createdPlaylistsResult": [{"playlistId" : %s, "title" : %s, "description" : %s, "creator" : {"userId" : %s, "username" : %s}}, "popularity" : %d, "profilePath" : %s, "fileName" : %s, "isPrivate" : %d, "tracks" : []}, ...]
+        //  "likedPlaylistsResult":   [{"playlistId" : %s, "title" : %s, "description" : %s, "creator" : {"userId" : %s, "username" : %s}, "popularity" : %d, "profilePath" : %s, "fileName" : %s, "isPrivate" : %d, "tracks" : []}, ...],
+        //  "likedMusicsResult":      [{"trackId" : %s, "title" : %s, "artists" : [{"artistId" : %s, "artistName" : %s}, ...], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s, "fileName" : %s}, ...],
+        //  "randomMusicsResult":     [{"trackId" : %s, "title" : %s, "artists" : [{"artistId" : %s, "artistName" : %s}, ...], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s, "fileName" : %s}, ...]
+        //   }
 
         // Parsing Results
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
@@ -194,14 +194,14 @@ public class Service implements Runnable {
         uploadFiles(randomMusicsJson, "profilePath");
     }
     public void uploadSearchPage(JsonObject jsonResults) throws IOException {
-        //  Template of jsonResult:
+        //  Template of jsonResults:
         //  {
-        //  "albumsResult":              [{"albumId" : %s, "title" : %s, "artistId" : %s, "genreId" : %s, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s}, ...],
-        //  "artistsResult":             [{"artistId" : %s, "name" : %s, "genreId" : %s, "biography" : %s, "profilePath" : %s, "socialMediaLinks" : [], "albums" : []}, ...],
-        //  "musicsResult":              [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...],
-        //  "playlistsResult":           [{"playlistId" : %s, "title" : %s, "description" : %s, "userId" : %s, "popularity" : %d, "profilePath" : %s, "isPrivate" : %d, "tracks" : []}, ...],
-        //  "usersResult":               [{"userId" : %s, "username" : %s, "profilePath" : %s}, ...]
-        //  }
+        //  "albumsResult":              [{"albumId" : %s, "title" : %s, "artists" : [{"artistName" : %s, "artistId" : %s}], "genreId" : %s, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "fileName" : %s}, ...],
+        //  "artistsResult":             [{"artistId" : %s, "name" : %s, "genreId" : %s, "biography" : %s, "profilePath" : %s, "fileName" : %s, "socialMediaLinks" : [], "albums" : []}, ...],
+        //  "musicsResult":              [{"trackId" : %s, "title" : %s, "artists" : [{"artistId" : %s, "artistName" : %s}, ...], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s, "fileName" : %s}, ...],
+        //  "playlistsResult":           [{"playlistId" : %s, "title" : %s, "description" : %s, "creator" : {"userId" : %s, "username" : %s}, "popularity" : %d, "profilePath" : %s, "fileName" : %s, "isPrivate" : %d, "tracks" : []}, ...],
+        //  "usersResult":               [{"userId" : %s, "username" : %s, "profilePath" : %s, "fileName" : %s}, ...]
+        //   }
 
         // Parsing Results
         JsonArray albumsJson = jsonResults.getAsJsonArray("albumsResult");
@@ -218,12 +218,13 @@ public class Service implements Runnable {
         uploadFiles(usersJson, "profilePath");
     }
     public void uploadWatchUserPage(JsonObject jsonResults) throws IOException {
-        // Template of jsonResult:
+        // Template of jsonResults:
         // {
         // "userId" : %s,
         // "username" : %s,
-        // "profilePath" : %s
-        // }
+        // "profilePath" : %s,
+        // "fileName" : %s
+        //  }
 
         // Parsing Results
         String profilePath = jsonResults.get("profilePath").getAsString();
@@ -236,16 +237,17 @@ public class Service implements Runnable {
         uploadFiles(likedPlaylistsJson, "profilePath");
     }
     public void uploadWatchArtistPage(JsonObject jsonResults) throws IOException {
-        // Template of jsonResult:
+        // Template of jsonResults:
         // {
         // "artistId" : %s,
         // "name" : %s,
         // "genreId" : %s,
         // "biography" : %s,
         // "profilePath" : %s,
+        // "fileName" : %s,
         // "socialMediaLinks" : [],
         // "albums" : []
-        // }
+        //  }
 
         // Parsing Results
         String profilePath = jsonResults.get("profilePath").getAsString();
@@ -256,19 +258,20 @@ public class Service implements Runnable {
         uploadFiles(albumsJson, "profilePath");
     }
     public void uploadWatchMusicPage(JsonObject jsonResults) throws IOException {
-        // Template of jsonResult:
+        // Template of jsonResults:
         // {
         // "trackId" : %s,
         // "title" : %s,
-        // "artistId" : [],
+        // "artists" : [{"artistId" : %s, "artistName" : %s}, ...],
         // "albumId" : %s,
         // "genreId" : %s,
         // "duration" : %d,
         // "releaseDate" : %s,
         // "popularity" : %d,
         // "profilePath" : %s,
-        // "trackPath" : %s
-        // }
+        // "trackPath" : %s,
+        // "fileName" : %s
+        //  }
 
         // Parsing Results
         String profilePath = jsonResults.get("profilePath").getAsString();
@@ -283,12 +286,13 @@ public class Service implements Runnable {
         // {
         // "albumId" : %s,
         // "title" : %s,
-        // "artistId" : %s,
+        // "artists" : [{"artistName" : %s, "artistId" : %s}],
         // "genreId" : %s,
         // "releaseDate" : %s,
         // "popularity" : %d,
-        // "profilePath" : %s
-        // }
+        // "profilePath" : %s,
+        // "fileName" : %s
+        //  }
 
         // Parsing Results
         String profilePath = jsonResults.get("profilePath").getAsString();
@@ -305,12 +309,13 @@ public class Service implements Runnable {
         // "playlistId" : %s,
         // "title" : %s,
         // "description" : %s,
-        // "userId" : %s,
+        // "creator" : {"userId" : %s, "username" : %s},
         // "popularity" : %d,
         // "profilePath" : %s,
+        // "fileName" : %s,
         // "isPrivate" : %d,
         // "tracks" : []
-        // }
+        //  }
 
         // Parsing Results
         String profilePath = jsonResults.get("profilePath").getAsString();
@@ -322,8 +327,22 @@ public class Service implements Runnable {
         uploadFiles(tracksJson, "trackPath");
     }
     public void uploadWatchLikedTracks(JsonArray jsonResults) throws IOException {
-        // Template of jsonResults : [{"trackId" : %s, "title" : %s, "artistId" : [], "albumId" : %s, "genreId" : %s, "duration" : %d, "releaseDate" : %s, "popularity" : %d, "profilePath" : %s, "trackPath" : %s}, ...]
-
+        // Template of jsonResults :
+        // [
+        // {
+        // "trackId" : %s,
+        // "title" : %s,
+        // "artists" : [{"artistId" : %s, "artistName" : %s}, ...],
+        // "albumId" : %s,
+        // "genreId" : %s,
+        // "duration" : %d,
+        // "releaseDate" : %s,
+        // "popularity" : %d,
+        // "profilePath" : %s,
+        // "trackPath" : %s,
+        // "fileName" : %s
+        //  }, ...
+        //  ]
         // Uploading profile pictures
         uploadFiles(jsonResults, "profilePath");
         uploadFiles(jsonResults, "trackPath");
