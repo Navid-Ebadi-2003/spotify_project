@@ -1,14 +1,16 @@
-#main-vbox {
-    -fx-background-color: rgb(40,40,40);
+#main-hbox {
+    -fx-background-color: rgb(0,0,0);
 }
-#middle-label {
-    -fx-font-family: arial;
+
+#playlist-title-hyperlink {
     -fx-font-weight: bold;
     -fx-text-fill: rgb(255, 255, 255);
     -fx-font-size: 15;
+    -fx-font-family: CircularSp;
 }
 
-#hbox .label{
-    -fx-text-fill: rgb(168,168,168);
+#creator-name-hyperlink {
+    -fx-text-fill: rgb(145,145,145);
     -fx-font-size: 12;
+    -fx-font-family: CircularSp;
 }

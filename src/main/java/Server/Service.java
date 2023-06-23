@@ -164,9 +164,7 @@ public class Service implements Runnable {
         fileInputStream.close();
     }
     public void uploadFiles(JsonArray jsonArray, String filePathKey) throws IOException {
-        OutputStream outputStream = serverSocket.getOutputStream();
-        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-
+        
         for (int i = 0; i < jsonArray.size(); i++) {
             // Extract profilePath
             JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();

@@ -8,7 +8,7 @@ public class Artist {
     private UUID artistId;
     private String name;
     private UUID genreId;
-    private ArrayList<UUID> genres;
+    // Removed genres because it's simpler for artists to have only a genre
     private String biography;
     private HashMap<String, String> socialMediaLinks;
     private ArrayList<UUID> albums;
@@ -18,11 +18,10 @@ public class Artist {
 
     //Constructor
 
-    public Artist(UUID artistId, String name, UUID genreId, ArrayList<UUID> genres, String biography, HashMap<String, String> socialMediaLinks, ArrayList<UUID> albums, String profilePath) {
+    public Artist(UUID artistId, String name, UUID genreId, String biography, HashMap<String, String> socialMediaLinks, ArrayList<UUID> albums, String profilePath) {
         this.artistId = artistId;
         this.name = name;
         this.genreId = genreId;
-        this.genres = genres;
         this.biography = biography;
         this.socialMediaLinks = socialMediaLinks;
         this.albums = albums;
@@ -42,10 +41,6 @@ public class Artist {
 
     public UUID getGenreId() {
         return genreId;
-    }
-
-    public ArrayList<UUID> getGenres() {
-        return genres;
     }
 
     public String getBiography() {

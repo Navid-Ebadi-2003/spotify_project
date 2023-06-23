@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="main-vbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="176.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController">
+<HBox id="main-hbox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="188.0" stylesheets="@playlist-second-box-css-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="trackPicture" fitHeight="116.0" fitWidth="176.0" pickOnBounds="true" preserveRatio="true" />
-      <Label id="middle-label" fx:id="trackTitle" alignment="CENTER" prefHeight="45.0" prefWidth="176.0" text="Title" />
-      <HBox id="hbox" fx:id="artistHBox" prefHeight="46.0" prefWidth="176.0" />
+      <ImageView fx:id="playlistPicture" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Icons/unknownFile.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="CENTER" prefHeight="58.0" prefWidth="128.0">
+         <children>
+            <Hyperlink id="playlist-title-hyperlink" fx:id="playlistTitleHyperLink" onAction="#goPlaylistPage" prefHeight="20.0" prefWidth="100.0" text="PlaylistTitle" />
+            <Hyperlink id="creator-name-hyperlink" fx:id="creatorNameHyperLink" onAction="#goCreatorPage" prefHeight="26.0" prefWidth="100.0" text="CreatorName" />
+         </children>
+      </VBox>
    </children>
-</VBox>
+</HBox>
