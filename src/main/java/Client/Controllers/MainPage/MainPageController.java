@@ -191,6 +191,9 @@ public class MainPageController implements Initializable {
             // Building Hashmaps
             HashMap<HBox, InjectableController> leftSidePlaylists = buildLeftSidePlaylists(jsonResults);
             // TODO : HASHMAP OF likedMusicsJson and randomMusicsJson
+            // Adding Boxes to Scenes
+            playlistVbox.getChildren().addAll(leftSidePlaylists.keySet());
+            // TODO : Adding Boxes of randomMusics & likedMusics to the homePage Scene
             // Assigning thread to download profilePictures
             DownloadFiles downPlaylistsTask = new DownloadFiles(playlistsJson, new ArrayList<>(leftSidePlaylists.values()), "profilePath", clientSocket);
             // TODO
