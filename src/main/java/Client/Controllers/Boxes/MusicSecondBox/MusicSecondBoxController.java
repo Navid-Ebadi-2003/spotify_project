@@ -20,8 +20,8 @@ public class MusicSecondBoxController {
     private Hyperlink trackTitleHyperLink;
     // This stores artistName, artistId
     private HashMap<String, UUID> artists;
-    // This stores id of the track
-    private UUID trackId;
+    // This stores id of the album
+    private UUID albumId;
 
     @FXML
     void goToAlbumPage(ActionEvent event) {
@@ -63,11 +63,11 @@ public class MusicSecondBoxController {
         this.artists = artists;
     }
 
-    public UUID getTrackId() {
-        return trackId;
+    public UUID getAlbumId() {
+        return albumId;
     }
 
-    public void setTrackId(UUID trackId) {
-        this.trackId = trackId;
+    public void setAlbumId(UUID albumId) {
+        this.albumId = albumId;
     }
 }
