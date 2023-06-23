@@ -26,8 +26,8 @@ public class MusicThirdBoxController {
 
     @FXML
     private Hyperlink trackTitleHyperLink;
-    // This stores id of the track
-    private UUID trackId;
+    // This stores id of the album
+    private UUID albumId;
     // This stores artistName, artistId
     private HashMap<String, UUID> artists;
 
@@ -84,12 +84,12 @@ public class MusicThirdBoxController {
         this.trackTitleHyperLink = trackTitleHyperLink;
     }
 
-    public UUID getTrackId() {
-        return trackId;
+    public UUID getAlbumId() {
+        return albumId;
     }
 
-    public void setTrackId(UUID trackId) {
-        this.trackId = trackId;
+    public void setAlbumId(UUID albumId) {
+        this.albumId = albumId;
     }
 
     public HashMap<String, UUID> getArtists() {
