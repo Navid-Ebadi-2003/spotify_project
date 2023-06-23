@@ -93,7 +93,15 @@ public class Service implements Runnable {
                 }
             }
             case "go home page request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID userId = UUID.fromString(requestBody.get("userId").getAsString());
+                JsonObject jsonResults = Query.getHomePage(userId);
+                responseObject.goHomePageRes(jsonResults);
+                try {
+                    uploadHomePage(jsonResults);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             case "search request" -> {
                 //TODO

@@ -1,6 +1,9 @@
 package Client.Controllers.MainPage;
+import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
+import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -172,6 +175,7 @@ public class MainPageController implements Initializable {
         // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
+            HomePageController homePageController = homePageLoader.getController();
             // Setting putting homePage into pageHolder
             this.pageHolder.setContent(homePageLoader.load());
             // Sending goHomePageRequest
@@ -179,37 +183,42 @@ public class MainPageController implements Initializable {
             // Receiving response
             String response = in.nextLine();
             JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
-
+            // Parsing JsonArrays
+            JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+            JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+            JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
+            JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+            // Building Hashmaps
+            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
+            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
+            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
+            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+            // Adding playlistBoxes to mainPage
+            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
+            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
+            // Adding randomMusics & likedMusics Boxes to homePage
+            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
+            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
+            // Assigning thread to download profilePictures
+            DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
+            DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
+            DownloadFiles downSuggestedMusicsTask = new DownloadFiles(randomMusicsJson, new ArrayList<>(suggestedMusics.values()), "profilePath", clientSocket);
+            DownloadFiles downLikedMusicsTask = new DownloadFiles(likedMusicsJson, new ArrayList<>(likedMusics.values()), "profilePath", clientSocket);
+            // Assigning threads
+            Thread thread_0 = new Thread(downCreatedPlaylistsTask);
+            Thread thread_1 = new Thread(downLikedPlaylistsTask);
+            Thread thread_2 = new Thread(downSuggestedMusicsTask);
+            Thread thread_3 = new Thread(downLikedMusicsTask);
+            // Running Threads
+            thread_0.start();
+            thread_1.start();
+            thread_2.start();
+            thread_3.start();
 
         } catch (IOException io) {
 
         }
     }
-
-    public HashMap<HBox, InjectableController> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
-        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
-        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-        JsonArray allPlaylistsJson = new JsonArray();
-        allPlaylistsJson.addAll(createdPlaylistsJson);
-        allPlaylistsJson.addAll(likedPlaylistsJson);
-        HashMap<HBox, InjectableController> playlistBoxes = new HashMap<>();
-
-        for (JsonElement arrayItem : allPlaylistsJson) {
-            JsonObject playlistJson = (JsonObject) arrayItem;
-            JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
-            FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
-            PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
-            // Fill its controller
-            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
-            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
-            playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
-            playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
-            playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
-        }
-        return playlistBoxes;
-        // Pass to Downloader
-    }
-
     /*
         setter and getters
      */

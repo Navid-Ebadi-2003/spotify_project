@@ -1,15 +1,17 @@
 package Client.Controllers.Boxes.MusicMainBox;
 
+import Client.Controllers.InjectableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class MusicMainBoxController {
+public class MusicMainBoxController implements InjectableController {
 
     @FXML
     private HBox artistsHbox;
@@ -34,10 +36,6 @@ public class MusicMainBoxController {
 
     public HBox getArtistsHbox() {
         return artistsHbox;
-    }
-
-    public void setArtistsHbox(HBox artistsHbox) {
-        this.artistsHbox = artistsHbox;
     }
 
     public ImageView getTrackPicture() {
@@ -70,5 +68,13 @@ public class MusicMainBoxController {
 
     public void setArtists(HashMap<String, UUID> artists) {
         this.artists = artists;
+    }
+    public void addHyperLink(Hyperlink hyperlink) {
+        this.artistsHbox.getChildren().add(hyperlink);
+    }
+
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.trackPicture.setImage(profilePic);
     }
 }
