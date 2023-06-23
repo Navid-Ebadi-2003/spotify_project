@@ -1,5 +1,7 @@
 package Client.Controllers.MainPage;
+import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
 import Client.DownloadFiles;
 import Shared.Request;
@@ -173,6 +175,7 @@ public class MainPageController implements Initializable {
         // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
+            HomePageController homePageController = homePageLoader.getController();
             // Setting putting homePage into pageHolder
             this.pageHolder.setContent(homePageLoader.load());
             // Sending goHomePageRequest
@@ -183,56 +186,39 @@ public class MainPageController implements Initializable {
             // Parsing JsonArrays
             JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
             JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-            JsonArray playlistsJson = new JsonArray();
-            playlistsJson.addAll(createdPlaylistsJson);
-            playlistsJson.addAll(likedPlaylistsJson);
             JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
             JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
             // Building Hashmaps
-            HashMap<HBox, InjectableController> leftSidePlaylists = buildLeftSidePlaylists(jsonResults);
-            // TODO : HASHMAP OF likedMusicsJson and randomMusicsJson
-            // Adding Boxes to Scenes
-            playlistVbox.getChildren().addAll(leftSidePlaylists.keySet());
-            // TODO : Adding Boxes of randomMusics & likedMusics to the homePage Scene
+            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
+            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
+            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
+            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+            // Adding playlistBoxes to mainPage
+            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
+            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
+            // Adding randomMusics & likedMusics Boxes to homePage
+            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
+            homePageController.getLikedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
             // Assigning thread to download profilePictures
-            DownloadFiles downPlaylistsTask = new DownloadFiles(playlistsJson, new ArrayList<>(leftSidePlaylists.values()), "profilePath", clientSocket);
-            // TODO
-            Thread thread_0 = new Thread(downPlaylistsTask);
+            DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
+            DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
+            DownloadFiles downSuggestedMusicsTask = new DownloadFiles(randomMusicsJson, new ArrayList<>(suggestedMusics.values()), "profilePath", clientSocket);
+            DownloadFiles downLikedMusicsTask = new DownloadFiles(likedMusicsJson, new ArrayList<>(likedMusics.values()), "profilePath", clientSocket);
+            // Assigning threads
+            Thread thread_0 = new Thread(downCreatedPlaylistsTask);
+            Thread thread_1 = new Thread(downLikedPlaylistsTask);
+            Thread thread_2 = new Thread(downSuggestedMusicsTask);
+            Thread thread_3 = new Thread(downLikedMusicsTask);
             // Running Threads
             thread_0.start();
+            thread_1.start();
+            thread_2.start();
+            thread_3.start();
+
         } catch (IOException io) {
 
         }
     }
-
-    public HashMap<HBox, InjectableController> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
-        // Parsing JsonObjects
-        JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
-        JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-        // Putting all the JsonArrays into one
-        JsonArray allPlaylistsJson = new JsonArray();
-        allPlaylistsJson.addAll(createdPlaylistsJson);
-        allPlaylistsJson.addAll(likedPlaylistsJson);
-        // This stores each HBox that we create for objects, and it's Controller
-        HashMap<HBox, InjectableController> playlistBoxes = new HashMap<>();
-
-        // Parsing JsonObject of each individual playlist
-        for (JsonElement arrayItem : allPlaylistsJson) {
-            JsonObject playlistJson = (JsonObject) arrayItem;
-            JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
-            FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
-            PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
-            // Setting it's controller data
-            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
-            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
-            playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
-            playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
-            // Putting HBox and it's controller into Hashmap
-            playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
-        }
-        return playlistBoxes;
-    }
-
     /*
         setter and getters
      */
