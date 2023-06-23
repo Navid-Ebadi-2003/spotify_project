@@ -36,10 +36,6 @@ public class MusicMainBoxController {
         return artistsHbox;
     }
 
-    public void setArtistsHbox(HBox artistsHbox) {
-        this.artistsHbox = artistsHbox;
-    }
-
     public ImageView getTrackPicture() {
         return trackPicture;
     }
@@ -70,5 +66,8 @@ public class MusicMainBoxController {
 
     public void setArtists(HashMap<String, UUID> artists) {
         this.artists = artists;
+    }
+    public void addHyperLink(Hyperlink hyperlink) {
+        this.artistsHbox.getChildren().add(hyperlink);
     }
 }
