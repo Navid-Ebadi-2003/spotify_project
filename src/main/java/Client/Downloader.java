@@ -18,7 +18,7 @@ public class Downloader implements Runnable{
             fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\ProfilePictures\\" + fileName + ".png");
         } else {
             // Else we have to store in Musics
-            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\Musics" + fileName + ".mp3");
+            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\Musics\\" + fileName + ".mp3");
         }
         InputStream inputStream = clientSocket.getInputStream();
 

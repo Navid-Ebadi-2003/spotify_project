@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -187,16 +188,28 @@ public class MainPageController implements Initializable {
         }
     }
 
-    public ArrayList<HBox> buildLeftSidePlaylists(JsonObject jsonResults) {
+    public ArrayList<HBox> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+        JsonArray allPlaylistsJson = new JsonArray();
+        allPlaylistsJson.addAll(createdPlaylistsJson);
+        allPlaylistsJson.addAll(likedPlaylistsJson);
         ArrayList<HBox> playlistBoxes = new ArrayList<>();
-        for (JsonElement arrayItem : createdPlaylistsJson) {
+
+        for (JsonElement arrayItem : allPlaylistsJson) {
+            JsonObject playlistJson = (JsonObject) arrayItem;
+            JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
             FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
-            arrayItem = (JsonObject) arrayItem;
             // Fill its controller
+            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
+            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
+            playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
+            playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
+            playlistBoxes.add(playlistBoxLoader.load());
         }
+        return playlistBoxes;
+        // Pass to Downloader
     }
 
     /*
