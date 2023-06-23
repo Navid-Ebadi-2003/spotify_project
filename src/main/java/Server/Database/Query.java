@@ -116,7 +116,7 @@ public class Query {
                 String storedPass = rs.getString("password");
                 UUID userId = UUID.fromString(rs.getString("user_id"));
                 // TODO: hash the password
-                if(storedPass.equals(storedPass)) {
+                if(storedPass.equals(password)) {
                     return userId;
                 } else {
                     // If null then it means that the password is incorrect
