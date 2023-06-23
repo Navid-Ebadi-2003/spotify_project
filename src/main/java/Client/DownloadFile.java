@@ -1,17 +1,42 @@
 package Client;
 
 import Client.Controllers.InjectableController;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import javafx.scene.image.Image;
 
-import java.io.*;
-import java.lang.reflect.Array;
+import java.io.DataInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
-public class Downloader implements Runnable{
+public class DownloadFile implements Runnable{
+//    String fileName, InjectableController controller, String filePathKey, Socket clientSocket
+    private String fileName;
+    private InjectableController controller;
+    private String filePathKey;
+    private Socket clientSocket;
 
+    // Constructor
+
+    public DownloadFile(String fileName, InjectableController controller, String filePathKey, Socket clientSocket) {
+        this.fileName = fileName;
+        this.controller = controller;
+        this.filePathKey = filePathKey;
+        this.clientSocket = clientSocket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            downloadFile(fileName, controller, filePathKey, clientSocket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
+        DownloadFIle related methods
+     */
     public static void downloadFile(String fileName, InjectableController controller, String filePathKey, Socket clientSocket) throws IOException {
         FileOutputStream fileOutputStream = null;
         if (filePathKey.equals("profilePath")) {
@@ -43,24 +68,8 @@ public class Downloader implements Runnable{
         fileOutputStream.flush();
         fileOutputStream.close();
     }
-
-    public void downloadFiles(JsonArray jsonArray, ArrayList<InjectableController> controllers, String filePathKey, Socket clientSocket) throws IOException {
-
-        for (int i = 0; i < jsonArray.size(); i++){
-            // Extract fileName
-            JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();
-            String fileName = arrayItem.get("fileName").getAsString();
-            downloadFile(fileName, controllers.get(i),filePathKey, clientSocket);
-        }
-    }
-
     public static void replaceImage(InjectableController controller, String imagePath){
         Image image = new Image(imagePath);
         controller.setControllerProfilePic(image);
-    }
-
-    @Override
-    public void run() {
-        // TODO
     }
 }
