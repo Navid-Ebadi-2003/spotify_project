@@ -1,5 +1,6 @@
 package Client.Controllers.MainPage;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Client.Controllers.InjectableController;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -21,10 +22,7 @@ import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class MainPageController implements Initializable {
 
@@ -188,13 +186,13 @@ public class MainPageController implements Initializable {
         }
     }
 
-    public ArrayList<HBox> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
+    public HashMap<HBox, InjectableController> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
         JsonArray allPlaylistsJson = new JsonArray();
         allPlaylistsJson.addAll(createdPlaylistsJson);
         allPlaylistsJson.addAll(likedPlaylistsJson);
-        ArrayList<HBox> playlistBoxes = new ArrayList<>();
+        HashMap<HBox, InjectableController> playlistBoxes = new HashMap<>();
 
         for (JsonElement arrayItem : allPlaylistsJson) {
             JsonObject playlistJson = (JsonObject) arrayItem;
@@ -206,7 +204,7 @@ public class MainPageController implements Initializable {
             playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
-            playlistBoxes.add(playlistBoxLoader.load());
+            playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
         }
         return playlistBoxes;
         // Pass to Downloader

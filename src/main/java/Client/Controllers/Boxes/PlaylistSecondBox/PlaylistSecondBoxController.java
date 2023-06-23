@@ -1,13 +1,16 @@
 package Client.Controllers.Boxes.PlaylistSecondBox;
 
+import Client.Controllers.InjectableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
 
 import java.util.UUID;
 
-public class PlaylistSecondBoxController {
+public class PlaylistSecondBoxController implements InjectableController {
     @FXML
     private Hyperlink creatorNameHyperLink;
 
@@ -73,5 +76,9 @@ public class PlaylistSecondBoxController {
 
     public void setPlaylistId(UUID playlistId) {
         this.playlistId = playlistId;
+    }
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.playlistPicture.setImage(profilePic);
     }
 }
