@@ -1,6 +1,7 @@
 package Client.Controllers.MainPage;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.InjectableController;
+import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -179,35 +180,54 @@ public class MainPageController implements Initializable {
             // Receiving response
             String response = in.nextLine();
             JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
-
-
+            // Parsing JsonArrays
+            JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+            JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+            JsonArray playlistsJson = new JsonArray();
+            playlistsJson.addAll(createdPlaylistsJson);
+            playlistsJson.addAll(likedPlaylistsJson);
+            JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
+            JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+            // Building Hashmaps
+            HashMap<HBox, InjectableController> leftSidePlaylists = buildLeftSidePlaylists(jsonResults);
+            // TODO : HASHMAP OF likedMusicsJson and randomMusicsJson
+            // Assigning thread to download profilePictures
+            DownloadFiles downPlaylistsTask = new DownloadFiles(playlistsJson, new ArrayList<>(leftSidePlaylists.values()), "profilePath", clientSocket);
+            // TODO
+            Thread thread_0 = new Thread(downPlaylistsTask);
+            // Running Threads
+            thread_0.start();
         } catch (IOException io) {
 
         }
     }
 
     public HashMap<HBox, InjectableController> buildLeftSidePlaylists(JsonObject jsonResults) throws IOException {
+        // Parsing JsonObjects
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+        // Putting all the JsonArrays into one
         JsonArray allPlaylistsJson = new JsonArray();
         allPlaylistsJson.addAll(createdPlaylistsJson);
         allPlaylistsJson.addAll(likedPlaylistsJson);
+        // This stores each HBox that we create for objects, and it's Controller
         HashMap<HBox, InjectableController> playlistBoxes = new HashMap<>();
 
+        // Parsing JsonObject of each individual playlist
         for (JsonElement arrayItem : allPlaylistsJson) {
             JsonObject playlistJson = (JsonObject) arrayItem;
             JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
             FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
-            // Fill its controller
+            // Setting it's controller data
             playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
             playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
+            // Putting HBox and it's controller into Hashmap
             playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
         }
         return playlistBoxes;
-        // Pass to Downloader
     }
 
     /*
