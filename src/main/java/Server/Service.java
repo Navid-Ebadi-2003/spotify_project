@@ -52,14 +52,19 @@ public class Service implements Runnable {
 
     public void log (String requestType , UUID userId) {
         try {
-            if (!userId.equals(null)) {
-                FileWriter writer = new FileWriter("log.txt");
-                LocalTime time = LocalTime.now();
+            FileWriter writer = new FileWriter("log.txt");
+            LocalTime time = LocalTime.now();
 
-                writer.write(userId + "\n" + requestType + "\n" + time + "\n" + "\n");
-                writer.flush();
-                writer.close();
+            if (!userId.equals(null)) {
+
+                writer.write(time + "\n" + serverSocket.getLocalAddress()+ "\n" + serverSocket.getPort()+ "\n" + userId + "\n" + requestType + "\n" + "\n" + "\n");
             }
+            else {
+                writer.write(time + "\n" + serverSocket.getLocalAddress()+ "\n" + serverSocket.getPort()+ "\n" + requestType + "\n" + "\n" + "\n");
+            }
+            writer.flush();
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,8 +96,6 @@ public class Service implements Runnable {
                 String email = requestBody.get("email").getAsString();
                 String username = requestBody.get("username").getAsString();
                 String password = requestBody.get("password").getAsString();
-
-                this.userId = userId;
 
                 if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)){
                     Query.signUpUser(userId, username, email, password);
