@@ -72,6 +72,6 @@ public class BoxBuilder {
 
             musicBoxes.put(suggestedMusicBoxLoader.load(), musicMainBoxController);
         }
-        return musicBoxs;
+        return musicBoxes;
     }
 }
