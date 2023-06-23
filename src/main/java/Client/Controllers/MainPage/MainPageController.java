@@ -198,7 +198,7 @@ public class MainPageController implements Initializable {
             playlistVbox.getChildren().addAll(likedPlaylists.keySet());
             // Adding randomMusics & likedMusics Boxes to homePage
             homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
-            homePageController.getLikedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
+            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
             // Assigning thread to download profilePictures
             DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
             DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
