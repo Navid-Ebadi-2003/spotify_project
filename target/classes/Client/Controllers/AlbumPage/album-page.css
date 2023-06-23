@@ -1,0 +1,62 @@
+#main-anchor-pane {
+    -fx-background-color: rgb(0,0,0);
+}
+
+#playlist-title {
+    -fx-font-family: CircularSpTitle;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 80;
+    -fx-font-weight: bold;
+}
+
+#playlist-label {
+    -fx-font-family: CirucularSp;
+    /*-fx-font-weight: bold;*/
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+#top-hbox {
+    -fx-background-color: rgb(20,20,20);
+}
+
+#like-button {
+    -fx-background-color: transparent;
+}
+/*
+    scroll-pane css styles
+ */
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+.corner {
+    -fx-background-color: transparent;
+}
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgb(135, 206, 235);
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgb(135, 206, 235);
+}
+.scroll-pane {
+    -fx-background-color: red;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-region-background: black;
+}

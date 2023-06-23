@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 public class WelcomePageController implements Initializable {
 
     private Socket clientSocket;
-    private Request requestObject;
     @FXML
     private Button loginPageButton;
 
@@ -39,15 +38,6 @@ public class WelcomePageController implements Initializable {
     public void setClientSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
-
-    public Request getRequestObject() {
-        return requestObject;
-    }
-
-    public void setRequestObject(Request requestObject) {
-        this.requestObject = requestObject;
-    }
-
     public Button getLoginPageButton() {
         return loginPageButton;
     }
@@ -65,11 +55,15 @@ public class WelcomePageController implements Initializable {
     }
 
     public void goLoginPage(ActionEvent event) {
+        // Taking current stage from the event
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
         FXMLLoader loginPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../LoginPage/login-page.fxml"));
         try {
+            // Loading loginPage into the scene
             Scene loginScene = new Scene(loginPageLoader.load());
+            // Taking its controller
             LoginPageController loginPageController = loginPageLoader.getController();
+            // Setting clientSocket for its controller
             loginPageController.setter(clientSocket);
             currentStage.setScene(loginScene);
         } catch (IOException e) {
@@ -78,11 +72,15 @@ public class WelcomePageController implements Initializable {
     }
 
     public void goSignupPage(ActionEvent event) {
+        // Taking current stage from the event
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
         FXMLLoader signupPageLoader = new FXMLLoader(WelcomePageController.class.getResource("../SignupPage/signup-page.fxml"));
         try {
+            // Loading singupPage into the scene
             Scene loginScene = new Scene(signupPageLoader.load());
+            // Taking its controller
             SignupPageController signupPageController = signupPageLoader.getController();
+            // Setting clientSocket for its controller
             signupPageController.setter(clientSocket);
             currentStage.setScene(loginScene);
         } catch (IOException e) {
@@ -90,18 +88,14 @@ public class WelcomePageController implements Initializable {
         }
     }
 
+    // This will get called whenever a instance of this object is created (or loading .fxml of its class)
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Socket clientSocket = null;
         try {
-            //Connecting to server
-            clientSocket = new Socket("localhost", 8888);
+            // Connecting Client to the server
+            this.clientSocket = new Socket("localhost", 8888);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        //Assigning handler
-        this.clientSocket = clientSocket;
-        this.requestObject = new Request(this.clientSocket);
     }
 }
