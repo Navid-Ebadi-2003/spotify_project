@@ -167,6 +167,7 @@ public class Query {
      * Type of actions:
      * ADD_ARTIST_SOCIALMEDIA: Artist adding a social media to their page
      * ADD_ARTIST_ALBUM: Artist adding an album to their page
+     * ARTIST_ADD_TRACK: Artist adding a track
      * ALBUM_ADD_TRACK: Adding a track to an album
      * PLAYLIST_ADD_TRACK: Adding a track to a playlist
      * USER_FOLLOW_USER: User following a user
@@ -291,6 +292,9 @@ public class Query {
                 String biography = rs.getString("biography");
                 artistJson.addProperty("biography", biography);
 
+                // file name will be the id of the artist
+                artistJson.addProperty("fileName", artistId.toString());
+
                 
                 JsonArray socialMediaLinks = getObjectsFromHistory(artistId, "ADD_ARTIST_SOCIALMEDIA");
                 artistJson.add("socialMediaLinks", socialMediaLinks);
@@ -307,6 +311,15 @@ public class Query {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static synchronized JsonArray getArtists(JsonArray artistsArray) {
+        JsonArray artists = new JsonArray();
+        for(JsonElement artistsIdString: artistsArray) {
+            UUID artistsId = UUID.fromString(artistsIdString.getAsString());
+            artists.add(getArtist(artistsId));
+        }
+        return artists;
     }
 
     // Get a track's info from id
@@ -327,7 +340,8 @@ public class Query {
                 String title = rs.getString("title");
                 musicJson.addProperty("title", title);
 
-                JsonArray artists = getSubjectsFromHistory(trackId, "ARTIST_ADD_TRACK");
+                JsonArray artistsId = getSubjectsFromHistory(trackId, "ARTIST_ADD_TRACK");
+                JsonArray artists = getArtists(artistsId);
                 musicJson.add("artists", artists);
 
                 String albumId = rs.getString("album_id");
@@ -350,6 +364,9 @@ public class Query {
     
                 String trackPath = rs.getString("track_path");
                 musicJson.addProperty("trackPath", trackPath);
+
+                // file name will be the id of the track
+                musicJson.addProperty("fileName", trackId.toString());
 
                 return musicJson;
             } else {
@@ -380,8 +397,9 @@ public class Query {
                 String title = rs.getString("title");
                 albumJson.addProperty("title", title);
 
-                String artistId = rs.getString("artist_id");
-                albumJson.addProperty("artistId", artistId);
+                JsonArray artistsId = getSubjectsFromHistory(albumId, "ADD_ARTIST_ALBUM");
+                JsonArray artists = getArtists(artistsId);
+                albumJson.add("artists", artists);
 
                 String genreId = rs.getString("genre_id");
                 albumJson.addProperty("genreId", genreId);
@@ -397,6 +415,9 @@ public class Query {
 
                 String profilePath = rs.getString("profile_path");
                 albumJson.addProperty("profilePath", profilePath);
+
+                // file name will be the id of the album
+                albumJson.addProperty("fileName", albumId.toString());
 
                 return albumJson;
             } else {
@@ -427,6 +448,11 @@ public class Query {
                 String title = rs.getString("title");
                 playlistJson.addProperty("title", title);
 
+                JsonArray creatorIdArray = getSubjectsFromHistory(playlistId, "USER_CREATE_PLAYLIST");
+                UUID creatorId = UUID.fromString(creatorIdArray.get(0).getAsString());
+                JsonObject creator = getUser(creatorId);
+                playlistJson.add("creator", creator);
+
                 String description = rs.getString("description");
                 playlistJson.addProperty("description", description);
 
@@ -441,6 +467,9 @@ public class Query {
         
                 String profilePath = rs.getString("profile_path");
                 playlistJson.addProperty("profilePath", profilePath);
+
+                // file name will be the id of the playlist
+                playlistJson.addProperty("fileName", playlistId.toString());
 
                 JsonArray tracks = getObjectsFromHistory(playlistId, "PLAYLIST_ADD_TRACK");
                 playlistJson.add("tracks", tracks);
@@ -813,188 +842,6 @@ public class Query {
             return null;
         }
     }
-
-    /*
-     * Methods related to pages
-     */
-
-    // get some random number of tracks
-    public static synchronized JsonArray getRandomTracks(int amount) {
-        // get all tracks
-        JsonArray allTracksId = getAllTracksId();
-        // select some random tracks
-        JsonArray randomTracksId = getRandomElements(allTracksId, amount);
-
-        JsonArray randomTracks = new JsonArray();
-
-        for(JsonElement randomTrackId: randomTracksId) {
-            UUID trackId = UUID.fromString(randomTrackId.getAsString());
-            // get music's meta-data
-            randomTracks.add(getMusic(trackId));
-        }
-        return randomTracks;
-
-    }
-
-    // get all tracks a given user has liked
-    public static synchronized JsonArray getLikedTracks(UUID userId) {
-        // get all user's liked tracks
-        JsonArray likedTracksId = getObjectsFromHistory(userId, "USER_LIKE_TRACK");
-        JsonArray likedTracks = new JsonArray();
-        for(JsonElement trackIdString: likedTracksId) {
-            UUID trackId = UUID.fromString(trackIdString.getAsString());
-            // get music's meta-data
-            likedTracks.add(getMusic(trackId));
-        }
-        return likedTracks;
-
-    }
-
-    // get all playlists a given user has created
-    public static synchronized JsonArray getCreatedPlaylists(UUID userId) {
-        // get all user's created playlists
-        JsonArray createdPlaylistId = getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
-        JsonArray createdPlaylist = new JsonArray();
-        for(JsonElement playlistIdString: createdPlaylistId) {
-            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
-            // get playlist's meta-data
-            createdPlaylist.add(getMusic(playlistId));
-        }
-        return createdPlaylist;
-    }
-
-    // get all playlists a given user has liked
-    public static synchronized JsonArray getLikedPlaylists(UUID userId) {
-        JsonArray likedPlaylistId = getObjectsFromHistory(userId, "USER_LIKE_PLAYLIST");
-        JsonArray likedPlaylist = new JsonArray();
-        for(JsonElement playlistIdString: likedPlaylistId) {
-            UUID playlistId = UUID.fromString(playlistIdString.getAsString());
-            // get playlist's meta-data
-            likedPlaylist.add(getPlaylist(playlistId));
-        }
-        return likedPlaylist;
-    }
-
-    // get all albums a given user has liked
-    public static synchronized JsonArray getLikedAlbums(UUID userId) {
-        JsonArray likedAlbumIds = getObjectsFromHistory(userId, "USER_LIKE_likedALBUM");
-        JsonArray likedAlbums = new JsonArray();
-        for(JsonElement likedAlbumIdString: likedAlbumIds) {
-            UUID likedAlbumId = UUID.fromString(likedAlbumIdString.getAsString());
-            // get likedalbum's meta-data
-            likedAlbums.add(getAlbum(likedAlbumId));
-        }
-        return likedAlbums;
-    }
-
-    // get all artists a given user has followed
-    public static synchronized JsonArray getFollowedArtists(UUID userId) {
-        JsonArray artistsId = getObjectsFromHistory(userId, "USER_FOLLOW_ARTIST");
-        JsonArray artists = new JsonArray();
-        for(JsonElement artistIdString: artistsId) {
-            UUID artistId = UUID.fromString(artistIdString.getAsString());
-            // get artist's meta-data
-            artists.add(getArtist(artistId));
-        }
-        return artists;
-    }
-
-    // get all users a given user has followed
-    public static synchronized JsonArray getUsersFollowings(UUID userId) {
-        JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
-        JsonArray followedUserdId = new JsonArray();
-        for(JsonElement followedUserIdString: followedUsersId) {
-            UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
-            // get user's meta-data
-            followedUserdId.add(getUser(followedUserId));
-        }
-        return followedUserdId;
-    }
-
-    // get all followed users' playlists of a given user (if they're public)
-    public static synchronized JsonArray getFollowedUsersPlaylists(UUID userId) {
-        JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
-        JsonArray usersPlaylists = new JsonArray();
-
-        // loop over users and get the their playlists
-        for(JsonElement followedUserElement: followedUsersId) {
-            UUID followedUserId = UUID.fromString(followedUserElement.getAsString());
-            JsonArray playlists = getCreatedPlaylists(followedUserId);
-            for(JsonElement playlist: playlists) {
-                UUID playlistId = UUID.fromString(playlist.getAsString());
-                JsonObject playlistJson = getPlaylist(playlistId);
-                // checking whether a playlists is private or not
-                if(playlistJson.get("isPrivate").getAsInt() == 0) {
-                    usersPlaylists.add(playlistJson);
-                }
-            }
-        }
-        return usersPlaylists;
-    }  
-
-    // get all users a given user has followed
-    public static synchronized JsonArray getUsersFollowers(UUID userId) {
-        JsonArray followedUsersId = getSubjectsFromHistory(userId, "USER_FOLLOW_USER");
-        JsonArray followedUserdId = new JsonArray();
-        for(JsonElement followedUserIdString: followedUsersId) {
-            UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
-            // get user's meta-data
-            followedUserdId.add(getUser(followedUserId));
-        }
-        return followedUserdId;
-    }
-
-    // get all meta data a user needs for their homepage
-    public static synchronized JsonObject getHomePage(UUID userId) {
-        JsonObject homePageJson = new JsonObject();
-        homePageJson.add("likedMusicsResult", getLikedTracks(userId));
-        homePageJson.add("createdPlaylistsResult", getCreatedPlaylists(userId));
-        homePageJson.add("likedPlaylistsResult", getLikedPlaylists(userId));
-        homePageJson.add("randomMusicsResult", getRandomTracks(8));
-
-        return homePageJson;
-    }
-
-    // get all meta data a user needs for their page
-    public static synchronized JsonObject getUserPage(UUID userId) {
-        // User page consists of a user's info plus other things
-        JsonObject userPage = getUser(userId);
-
-        JsonArray createdPlaylists = getCreatedPlaylists(userId);
-        userPage.add("createdPlaylists", createdPlaylists);
-
-        JsonArray likedPlaylists = getLikedPlaylists(userId);
-        userPage.add("likedPlaylists", likedPlaylists);
-
-        JsonArray followers = getUsersFollowers(userId);
-        userPage.add("followers", followers);
-
-        JsonArray followings = getUsersFollowings(userId);
-        userPage.add("followings", followings);
-
-        return userPage;
-
-    }
-
-    /*
-     * Miscellaneous methods
-     */
-
-
-    // select some random elements from a json array
-    public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
-        Random rand = new Random();
- 
-        JsonArray newArray = new JsonArray();
-        for (int i = 0; i < totalItems; i++) {
- 
-            // take a random index between 0 to size of given jsonArray
-            int randomIndex = rand.nextInt(jsonArray.size());
- 
-            // add element in temporary jsonArray
-            newArray.add(jsonArray.get(randomIndex));
-        }
-        return newArray;
     /*
      * Methods related to pages
      */
