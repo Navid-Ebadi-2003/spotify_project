@@ -148,7 +148,7 @@ public class Service implements Runnable {
             }
             case "watch album page request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
-                UUID albumId = UUID.fromString(requestBody.get("userId").getAsString());
+                UUID albumId = UUID.fromString(requestBody.get("albumId").getAsString());
                 JsonObject jsonResults = Query.getAlbum(albumId);
                 responseObject.watchAlbumRes(jsonResults);
                 try {

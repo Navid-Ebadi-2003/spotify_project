@@ -1,6 +1,7 @@
 package Client.Controllers.Boxes;
 
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
+import Client.Controllers.Boxes.MusicThirdBox.MusicThirdBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
@@ -10,8 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -80,7 +79,7 @@ public class BoxBuilder {
         return musicControllers;
     }
 
-    public static ArrayList<InjectableController> buildMusicSecondBox(JsonObject jsonResults, String jsonArrayKey, MainPageController mainPageController, Socket clientSocket) throws IOException {
+    public static ArrayList<InjectableController> buildMusicThirdBox(JsonObject jsonResults, String jsonArrayKey, MainPageController mainPageController, Socket clientSocket) throws IOException {
         // Parsing JsonObjects
         JsonArray musicsJson = jsonResults.getAsJsonArray(jsonArrayKey);
         // This stores each VBox that we create for objects, and it's Controller
@@ -89,9 +88,9 @@ public class BoxBuilder {
         // Parsing JsonObject of each individual music
         for (JsonElement arrayItem : musicsJson) {
             JsonObject musicJson = (JsonObject) arrayItem;
-            FXMLLoader musicSecondBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicSecondBox/music-second-box.fxml"));
-            musicSecondBoxLoader.load();
-            MusicMainBoxController musicSecondBoxController = musicSecondBoxLoader.getController();
+            FXMLLoader musicThirdBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicThirdBox/music-third-box.fxml"));
+            musicThirdBoxLoader.load();
+            MusicThirdBoxController musicThirdBoxController = musicThirdBoxLoader.getController();
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
             HashMap<String , UUID> artists = new HashMap<>();
@@ -101,15 +100,15 @@ public class BoxBuilder {
                 artists.put(artistName, artistID);
 
                 // Add artist hyperlink to it's Hbox
-                musicSecondBoxController.addHyperLink(new Hyperlink(artistName));
+                musicThirdBoxController.addHyperLink(new Hyperlink(artistName));
             }
             // Setters :
-            musicSecondBoxController.setArtists(artists);
-            musicSecondBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
-            musicSecondBoxController.setTrackTitle(musicJson.get("title").getAsString());
-            musicSecondBoxController.setter(clientSocket, mainPageController);
+            musicThirdBoxController.setArtists(artists);
+            musicThirdBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
+            musicThirdBoxController.setTrackTitle(musicJson.get("title").getAsString());
+            musicThirdBoxController.setter(clientSocket, mainPageController);
 
-            musicControllers.add(musicSecondBoxController);
+            musicControllers.add(musicThirdBoxController);
         }
         return musicControllers;
     }

@@ -10,22 +10,26 @@ import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.util.*;
 
-public class MainPageController  {
+public class MainPageController  implements Initializable {
 
     @FXML
     private MenuItem accountPageButton;
@@ -43,34 +47,13 @@ public class MainPageController  {
     private MenuItem logoutButton;
 
     @FXML
-    private Button lyricsButton;
-
-    @FXML
-    private Button nextButton;
-
-    @FXML
-    private ImageView nextButtonIcon;
-
-    @FXML
     private ScrollPane pageHolder;
-
-    @FXML
-    private Button playStopButton;
-
-    @FXML
-    private ImageView playStopButtonIcon;
 
     @FXML
     private Button playlistPageButton;
 
     @FXML
     private VBox playlistVbox;
-
-    @FXML
-    private Button previousButton;
-
-    @FXML
-    private ImageView previousButtonIcon;
 
     @FXML
     private MenuItem profilePageButton;
@@ -80,17 +63,50 @@ public class MainPageController  {
 
     @FXML
     private Button searchPageButton;
-
-    @FXML
-    private Button shuffleButton;
-
-    @FXML
-    private ImageView shuffleButtonIcon;
-
     private Socket clientSocket;
     private Request requestObject;
     private Scanner in;
     private UUID userId;
+
+    /*
+        related to music player
+     */
+
+    @FXML
+    private Button lyricsButton;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private ImageView nextButtonIcon;
+    @FXML
+    private ImageView shuffleButtonIcon;
+    @FXML
+    private Button previousButton;
+    @FXML
+    private ImageView previousButtonIcon;
+    @FXML
+    private ImageView playStopButtonIcon;
+    @FXML
+    private ToggleButton playStopToggleButton;
+    @FXML
+    private HBox musicMainHbox;
+    @FXML
+    private ImageView trackPicture;
+    @FXML
+    private Hyperlink trackTitleHyperLink;
+    @FXML
+    private HBox artistsHbox;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private ProgressBar musicProgressBar;
+    private Media currentMusic;
+    private MediaPlayer musicPlayer;
+    private Timer timer;
+    private TimerTask task;
+    private boolean isPlaying;
+    private ArrayList<Media> songs;
+    private int songIndex;
 
     @FXML
     public void createPlaylist(ActionEvent event) {
@@ -317,13 +333,6 @@ public class MainPageController  {
         this.pageHolder = pageHolder;
     }
 
-    public Button getPlayStopButton() {
-        return playStopButton;
-    }
-
-    public void setPlayStopButton(Button playStopButton) {
-        this.playStopButton = playStopButton;
-    }
 
     public ImageView getPlayStopButtonIcon() {
         return playStopButtonIcon;
@@ -389,13 +398,7 @@ public class MainPageController  {
         this.searchPageButton = searchPageButton;
     }
 
-    public Button getShuffleButton() {
-        return shuffleButton;
-    }
 
-    public void setShuffleButton(Button shuffleButton) {
-        this.shuffleButton = shuffleButton;
-    }
 
     public ImageView getShuffleButtonIcon() {
         return shuffleButtonIcon;
@@ -436,4 +439,109 @@ public class MainPageController  {
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
+
+    public ToggleButton getPlayStopToggleButton() {
+        return playStopToggleButton;
+    }
+
+    public void setPlayStopToggleButton(ToggleButton playStopToggleButton) {
+        this.playStopToggleButton = playStopToggleButton;
+    }
+
+    /*
+        related to music player
+     */
+
+    public void playMusic(){
+        beginTimer();
+        musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
+        musicPlayer.play();
+    }
+
+    public void stopMusic(){
+        cancelTimer();
+        musicPlayer.stop();
+    }
+
+    public void playNext(){
+        if (songIndex < songs.size() - 1) {
+            songIndex++;
+            if (isPlaying){
+                cancelTimer();
+                musicPlayer.stop();
+            }
+            currentMusic = songs.get(songIndex);
+            musicPlayer = new MediaPlayer(currentMusic);
+            playMusic();
+        } else {
+            songIndex = 0;
+            if (isPlaying){
+                cancelTimer();
+                musicPlayer.stop();
+            }
+            playMusic();
+        }
+    }
+
+    public void playPrevious(){
+        if (songIndex > 0) {
+            songIndex--;
+            if (isPlaying){
+                musicPlayer.stop();
+            }
+            currentMusic = songs.get(songIndex);
+            musicPlayer = new MediaPlayer(currentMusic);
+            playMusic();
+        } else {
+            songIndex = songs.size() - 1;
+            if (isPlaying){
+                musicPlayer.stop();
+            }
+            playMusic();
+        }
+    }
+
+    public void shuffleSongs(ArrayList<Media> songs) {
+        Collections.shuffle(songs);
+    }
+
+    public void beginTimer(){
+        timer = new Timer();
+        task = new TimerTask() {
+            @Override
+            public void run() {
+
+                isPlaying = true;
+                double current = musicPlayer.getCurrentTime().toSeconds();
+                double end = currentMusic.getDuration().toSeconds();
+                musicProgressBar.setProgress(current/end);
+
+                if (current/end == 1) {
+
+                    cancelTimer();
+                }
+
+            }
+        };
+
+        timer.scheduleAtFixedRate(task, 1000, 1000);
+    }
+
+    public void cancelTimer(){
+        isPlaying = false;
+        timer.cancel();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        songs = new ArrayList<>();
+        songIndex = 0;
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+    }
+
 }

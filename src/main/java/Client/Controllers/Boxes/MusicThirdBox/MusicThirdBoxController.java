@@ -134,4 +134,11 @@ public class MusicThirdBoxController implements InjectableController {
     public Node getMainScene() {
         return this.musicMainHbox;
     }
+    public void addHyperLink(Hyperlink hyperlink) {
+        this.artistsHbox.getChildren().add(hyperlink);
+    }
+    public void setTrackTitle(String trackTitle) {
+        this.trackTitleHyperLink.setText(trackTitle);
+    }
+
 }
