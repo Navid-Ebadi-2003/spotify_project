@@ -117,6 +117,7 @@ public class Query {
             if(rs.next()) {
                 String storedPass = rs.getString("password");
                 UUID userId = UUID.fromString(rs.getString("user_id"));
+                String profilePath = rs.getString("profilePath");
                 if(Miscellaneous.checkHash(storedPass, password)) {
                     return userId;
                 } else {
