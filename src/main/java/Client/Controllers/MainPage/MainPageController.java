@@ -1,20 +1,17 @@
 package Client.Controllers.MainPage;
 import Client.Controllers.Boxes.BoxBuilder;
-import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
 import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -22,12 +19,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.lang.management.GarbageCollectorMXBean;
 import java.net.Socket;
-import java.net.URL;
 import java.util.*;
 
-public class MainPageController implements Initializable {
+public class MainPageController  {
 
     @FXML
     private MenuItem accountPageButton;
@@ -150,7 +145,7 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    public void shufflePlaylist(ActionEvent event) {
+    public void shuffleTracks(ActionEvent event) {
 
     }
 
@@ -170,55 +165,123 @@ public class MainPageController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void buildPages(){
         // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
+            this.pageHolder.setContent(homePageLoader.load());
             HomePageController homePageController = homePageLoader.getController();
             // Setting putting homePage into pageHolder
-            this.pageHolder.setContent(homePageLoader.load());
             // Sending goHomePageRequest
             requestObject.goHomePageReq(userId);
             // Receiving response
             String response = in.nextLine();
-            JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
+            JsonObject jsonTemplate = new Gson().fromJson(response, JsonObject.class);
+            JsonObject responseBody = jsonTemplate.getAsJsonObject("responseBody");
+            JsonObject jsonResults = responseBody.getAsJsonObject("results");
+            System.out.println(jsonResults);
             // Parsing JsonArrays
             JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
             JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
             JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
             JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+            System.out.println(createdPlaylistsJson);
+            System.out.println(likedPlaylistsJson);
+            System.out.println(likedMusicsJson);
+            System.out.println(randomMusicsJson);
             // Building Hashmaps
-            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
-            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
-            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
-            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+            ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
+            ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
+            ArrayList<InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
+            ArrayList<InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
             // Adding playlistBoxes to mainPage
-            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
-            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
+            for (InjectableController controller : createdPlaylists) {
+                this.playlistVbox.getChildren().add(controller.getMainScene());
+            }
+            for (InjectableController controller : likedPlaylists) {
+                this.playlistVbox.getChildren().add(controller.getMainScene());
+            }
             // Adding randomMusics & likedMusics Boxes to homePage
-            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
-            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
+            for (InjectableController controller : suggestedMusics) {
+                homePageController.getSuggestedMusicsHbox().getChildren().add(controller.getMainScene());
+            }
+            for (InjectableController controller : likedMusics) {
+                homePageController.getLikedMusicsHbox().getChildren().add(controller.getMainScene());
+            }
+
+            // Building jsonArrays
+            JsonArray jsonArrays = new JsonArray();
+            jsonArrays.add(createdPlaylistsJson);
+            jsonArrays.add(likedPlaylistsJson);
+            jsonArrays.add(randomMusicsJson);
+            jsonArrays.add(likedMusicsJson);
+            // Building controllerArrays
+            List<List<InjectableController>> controllerArrays = new ArrayList<>();
+            controllerArrays.add(createdPlaylists);
+            controllerArrays.add(likedPlaylists);
+            controllerArrays.add(suggestedMusics);
+            controllerArrays.add(likedMusics);
             // Assigning thread to download profilePictures
-            DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
-            DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
-            DownloadFiles downSuggestedMusicsTask = new DownloadFiles(randomMusicsJson, new ArrayList<>(suggestedMusics.values()), "profilePath", clientSocket);
-            DownloadFiles downLikedMusicsTask = new DownloadFiles(likedMusicsJson, new ArrayList<>(likedMusics.values()), "profilePath", clientSocket);
-            // Assigning threads
-            Thread thread_0 = new Thread(downCreatedPlaylistsTask);
-            Thread thread_1 = new Thread(downLikedPlaylistsTask);
-            Thread thread_2 = new Thread(downSuggestedMusicsTask);
-            Thread thread_3 = new Thread(downLikedMusicsTask);
-            // Running Threads
+            DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
+            Thread thread_0 = new Thread(downloadFilesTask);
+            // Starting thread
             thread_0.start();
-            thread_1.start();
-            thread_2.start();
-            thread_3.start();
 
         } catch (IOException io) {
-
+            io.printStackTrace();
         }
     }
+
+//    @Override
+//    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        // Loading homePage
+//        FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
+//        try {
+//            homePageLoader.load();
+//            HomePageController homePageController = homePageLoader.getController();
+//            // Setting putting homePage into pageHolder
+//            this.pageHolder.setContent(homePageLoader.load());
+//            // Sending goHomePageRequest
+//            requestObject.goHomePageReq(userId);
+//            // Receiving response
+//            String response = in.nextLine();
+//            JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
+//            // Parsing JsonArrays
+//            JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
+//            JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
+//            JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
+//            JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+//            // Building Hashmaps
+//            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
+//            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
+//            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
+//            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+//            // Adding playlistBoxes to mainPage
+//            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
+//            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
+//            // Adding randomMusics & likedMusics Boxes to homePage
+//            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
+//            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
+//            // Assigning thread to download profilePictures
+//            DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
+//            DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
+//            DownloadFiles downSuggestedMusicsTask = new DownloadFiles(randomMusicsJson, new ArrayList<>(suggestedMusics.values()), "profilePath", clientSocket);
+//            DownloadFiles downLikedMusicsTask = new DownloadFiles(likedMusicsJson, new ArrayList<>(likedMusics.values()), "profilePath", clientSocket);
+//            // Assigning threads
+//            Thread thread_0 = new Thread(downCreatedPlaylistsTask);
+//            Thread thread_1 = new Thread(downLikedPlaylistsTask);
+//            Thread thread_2 = new Thread(downSuggestedMusicsTask);
+//            Thread thread_3 = new Thread(downLikedMusicsTask);
+//            // Running Threads
+//            thread_0.start();
+//            thread_1.start();
+//            thread_2.start();
+//            thread_3.start();
+//
+//        } catch (IOException io) {
+//
+//        }
+//    }
     /*
         setter and getters
      */

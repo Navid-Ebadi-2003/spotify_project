@@ -20,17 +20,18 @@ import java.util.UUID;
 
 public class BoxBuilder {
 
-    public static HashMap<HBox, InjectableController> buildPlaylistSecondBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
+    public static ArrayList<InjectableController> buildPlaylistSecondBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
         // Parsing JsonObjects
         JsonArray playlistsJson = jsonResults.getAsJsonArray(jsonArrayKey);
         // This stores each HBox that we create for objects, and it's Controller
-        HashMap<HBox, InjectableController> playlistBoxes = new HashMap<>();
+        ArrayList<InjectableController> playlistControllers = new ArrayList<>();
 
         // Parsing JsonObject of each individual playlist
         for (JsonElement arrayItem : playlistsJson) {
             JsonObject playlistJson = (JsonObject) arrayItem;
             JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
             FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
+            playlistBoxLoader.load();
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
             // Setting it's controller data
             playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
@@ -38,27 +39,28 @@ public class BoxBuilder {
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
             // Putting HBox and it's controller into Hashmap
-            playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
+            playlistControllers.add(playlistSecondBoxController);
         }
-        return playlistBoxes;
+        return playlistControllers;
     }
 
-    public static HashMap<VBox, InjectableController> buildMusicMainBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
+    public static ArrayList<InjectableController> buildMusicMainBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
         // Parsing JsonObjects
         JsonArray musicsJson = jsonResults.getAsJsonArray(jsonArrayKey);
         // This stores each VBox that we create for objects, and it's Controller
-        HashMap<VBox, InjectableController> musicBoxes = new HashMap<>();
+        ArrayList<InjectableController> musicControllers = new ArrayList<>();
 
         // Parsing JsonObject of each individual music
         for (JsonElement arrayItem : musicsJson) {
             JsonObject musicJson = (JsonObject) arrayItem;
             FXMLLoader suggestedMusicBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicMainBox/music-main-box.fxml"));
+            suggestedMusicBoxLoader.load();
             MusicMainBoxController musicMainBoxController = suggestedMusicBoxLoader.getController();
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
             HashMap<String , UUID> artists = new HashMap<>();
             for (int i = 0 ; i < artistsJson.size(); i++) {
-                String artistName = artistsJson.get(i).getAsJsonObject().get("artistName").getAsString();
+                String artistName = artistsJson.get(i).getAsJsonObject().get("name").getAsString();
                 UUID artistID = UUID.fromString(artistsJson.get(i).getAsJsonObject().get("artistId").getAsString());
                 artists.put(artistName, artistID);
 
@@ -68,10 +70,10 @@ public class BoxBuilder {
             // Setters :
             musicMainBoxController.setArtists(artists);
             musicMainBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
-            musicMainBoxController.setTrackTitle(new Hyperlink(musicJson.get("title").getAsString()));
+            musicMainBoxController.setTrackTitle(musicJson.get("title").getAsString());
 
-            musicBoxes.put(suggestedMusicBoxLoader.load(), musicMainBoxController);
+            musicControllers.add(musicMainBoxController);
         }
-        return musicBoxes;
+        return musicControllers;
     }
 }
