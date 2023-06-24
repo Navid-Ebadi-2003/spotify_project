@@ -97,6 +97,7 @@
    <bottom>
       <HBox id="bottom-hbox" alignment="CENTER" prefHeight="90.0" prefWidth="930.0" stylesheets="@main-page-items.css" BorderPane.alignment="CENTER">
          <children>
+            <HBox fx:id="musicShowHbox" alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="426.0" />
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="427.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="90.0" prefWidth="427.0">
@@ -105,7 +106,7 @@
                            <children>
                               <ToggleButton fx:id="shuffleToggleButton" mnemonicParsing="false" onAction="#shuffleTracks" prefHeight="40.0" prefWidth="40.0">
                                  <graphic>
-                                    <ImageView fx:id="shuffleButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="shuffleButtonIcon" disable="true" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../Icons/shuffle.png" />
                                        </image>
@@ -114,25 +115,34 @@
                               </ToggleButton>
                               <Button fx:id="previousButton" mnemonicParsing="false" onAction="#goPreviousTrack" prefHeight="30.0" prefWidth="50.0">
                                  <graphic>
-                                    <ImageView fx:id="previousButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="previousButtonIcon" disable="true" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../Icons/previous.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <ToggleButton fx:id="playStopToggleButton" mnemonicParsing="false" onAction="#playStopTrack" prefHeight="40.0" prefWidth="40.0">
+                              <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="42.0" prefWidth="42.0">
                                  <graphic>
-                                    <ImageView fx:id="playStopButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../Icons/stop-icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="playButton" mnemonicParsing="false" onAction="#play" prefHeight="42.0" prefWidth="42.0">
+                                 <graphic>
+                                    <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../Icons/play.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
-                              </ToggleButton>
+                              </Button>
                               <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goNextTrack" prefHeight="30.0" prefWidth="50.0">
                                  <graphic>
-                                    <ImageView fx:id="nextButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="nextButtonIcon" disable="true" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../../Icons/next.png" />
                                        </image>

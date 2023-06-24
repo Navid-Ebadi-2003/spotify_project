@@ -1,7 +1,9 @@
 package Client.Controllers.LoginPage;
 
+import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
 import Client.Controllers.SignupPage.SignupPageController;
+import Client.DownloadFile;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -118,6 +120,9 @@ public class LoginPageController {
                 Scene mainPageScene = new Scene(mainPageLoader.load());
                 MainPageController mainPageController = mainPageLoader.getController();
                 mainPageController.setter(clientSocket, userId);
+                DownloadFile downloadFile = new DownloadFile(userId.toString(), mainPageController, "profilePath", clientSocket);
+                Thread thread_0 = new Thread(downloadFile);
+                thread_0.start();
                 mainPageController.buildPages();
                 currentStage.setScene(mainPageScene);
             } catch (IOException e) {

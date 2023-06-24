@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,7 +28,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class MainPageController {
+public class MainPageController implements InjectableController, Initializable{
 
     private Socket clientSocket;
     private Request requestObject;
@@ -53,6 +54,9 @@ public class MainPageController {
 
     @FXML
     private ProgressBar musicProgressBar;
+
+    @FXML
+    private HBox musicShowHbox;
 
     @FXML
     private Button nextButton;
@@ -98,6 +102,19 @@ public class MainPageController {
 
     @FXML
     private Slider volumeSlider;
+    @FXML
+    private Button playButton;
+    @FXML
+    private Button stopButton;
+
+    /*
+        related to musicPlayer
+     */
+//    private HashMap<String, HBox> musics;
+    private MediaPlayer musicPlayer;
+    private Media currentMusic;
+//    private int currentMusicIndex;
+    private boolean isPlayingMusic;
 
     @FXML
     void createPlaylist(ActionEvent event) {
@@ -150,13 +167,24 @@ public class MainPageController {
     }
 
     @FXML
-    void playStopTrack(ActionEvent event) {
-
+    void play(ActionEvent event) {
+        if (!isPlayingMusic) {
+            musicPlayer.play();
+            isPlayingMusic = true;
+        }
     }
 
     @FXML
     void shuffleTracks(ActionEvent event) {
 
+    }
+
+    @FXML
+    void stop(ActionEvent event) {
+        if (isPlayingMusic) {
+            musicPlayer.stop();
+            isPlayingMusic = false;
+        }
     }
 
 
@@ -433,8 +461,32 @@ public class MainPageController {
         this.playStopToggleButton = playStopToggleButton;
     }
 
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.profilePictureView.setImage(profilePic);
+    }
+
+    @Override
+    public Node getMainScene() {
+        return null;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        this.musics = new HashMap<>();
+//        this.currentMusicIndex = 0;
+        this.isPlayingMusic = false;
+    }
+
     /*
         related to music player
      */
 
+    public void setTrackForMusicPlayer(String trackPath) {
+        if (isPlayingMusic) {
+            musicPlayer.stop();
+        }
+        this.currentMusic = new Media(trackPath);
+        this.musicPlayer = new MediaPlayer(currentMusic);
+    }
 }

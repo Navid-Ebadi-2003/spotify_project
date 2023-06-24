@@ -105,7 +105,7 @@ public class Query {
     // If null is returned(and the username exists) then that means the password is incorrect
     public static synchronized UUID logIn(String username, String password) {
         final String query = """
-                SELECT user_id,username,password FROM User
+                SELECT user_id,username,password,profile_path FROM User
                 WHERE username=?;
                 """;
 
@@ -117,7 +117,7 @@ public class Query {
             if(rs.next()) {
                 String storedPass = rs.getString("password");
                 UUID userId = UUID.fromString(rs.getString("user_id"));
-                String profilePath = rs.getString("profilePath");
+                String profilePath = rs.getString("profile_path");
                 if(Miscellaneous.checkHash(storedPass, password)) {
                     return userId;
                 } else {
