@@ -1,6 +1,7 @@
 package Client.Controllers.Boxes;
 
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
+import Client.Controllers.Boxes.MusicThirdBox.MusicThirdBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
@@ -87,9 +88,9 @@ public class BoxBuilder {
         // Parsing JsonObject of each individual music
         for (JsonElement arrayItem : musicsJson) {
             JsonObject musicJson = (JsonObject) arrayItem;
-            FXMLLoader musicSecondBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicSecondBox/music-second-box.fxml"));
-            musicSecondBoxLoader.load();
-            MusicMainBoxController musicSecondBoxController = musicSecondBoxLoader.getController();
+            FXMLLoader musicThirdBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicThirdBox/music-third-box.fxml"));
+            musicThirdBoxLoader.load();
+            MusicThirdBoxController musicThirdBoxController = musicThirdBoxLoader.getController();
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
             HashMap<String , UUID> artists = new HashMap<>();
@@ -99,15 +100,15 @@ public class BoxBuilder {
                 artists.put(artistName, artistID);
 
                 // Add artist hyperlink to it's Hbox
-                musicSecondBoxController.addHyperLink(new Hyperlink(artistName));
+                musicThirdBoxController.addHyperLink(new Hyperlink(artistName));
             }
             // Setters :
-            musicSecondBoxController.setArtists(artists);
-            musicSecondBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
-            musicSecondBoxController.setTrackTitle(musicJson.get("title").getAsString());
-            musicSecondBoxController.setter(clientSocket, mainPageController);
+            musicThirdBoxController.setArtists(artists);
+            musicThirdBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
+            musicThirdBoxController.setTrackTitle(musicJson.get("title").getAsString());
+            musicThirdBoxController.setter(clientSocket, mainPageController);
 
-            musicControllers.add(musicSecondBoxController);
+            musicControllers.add(musicThirdBoxController);
         }
         return musicControllers;
     }
