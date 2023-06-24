@@ -81,11 +81,10 @@ public class MusicMainBoxController implements InjectableController {
         // Thread thread_0 = new Thread(downloadFileTask);
         // thread_0.start();
         // Building jsonArrays
-        JsonArray jsonArrays = new JsonArray();
-        jsonArrays.add(jsonResults.getAsJsonArray("tracks"));
+        JsonArray tracks = jsonResults.getAsJsonArray("tracks");
         // Building controllerArrays
         // Assigning thread to download profilePictures
-        DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, musicControllers, "profilePath", clientSocket);
+        DownloadFiles downloadFilesTask = new DownloadFiles(tracks, musicControllers, "profilePath", clientSocket);
         ArrayList<DownloadFiles> downloadFilesArray = new ArrayList<DownloadFiles>();
         downloadFilesArray.add(downloadFilesTask);
 
