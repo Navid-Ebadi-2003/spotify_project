@@ -13,6 +13,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import Server.Miscellaneous;
+
 
 public class Query {
     private static Connection connection;
@@ -88,7 +90,7 @@ public class Query {
             pstmt.setString(1, userId.toString());
             pstmt.setString(2, username);
             pstmt.setString(3, email);
-            pstmt.setString(4, password);
+            pstmt.setString(4, Miscellaneous.hashText(password));
             // Setting the profile_path value to none. That's because the user
             // hasn't set their profile picture yet
             pstmt.setString(5, null);
@@ -115,8 +117,7 @@ public class Query {
             if(rs.next()) {
                 String storedPass = rs.getString("password");
                 UUID userId = UUID.fromString(rs.getString("user_id"));
-                // TODO: hash the password
-                if(storedPass.equals(password)) {
+                if(Miscellaneous.checkHash(storedPass, password)) {
                     return userId;
                 } else {
                     // If null then it means that the password is incorrect
@@ -379,6 +380,15 @@ public class Query {
         }
     }
 
+    public static synchronized JsonArray getTracks(JsonArray trackIds) {
+        JsonArray tracks = new JsonArray();
+        for(JsonElement trackIdElement: trackIds) {
+            UUID trackId = UUID.fromString(trackIdElement.getAsString());
+            tracks.add(getMusic(trackId));
+        }
+        return tracks;
+    }
+
     // Get an album's info from id
     public static synchronized JsonObject getAlbum(UUID albumId) {
         final String query = """
@@ -410,7 +420,8 @@ public class Query {
                 int popularity = rs.getInt("popularity");
                 albumJson.addProperty("popularity", popularity);
 
-                JsonArray tracks = getObjectsFromHistory(albumId, "ALBUM_ADD_TRACK");
+                JsonArray tracksIds = getObjectsFromHistory(albumId, "ALBUM_ADD_TRACK");
+                JsonArray tracks = getTracks(tracksIds);
                 albumJson.add("tracks", tracks);
 
                 String profilePath = rs.getString("profile_path");
@@ -851,7 +862,7 @@ public class Query {
         // get all tracks
         JsonArray allTracksId = getAllTracksId();
         // select some random tracks
-        JsonArray randomTracksId = getRandomElements(allTracksId, amount);
+        JsonArray randomTracksId = Miscellaneous.getRandomElements(allTracksId, amount);
 
         JsonArray randomTracks = new JsonArray();
 
@@ -1004,26 +1015,7 @@ public class Query {
 
     }
 
-    /*
-     * Miscellaneous methods
-     */
 
-
-    // select some random elements from a json array
-    public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
-        Random rand = new Random();
- 
-        JsonArray newArray = new JsonArray();
-        for (int i = 0; i < totalItems; i++) {
- 
-            // take a random index between 0 to size of given jsonArray
-            int randomIndex = rand.nextInt(jsonArray.size());
- 
-            // add element in temporary jsonArray
-            newArray.add(jsonArray.get(randomIndex));
-        }
-        return newArray;
-    }
 
     public static synchronized JsonArray searchUser (String userInput){
 
