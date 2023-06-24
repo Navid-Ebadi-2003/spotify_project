@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitMenuButton?>
@@ -96,45 +97,53 @@
    <bottom>
       <HBox id="bottom-hbox" alignment="CENTER" prefHeight="90.0" prefWidth="930.0" stylesheets="@main-page-items.css" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="90.0" prefWidth="427.0" />
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="427.0">
                <children>
-                  <ToggleButton fx:id="shuffleToggleButton" mnemonicParsing="false" onAction="#shuffleTracks" prefHeight="40.0" prefWidth="40.0">
-                     <graphic>
-                        <ImageView fx:id="shuffleButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Icons/shuffle.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <Button fx:id="previousButton" layoutX="116.0" layoutY="10.0" mnemonicParsing="false" onAction="#goPreviousTrack" prefHeight="30.0" prefWidth="50.0">
-                     <graphic>
-                        <ImageView fx:id="previousButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Icons/previous.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <ToggleButton fx:id="playStopToggleButton" mnemonicParsing="false" onAction="#playStopTrack" prefHeight="40.0" prefWidth="40.0">
-                     <graphic>
-                        <ImageView fx:id="playStopButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Icons/play.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <Button fx:id="nextButton" layoutX="192.0" layoutY="10.0" mnemonicParsing="false" onAction="#goNextTrack" prefHeight="30.0" prefWidth="50.0">
-                     <graphic>
-                        <ImageView fx:id="nextButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../Icons/next.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
+                  <VBox alignment="CENTER" prefHeight="90.0" prefWidth="427.0">
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <ToggleButton fx:id="shuffleToggleButton" mnemonicParsing="false" onAction="#shuffleTracks" prefHeight="40.0" prefWidth="40.0">
+                                 <graphic>
+                                    <ImageView fx:id="shuffleButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../Icons/shuffle.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </ToggleButton>
+                              <Button fx:id="previousButton" mnemonicParsing="false" onAction="#goPreviousTrack" prefHeight="30.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fx:id="previousButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../Icons/previous.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <ToggleButton fx:id="playStopToggleButton" mnemonicParsing="false" onAction="#playStopTrack" prefHeight="40.0" prefWidth="40.0">
+                                 <graphic>
+                                    <ImageView fx:id="playStopButtonIcon" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../Icons/play.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </ToggleButton>
+                              <Button fx:id="nextButton" mnemonicParsing="false" onAction="#goNextTrack" prefHeight="30.0" prefWidth="50.0">
+                                 <graphic>
+                                    <ImageView fx:id="nextButtonIcon" fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../Icons/next.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ProgressBar fx:id="musicProgressBar" prefWidth="427.0" progress="0.0" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="427.0">
@@ -148,11 +157,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="11.0" prefWidth="191.0">
-                     <graphic>
-                        <Slider max="200.0" prefHeight="0.0" prefWidth="169.0" stylesheets="@main-page-items.css" value="100.0" />
-                     </graphic>
-                  </Button>
+                  <Slider fx:id="volumeSlider" max="200.0" prefHeight="0.0" prefWidth="169.0" stylesheets="@main-page-items.css" value="100.0" />
                </children>
             </HBox>
          </children></HBox>

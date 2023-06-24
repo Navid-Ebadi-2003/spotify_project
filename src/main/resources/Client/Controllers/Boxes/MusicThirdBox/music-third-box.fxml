@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="main-hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1072.0" stylesheets="@music-third-box.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox id="main-hbox" fx:id="musicMainHbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1072.0" stylesheets="@music-third-box.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.MusicThirdBox.MusicThirdBoxController">
    <children>
       <Button id="down-play-button" fx:id="downPlayTrack" mnemonicParsing="false" onAction="#downPlay" prefHeight="70.0" prefWidth="66.0">
          <graphic>

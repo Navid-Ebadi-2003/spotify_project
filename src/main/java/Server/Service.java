@@ -154,7 +154,15 @@ public class Service implements Runnable {
                 //TODO
             }
             case "watch album page request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID albumId = UUID.fromString(requestBody.get("albumId").getAsString());
+                JsonObject jsonResults = Query.getAlbum(albumId);
+                responseObject.watchAlbumRes(jsonResults);
+                try {
+                    uploadWatchAlbum(jsonResults);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             case "watch playlist page request" -> {
                 //TODO
@@ -343,6 +351,7 @@ public class Service implements Runnable {
         // "genreId" : %s,
         // "releaseDate" : %s,
         // "popularity" : %d,
+        // "tracks" : [],
         // "profilePath" : %s,
         // "fileName" : %s
         //  }
@@ -354,7 +363,6 @@ public class Service implements Runnable {
         // Uploading profile pictures
         uploadFile(profilePath);
         uploadFiles(tracksJson, "profilePath");
-        uploadFiles(tracksJson, "trackPath");
     }
     public void uploadWatchPlaylist(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:

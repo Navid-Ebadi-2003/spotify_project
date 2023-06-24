@@ -1,6 +1,8 @@
 package Client.Controllers.Boxes.ArtistBox;
 
 import Client.Controllers.InjectableController;
+import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,10 +15,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 import java.util.UUID;
 
-
 public class ArtistBoxController implements InjectableController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private MainPageController mainPageController;
     @FXML
     private Hyperlink artistHyperLink;
 
@@ -68,5 +76,16 @@ public class ArtistBoxController implements InjectableController {
     @Override
     public Node getMainScene() {
         return this.artistBox;
+    }
+    
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

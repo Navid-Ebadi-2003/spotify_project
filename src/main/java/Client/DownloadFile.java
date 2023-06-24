@@ -61,14 +61,14 @@ public class DownloadFile implements Runnable{
             totalBytesRead += bytesRead;
         }
         if (filePathKey.equals("profilePath")){
-            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\files\\profile_pic\\" + fileName + ".jpg");
+            loadFile(controller, "src\\main\\java\\Client\\Downloads\\files\\profile_pic\\" + fileName + ".jpg");
         } else {
-            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\files\\track_file\\" + fileName + ".mp3");
+            loadFile(controller, "src\\main\\java\\Client\\Downloads\\files\\track_file\\" + fileName + ".mp3");
         }
         fileOutputStream.flush();
         fileOutputStream.close();
     }
-    public static void replaceImage(InjectableController controller, String imagePath){
+    public static void loadFile(InjectableController controller, String imagePath){
         System.out.println(imagePath);
         Image image = new Image("file:"+ imagePath);
         controller.setControllerProfilePic(image);

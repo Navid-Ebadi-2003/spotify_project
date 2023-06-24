@@ -7,10 +7,14 @@ import Client.Controllers.LoginPage.LoginPageController;
 import Client.Controllers.SearchPage.SearchPageController;
 import Client.Controllers.SignupPage.SignupPageController;
 import Client.DownloadFiles;
+import Client.Download;
+import Client.DownloadFile;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,13 +27,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.util.*;
 
-public class MainPageController  {
+public class MainPageController {
 
+    private Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private UUID userId;
     @FXML
     private MenuItem accountPageButton;
 
@@ -49,6 +66,9 @@ public class MainPageController  {
     private Button lyricsButton;
 
     @FXML
+    private ProgressBar musicProgressBar;
+
+    @FXML
     private Button nextButton;
 
     @FXML
@@ -58,10 +78,10 @@ public class MainPageController  {
     private ScrollPane pageHolder;
 
     @FXML
-    private Button playStopButton;
+    private ImageView playStopButtonIcon;
 
     @FXML
-    private ImageView playStopButtonIcon;
+    private ToggleButton playStopToggleButton;
 
     @FXML
     private Button playlistPageButton;
@@ -85,72 +105,64 @@ public class MainPageController  {
     private Button searchPageButton;
 
     @FXML
-    private Button shuffleButton;
-
-    @FXML
     private ImageView shuffleButtonIcon;
 
-    private Socket clientSocket;
-    private Request requestObject;
-    private Scanner in;
-    private UUID userId;
+    @FXML
+    private ToggleButton shuffleToggleButton;
 
     @FXML
-    public void createPlaylist(ActionEvent event) {
+    private Slider volumeSlider;
+
+    @FXML
+    void createPlaylist(ActionEvent event) {
 
     }
 
     @FXML
-    public void goAccountPage(ActionEvent event) {
+    void goAccountPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goHomePage(ActionEvent event) {
+    void goHomePage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goLyricsPage(ActionEvent event) {
+    void goLyricsPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goNextTrack(ActionEvent event) {
+    void goNextTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPlaylistPage(ActionEvent event) {
+    void goPlaylistPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPreviousTrack(ActionEvent event) {
+    void goPreviousTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goProfilePage(ActionEvent event) {
+    void goProfilePage(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void logout(ActionEvent event) {
 
     }
 
     @FXML
-    public void logout(ActionEvent event) {
-
+    void shuffleTracks(ActionEvent event) {
+    
     }
-
-    @FXML
-    public void playStopTrack(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void shuffleTracks(ActionEvent event) {
-
-    }
-
-    @FXML
 
     void goSearchPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
@@ -164,7 +176,6 @@ public class MainPageController  {
             throw new RuntimeException(e);
         }
     }
-
 
 
     /*
@@ -206,11 +217,11 @@ public class MainPageController  {
             System.out.println(likedPlaylistsJson);
             System.out.println(likedMusicsJson);
             System.out.println(randomMusicsJson);
-            // Building Hashmaps
-            ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
-            ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
-            ArrayList<InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
-            ArrayList<InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+            // Building Arraylists
+            ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult", this, clientSocket);
+            ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult", this, clientSocket);
+            ArrayList<InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult", this, clientSocket);
+            ArrayList<InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult", this, clientSocket);
             // Adding playlistBoxes to mainPage
             for (InjectableController controller : createdPlaylists) {
                 this.playlistVbox.getChildren().add(controller.getMainScene());
@@ -227,83 +238,44 @@ public class MainPageController  {
             }
 
             // Building jsonArrays
-            JsonArray jsonArrays = new JsonArray();
-            jsonArrays.add(createdPlaylistsJson);
-            jsonArrays.add(likedPlaylistsJson);
-            jsonArrays.add(randomMusicsJson);
-            jsonArrays.add(likedMusicsJson);
+            // JsonArray jsonArrays = new JsonArray();
+            // jsonArrays.add(createdPlaylistsJson);
+            // jsonArrays.add(likedPlaylistsJson);
+            // jsonArrays.add(randomMusicsJson);
+            // jsonArrays.add(likedMusicsJson);
             // Building controllerArrays
-            List<List<InjectableController>> controllerArrays = new ArrayList<>();
-            controllerArrays.add(createdPlaylists);
-            controllerArrays.add(likedPlaylists);
-            controllerArrays.add(suggestedMusics);
-            controllerArrays.add(likedMusics);
             // Assigning thread to download profilePictures
-            DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
-            Thread thread_0 = new Thread(downloadFilesTask);
+            DownloadFiles createdPlaylistsDownload = new DownloadFiles(createdPlaylistsJson, createdPlaylists, "profilePath", clientSocket);
+            DownloadFiles likedPlaylistsDownload = new DownloadFiles(likedPlaylistsJson, likedPlaylists, "profilePath", clientSocket);
+            DownloadFiles suggestedMusicsDownload = new DownloadFiles(randomMusicsJson, suggestedMusics, "profilePath", clientSocket);
+            DownloadFiles likedMusicsDownload = new DownloadFiles(likedMusicsJson, likedMusics, "profilePath", clientSocket);
+
+
+            ArrayList<DownloadFile> downloadFile = new ArrayList<DownloadFile>();
+            ArrayList<DownloadFiles> downloadFiles = new ArrayList<DownloadFiles>();
+            downloadFiles.add(createdPlaylistsDownload);
+            downloadFiles.add(likedPlaylistsDownload);
+            downloadFiles.add(suggestedMusicsDownload);
+            downloadFiles.add(likedMusicsDownload);
+            Download download = new Download(downloadFile, downloadFiles);
+            Thread thread = new Thread(download);
             // Starting thread
-            thread_0.start();
+            thread.start();
 
         } catch (IOException io) {
             io.printStackTrace();
         }
     }
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        // Loading homePage
-//        FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
-//        try {
-//            homePageLoader.load();
-//            HomePageController homePageController = homePageLoader.getController();
-//            // Setting putting homePage into pageHolder
-//            this.pageHolder.setContent(homePageLoader.load());
-//            // Sending goHomePageRequest
-//            requestObject.goHomePageReq(userId);
-//            // Receiving response
-//            String response = in.nextLine();
-//            JsonObject jsonResults = new Gson().fromJson(response, JsonObject.class);
-//            // Parsing JsonArrays
-//            JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
-//            JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-//            JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
-//            JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
-//            // Building Hashmaps
-//            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
-//            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
-//            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
-//            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
-//            // Adding playlistBoxes to mainPage
-//            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
-//            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
-//            // Adding randomMusics & likedMusics Boxes to homePage
-//            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
-//            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
-//            // Assigning thread to download profilePictures
-//            DownloadFiles downCreatedPlaylistsTask = new DownloadFiles(createdPlaylistsJson, new ArrayList<>(createdPlaylists.values()), "profilePath", clientSocket);
-//            DownloadFiles downLikedPlaylistsTask = new DownloadFiles(likedPlaylistsJson, new ArrayList<>(likedPlaylists.values()), "profilePath", clientSocket);
-//            DownloadFiles downSuggestedMusicsTask = new DownloadFiles(randomMusicsJson, new ArrayList<>(suggestedMusics.values()), "profilePath", clientSocket);
-//            DownloadFiles downLikedMusicsTask = new DownloadFiles(likedMusicsJson, new ArrayList<>(likedMusics.values()), "profilePath", clientSocket);
-//            // Assigning threads
-//            Thread thread_0 = new Thread(downCreatedPlaylistsTask);
-//            Thread thread_1 = new Thread(downLikedPlaylistsTask);
-//            Thread thread_2 = new Thread(downSuggestedMusicsTask);
-//            Thread thread_3 = new Thread(downLikedMusicsTask);
-//            // Running Threads
-//            thread_0.start();
-//            thread_1.start();
-//            thread_2.start();
-//            thread_3.start();
-//
-//        } catch (IOException io) {
-//
-//        }
-//    }
 
 
     /*
         setter and getters
      */
+    public void switchPage(Node page) {
+        this.pageHolder.setContent(page);
+    }
+
     public MenuItem getAccountPageButton() {
         return accountPageButton;
     }
@@ -376,13 +348,6 @@ public class MainPageController  {
         this.pageHolder = pageHolder;
     }
 
-    public Button getPlayStopButton() {
-        return playStopButton;
-    }
-
-    public void setPlayStopButton(Button playStopButton) {
-        this.playStopButton = playStopButton;
-    }
 
     public ImageView getPlayStopButtonIcon() {
         return playStopButtonIcon;
@@ -448,13 +413,7 @@ public class MainPageController  {
         this.searchPageButton = searchPageButton;
     }
 
-    public Button getShuffleButton() {
-        return shuffleButton;
-    }
 
-    public void setShuffleButton(Button shuffleButton) {
-        this.shuffleButton = shuffleButton;
-    }
 
     public ImageView getShuffleButtonIcon() {
         return shuffleButtonIcon;
@@ -495,4 +454,17 @@ public class MainPageController  {
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
+
+    public ToggleButton getPlayStopToggleButton() {
+        return playStopToggleButton;
+    }
+
+    public void setPlayStopToggleButton(ToggleButton playStopToggleButton) {
+        this.playStopToggleButton = playStopToggleButton;
+    }
+
+    /*
+        related to music player
+     */
+
 }

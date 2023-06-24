@@ -7,6 +7,8 @@ import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,12 +20,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 public class SearchPageController {
-
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private HBox albumsHBox;
 
@@ -62,7 +64,7 @@ public class SearchPageController {
         JsonArray playlistsJson = jsonResults.getAsJsonArray("playlistsResult");
         JsonArray usersJson = jsonResults.getAsJsonArray("usersResult");
 
-            // albums todo
+        // albums todo
         ArrayList<InjectableController> artists = BoxBuilder.buildArtistBox(jsonResults, "artistsResult");
         ArrayList<InjectableController> musics = BoxBuilder.buildMusicMainBox(jsonResults, "musicsResult");
         ArrayList<InjectableController> playlists = BoxBuilder.buildPlaylistMainBox(jsonResults, "playlistsResult");
@@ -162,7 +164,8 @@ public class SearchPageController {
         this.usersHBox = usersHBox;
     }
 
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {
@@ -171,5 +174,4 @@ public class SearchPageController {
             throw new RuntimeException(e);
         }
     }
-
 }

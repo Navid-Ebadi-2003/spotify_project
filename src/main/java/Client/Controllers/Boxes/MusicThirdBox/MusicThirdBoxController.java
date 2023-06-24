@@ -1,17 +1,30 @@
 package Client.Controllers.Boxes.MusicThirdBox;
 
+import Client.Controllers.InjectableController;
+import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.UUID;
 
-public class MusicThirdBoxController {
+public class MusicThirdBoxController implements InjectableController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private HBox artistsHbox;
 
@@ -26,6 +39,8 @@ public class MusicThirdBoxController {
 
     @FXML
     private Hyperlink trackTitleHyperLink;
+    @FXML
+    private HBox musicMainHbox;
     // This stores id of the album
     private UUID albumId;
     // This stores artistName, artistId
@@ -99,4 +114,31 @@ public class MusicThirdBoxController {
     public void setArtists(HashMap<String, UUID> artists) {
         this.artists = artists;
     }
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.trackPicture.setImage(profilePic);
+    }
+
+    @Override
+    public Node getMainScene() {
+        return this.musicMainHbox;
+    }
+    public void addHyperLink(Hyperlink hyperlink) {
+        this.artistsHbox.getChildren().add(hyperlink);
+    }
+    public void setTrackTitle(String trackTitle) {
+        this.trackTitleHyperLink.setText(trackTitle);
+    }
+
 }
