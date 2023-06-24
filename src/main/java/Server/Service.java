@@ -143,9 +143,16 @@ public class Service implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
+                log(requestType , this.userId);
             }
             case "search request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                String pattern = requestBody.get("searchedText").getAsString();
+                JsonObject jsonResults = Query.search(pattern);
+
+                responseObject.searchRes(jsonResults);
+
             }
             case "watch user page request" -> {
                 //TODO

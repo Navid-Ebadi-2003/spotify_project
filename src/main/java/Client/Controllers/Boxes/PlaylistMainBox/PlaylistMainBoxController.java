@@ -1,20 +1,24 @@
 package Client.Controllers.Boxes.PlaylistMainBox;
 
+import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class PlaylistMainBoxController {
+public class PlaylistMainBoxController implements InjectableController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
@@ -32,6 +36,9 @@ public class PlaylistMainBoxController {
     private UUID playlistId;
     // This stores id of the creator
     private UUID creatorId;
+
+    @FXML
+    private VBox playlistMainVBox;
 
     @FXML
     void goToCreatorPage(ActionEvent event) {
@@ -84,6 +91,16 @@ public class PlaylistMainBoxController {
 
     public void setCreatorId(UUID creatorId) {
         this.creatorId = creatorId;
+    }
+
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.playlistPicture.setImage(profilePic);
+    }
+
+    @Override
+    public Node getMainScene() {
+        return this.playlistMainVBox;
     }
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;

@@ -39,7 +39,6 @@ public class DownloadFiles implements Runnable{
      */
     public static void
     downloadFiles(JsonArray jsonArray, List<InjectableController> controllers, String filePathKey, Socket clientSocket) throws IOException {
-
         for (int i = 0; i < jsonArray.size(); i++){
             InjectableController controller = controllers.get(i);
             JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();
