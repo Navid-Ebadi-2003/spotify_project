@@ -3,6 +3,7 @@ package Client.Controllers.HomePage;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,12 +14,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.UUID;
 
 
 public class HomePageController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
     @FXML
     private AnchorPane homePageAnchorPane;
 
@@ -53,5 +59,14 @@ public class HomePageController {
 
     public void setSuggestedMusicsHbox(HBox suggestedMusicsHbox) {
         this.suggestedMusicsHbox = suggestedMusicsHbox;
+    }
+    public void setter(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

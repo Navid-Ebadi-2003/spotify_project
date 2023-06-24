@@ -1,12 +1,20 @@
 package Client.Controllers.SearchPage;
 
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
 public class SearchPageController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
     @FXML
     private HBox albumsHBox;
 
@@ -90,5 +98,14 @@ public class SearchPageController {
 
     public void setUsersHBox(HBox usersHBox) {
         this.usersHBox = usersHBox;
+    }
+    public void setter(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
