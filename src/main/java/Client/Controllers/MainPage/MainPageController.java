@@ -183,17 +183,19 @@ public class MainPageController implements InjectableController, Initializable{
             isPlayingMusic = true;
         }
     }
+    @FXML
     void shuffleTracks(ActionEvent event) {
     
     }
 
+    @FXML
     void goSearchPage(ActionEvent event) {
         Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
         FXMLLoader searchPageLoader = new FXMLLoader(MainPageController.class.getResource("../SearchPage/search-page.fxml"));
         try {
             this.pageHolder.setContent(searchPageLoader.load());
             SearchPageController searchPageController = searchPageLoader.getController();
-            searchPageController.setter(clientSocket);
+            searchPageController.setter(clientSocket, this);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

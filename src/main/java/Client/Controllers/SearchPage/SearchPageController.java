@@ -2,6 +2,8 @@ package Client.Controllers.SearchPage;
 
 import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.InjectableController;
+import Client.Download;
+import Client.DownloadFile;
 import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
@@ -66,7 +68,7 @@ public class SearchPageController {
 
         // albums todo
         ArrayList<InjectableController> artists = BoxBuilder.buildArtistBox(jsonResults, "artistsResult");
-        ArrayList<InjectableController> musics = BoxBuilder.buildMusicMainBox(jsonResults, "musicsResult");
+        ArrayList<InjectableController> musics = BoxBuilder.buildMusicMainBox(jsonResults, "musicsResult", mainPageController, clientSocket);
         ArrayList<InjectableController> playlists = BoxBuilder.buildPlaylistMainBox(jsonResults, "playlistsResult");
         ArrayList<InjectableController> users = BoxBuilder.buildUserBox(jsonResults, "usersResult");
 
@@ -91,18 +93,23 @@ public class SearchPageController {
         jsonArrays.add(playlistsJson);
         jsonArrays.add(usersJson);
         // Building controllerArrays
-        List<List<InjectableController>> controllerArrays = new ArrayList<>();
+        List<InjectableController> controllers = new ArrayList<>();
         // add albums todo
-        controllerArrays.add(artists);
-        controllerArrays.add(musics);
-        controllerArrays.add(playlists);
-        controllerArrays.add(users);
-        // Assigning thread to download profilePictures
-        DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
-        Thread thread_0 = new Thread(downloadFilesTask);
-        // Starting thread
-        thread_0.start();
+        DownloadFiles donwloadArtists = new DownloadFiles(artistsJson, artists, "profilePath", clientSocket);
+        DownloadFiles donwloadMusics = new DownloadFiles(musicsJson, musics, "profilePath", clientSocket);
+        DownloadFiles donwloadPlaylists = new DownloadFiles(playlistsJson, playlists, "profilePath", clientSocket);
+        DownloadFiles donwloadUsers = new DownloadFiles(usersJson, users, "profilePath", clientSocket);
 
+        ArrayList<DownloadFiles> downloadFilesTask = new ArrayList<>();
+        downloadFilesTask.add(donwloadArtists);
+        downloadFilesTask.add(donwloadMusics);
+        downloadFilesTask.add(donwloadPlaylists);
+        downloadFilesTask.add(donwloadUsers);
+
+        ArrayList<DownloadFile> downloadFileTask = new ArrayList<>();
+        Download downloadThread = new Download(downloadFileTask, downloadFilesTask);
+        downloadThread.start();
+        // Assigning thread to download profilePictures
     }
     /*
         setter and getters
