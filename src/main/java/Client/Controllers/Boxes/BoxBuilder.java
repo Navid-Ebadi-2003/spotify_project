@@ -3,6 +3,7 @@ package Client.Controllers.Boxes;
 import Client.Controllers.Boxes.ArtistBox.ArtistBoxController;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
+import Client.Controllers.Boxes.UserBox.UserBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
@@ -100,6 +101,28 @@ public class BoxBuilder {
             artistControllers.add(artistBoxController);
         }
         return artistControllers;
+    }
+
+    public static ArrayList<InjectableController> buildUserBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
+        // Parsing JsonObjects
+        JsonArray usersJson = jsonResults.getAsJsonArray(jsonArrayKey);
+        // This stores each VBox that we create for objects, and it's Controller
+        ArrayList<InjectableController> userControllers = new ArrayList<>();
+
+        // Parsing JsonObject of each individual user
+        for (JsonElement arrayItem : usersJson) {
+            JsonObject userJson = (JsonObject) arrayItem;
+            FXMLLoader userBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/ArtistBox/artist-box.fxml"));
+            userBoxLoader.load();
+            UserBoxController userBoxController = userBoxLoader.getController();
+
+            // Setters :
+           userBoxController.setUsernameHyperLink(new Hyperlink(userJson.get("username").getAsString()));
+           userBoxController.setUserId(UUID.fromString(userJson.get("userId").getAsString()));
+
+           userControllers.add(userBoxController);
+        }
+        return userControllers;
     }
 
 }
