@@ -1,5 +1,7 @@
 package Server;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -20,17 +22,26 @@ public class Miscellaneous {
 
     // select some random elements from a json array
     public static JsonArray getRandomElements(JsonArray jsonArray, int totalItems) {
-        Random rand = new Random();
- 
-        JsonArray newArray = new JsonArray();
-        for (int i = 0; i < totalItems; i++) {
- 
-            // take a random index between 0 to size of given jsonArray
-            int randomIndex = rand.nextInt(jsonArray.size());
- 
-            // add element in temporary jsonArray
-            newArray.add(jsonArray.get(randomIndex));
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
+
+        if(totalItems > jsonArray.size()) {
+            totalItems = jsonArray.size();
         }
-        return newArray;
+
+        for(int i = 0; i < jsonArray.size(); i++) {
+            indexes.add(i);
+        }
+    
+        // shuffle array
+        Collections.shuffle(indexes);
+    
+        // adding defined amount of numbers to target array
+        JsonArray targetElements = new JsonArray();
+        for (int j = 0; j < totalItems; j++) {
+            int index = indexes.get(j);
+            targetElements.add(jsonArray.get(index)); 
+        }
+    
+        return targetElements;
     }
 }
