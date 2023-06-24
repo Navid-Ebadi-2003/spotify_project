@@ -57,10 +57,10 @@ public class Service implements Runnable {
 
             if (!userId.equals(null)) {
 
-                writer.write(time + "\n" + serverSocket.getLocalAddress()+ "\n" + serverSocket.getPort()+ "\n" + userId + "\n" + requestType + "\n" + "\n" + "\n");
+                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "userID: " + userId + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
             }
             else {
-                writer.write(time + "\n" + serverSocket.getLocalAddress()+ "\n" + serverSocket.getPort()+ "\n" + requestType + "\n" + "\n" + "\n");
+                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
             }
             writer.flush();
             writer.close();
