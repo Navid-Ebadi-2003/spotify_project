@@ -18,7 +18,7 @@ target/
 src/main/java/Client/Downloads/
 src/main/java/Server/files/
 src/main/java/Server/files.zip
-
+log.txt
 .idea/misc.xml
 
 src/main/java/Server/log.txt
