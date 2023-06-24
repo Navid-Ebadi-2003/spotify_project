@@ -152,7 +152,11 @@ public class Service implements Runnable {
                 JsonObject jsonResults = Query.search(pattern);
 
                 responseObject.searchRes(jsonResults);
-
+                try {
+                    uploadSearchPage(jsonResults);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             case "watch user page request" -> {
                 //TODO
