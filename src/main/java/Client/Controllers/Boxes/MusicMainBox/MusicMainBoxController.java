@@ -7,6 +7,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class MusicMainBoxController implements InjectableController {
     @FXML
     private Hyperlink trackTitle;
     // This stores the albumId of the track
+    @FXML
+    private VBox musicMainVbox;
     private UUID albumId;
     // This stores artistName, artistId
     private HashMap<String, UUID> artists;
@@ -76,5 +79,17 @@ public class MusicMainBoxController implements InjectableController {
     @Override
     public void setControllerProfilePic(Image profilePic) {
         this.trackPicture.setImage(profilePic);
+    }
+
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
+    }
+
+    public VBox getMusicMainVbox() {
+        return musicMainVbox;
+    }
+
+    public void setMusicMainVbox(VBox musicMainVbox) {
+        this.musicMainVbox = musicMainVbox;
     }
 }

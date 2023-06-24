@@ -180,12 +180,19 @@ public class Service implements Runnable {
     }
 
     // Upload method to send "goHomePage" Results from the server to the client
-    public void uploadFile(String filePathKey) throws IOException {
+    public void uploadFile(String filePath) throws IOException {
+        filePath = "src/main/java/Server/" + filePath;
         OutputStream outputStream = serverSocket.getOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-        File file = new File(filePathKey);
+        File file = new File(filePath);
         FileInputStream fileInputStream = new FileInputStream(file);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // Send the file size to client
         long fileSize = file.length();
@@ -223,14 +230,14 @@ public class Service implements Runnable {
         // Parsing Results
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
         JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
 
         // Uploading profile pictures
         uploadFiles(createdPlaylistsJson, "profilePath");
         uploadFiles(likedPlaylistsJson, "profilePath");
-        uploadFiles(likedMusicsJson, "profilePath");
         uploadFiles(randomMusicsJson, "profilePath");
+        uploadFiles(likedMusicsJson, "profilePath");
     }
     public void uploadSearchPage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResults:

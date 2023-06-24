@@ -2,7 +2,6 @@ package Client.Controllers.LoginPage;
 
 import Client.Controllers.MainPage.MainPageController;
 import Client.Controllers.SignupPage.SignupPageController;
-import Client.Controllers.WelcomePage.WelcomePageController;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -119,6 +118,7 @@ public class LoginPageController {
                 Scene mainPageScene = new Scene(mainPageLoader.load());
                 MainPageController mainPageController = mainPageLoader.getController();
                 mainPageController.setter(clientSocket, userId);
+                mainPageController.buildPages();
                 currentStage.setScene(mainPageScene);
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -31,6 +31,7 @@ public class BoxBuilder {
             JsonObject playlistJson = (JsonObject) arrayItem;
             JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
             FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
+            playlistBoxLoader.load();
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
             // Setting it's controller data
             playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
@@ -38,7 +39,7 @@ public class BoxBuilder {
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
             // Putting HBox and it's controller into Hashmap
-            playlistBoxes.put(playlistBoxLoader.load(), playlistSecondBoxController);
+            playlistBoxes.put(playlistSecondBoxController.getPlaylistHbox(), playlistSecondBoxController);
         }
         return playlistBoxes;
     }
@@ -53,12 +54,14 @@ public class BoxBuilder {
         for (JsonElement arrayItem : musicsJson) {
             JsonObject musicJson = (JsonObject) arrayItem;
             FXMLLoader suggestedMusicBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/MusicMainBox/music-main-box.fxml"));
+            suggestedMusicBoxLoader.load();
             MusicMainBoxController musicMainBoxController = suggestedMusicBoxLoader.getController();
+            musicMainBoxController.setTrackTitle(new Hyperlink(musicJson.get("title").getAsString()));
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
             HashMap<String , UUID> artists = new HashMap<>();
             for (int i = 0 ; i < artistsJson.size(); i++) {
-                String artistName = artistsJson.get(i).getAsJsonObject().get("artistName").getAsString();
+                String artistName = artistsJson.get(i).getAsJsonObject().get("name").getAsString();
                 UUID artistID = UUID.fromString(artistsJson.get(i).getAsJsonObject().get("artistId").getAsString());
                 artists.put(artistName, artistID);
 
@@ -70,7 +73,7 @@ public class BoxBuilder {
             musicMainBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
             musicMainBoxController.setTrackTitle(new Hyperlink(musicJson.get("title").getAsString()));
 
-            musicBoxes.put(suggestedMusicBoxLoader.load(), musicMainBoxController);
+            musicBoxes.put(musicMainBoxController.getMusicMainVbox(), musicMainBoxController);
         }
         return musicBoxes;
     }
