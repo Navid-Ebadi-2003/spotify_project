@@ -27,8 +27,12 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class MainPageController  implements Initializable {
+public class MainPageController {
 
+    private Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private UUID userId;
     @FXML
     private MenuItem accountPageButton;
 
@@ -45,13 +49,37 @@ public class MainPageController  implements Initializable {
     private MenuItem logoutButton;
 
     @FXML
+    private Button lyricsButton;
+
+    @FXML
+    private ProgressBar musicProgressBar;
+
+    @FXML
+    private Button nextButton;
+
+    @FXML
+    private ImageView nextButtonIcon;
+
+    @FXML
     private ScrollPane pageHolder;
+
+    @FXML
+    private ImageView playStopButtonIcon;
+
+    @FXML
+    private ToggleButton playStopToggleButton;
 
     @FXML
     private Button playlistPageButton;
 
     @FXML
     private VBox playlistVbox;
+
+    @FXML
+    private Button previousButton;
+
+    @FXML
+    private ImageView previousButtonIcon;
 
     @FXML
     private MenuItem profilePageButton;
@@ -61,110 +89,76 @@ public class MainPageController  implements Initializable {
 
     @FXML
     private Button searchPageButton;
-    private Socket clientSocket;
-    private Request requestObject;
-    private Scanner in;
-    private UUID userId;
 
-    /*
-        related to music player
-     */
-
-    @FXML
-    private Button lyricsButton;
-    @FXML
-    private Button nextButton;
-    @FXML
-    private ImageView nextButtonIcon;
     @FXML
     private ImageView shuffleButtonIcon;
+
     @FXML
-    private Button previousButton;
-    @FXML
-    private ImageView previousButtonIcon;
-    @FXML
-    private ImageView playStopButtonIcon;
-    @FXML
-    private ToggleButton playStopToggleButton;
-    @FXML
-    private HBox musicMainHbox;
-    @FXML
-    private ImageView trackPicture;
-    @FXML
-    private Hyperlink trackTitleHyperLink;
-    @FXML
-    private HBox artistsHbox;
+    private ToggleButton shuffleToggleButton;
+
     @FXML
     private Slider volumeSlider;
-    @FXML
-    private ProgressBar musicProgressBar;
-    private Media currentMusic;
-    private MediaPlayer musicPlayer;
-    private Timer timer;
-    private TimerTask task;
-    private boolean isPlaying;
-    private ArrayList<Media> songs;
-    private int songIndex;
 
     @FXML
-    public void createPlaylist(ActionEvent event) {
+    void createPlaylist(ActionEvent event) {
 
     }
 
     @FXML
-    public void goAccountPage(ActionEvent event) {
+    void goAccountPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goHomePage(ActionEvent event) {
+    void goHomePage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goLyricsPage(ActionEvent event) {
+    void goLyricsPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goNextTrack(ActionEvent event) {
+    void goNextTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPlaylistPage(ActionEvent event) {
+    void goPlaylistPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPreviousTrack(ActionEvent event) {
+    void goPreviousTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goProfilePage(ActionEvent event) {
+    void goProfilePage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goSearchPage(ActionEvent event) {
+    void goSearchPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void logout(ActionEvent event) {
+    void logout(ActionEvent event) {
 
     }
 
     @FXML
-    public void playStopTrack(ActionEvent event) {
+    void playStopTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void shuffleTracks(ActionEvent event) {
+    void shuffleTracks(ActionEvent event) {
 
     }
+
 
     /*
         methods related to initializing object
@@ -442,97 +436,5 @@ public class MainPageController  implements Initializable {
     /*
         related to music player
      */
-
-    public void playMusic(){
-        beginTimer();
-        musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
-        musicPlayer.play();
-    }
-
-    public void stopMusic(){
-        cancelTimer();
-        musicPlayer.stop();
-    }
-
-    public void playNext(){
-        if (songIndex < songs.size() - 1) {
-            songIndex++;
-            if (isPlaying){
-                cancelTimer();
-                musicPlayer.stop();
-            }
-            currentMusic = songs.get(songIndex);
-            musicPlayer = new MediaPlayer(currentMusic);
-            playMusic();
-        } else {
-            songIndex = 0;
-            if (isPlaying){
-                cancelTimer();
-                musicPlayer.stop();
-            }
-            playMusic();
-        }
-    }
-
-    public void playPrevious(){
-        if (songIndex > 0) {
-            songIndex--;
-            if (isPlaying){
-                musicPlayer.stop();
-            }
-            currentMusic = songs.get(songIndex);
-            musicPlayer = new MediaPlayer(currentMusic);
-            playMusic();
-        } else {
-            songIndex = songs.size() - 1;
-            if (isPlaying){
-                musicPlayer.stop();
-            }
-            playMusic();
-        }
-    }
-
-    public void shuffleSongs(ArrayList<Media> songs) {
-        Collections.shuffle(songs);
-    }
-
-    public void beginTimer(){
-        timer = new Timer();
-        task = new TimerTask() {
-            @Override
-            public void run() {
-
-                isPlaying = true;
-                double current = musicPlayer.getCurrentTime().toSeconds();
-                double end = currentMusic.getDuration().toSeconds();
-                musicProgressBar.setProgress(current/end);
-
-                if (current/end == 1) {
-
-                    cancelTimer();
-                }
-
-            }
-        };
-
-        timer.scheduleAtFixedRate(task, 1000, 1000);
-    }
-
-    public void cancelTimer(){
-        isPlaying = false;
-        timer.cancel();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        songs = new ArrayList<>();
-        songIndex = 0;
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
-        });
-    }
 
 }
