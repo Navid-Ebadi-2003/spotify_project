@@ -4,6 +4,8 @@ import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
 import Client.DownloadFiles;
+import Client.Download;
+import Client.DownloadFile;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -221,22 +223,29 @@ public class MainPageController {
             }
 
             // Building jsonArrays
-            JsonArray jsonArrays = new JsonArray();
-            jsonArrays.add(createdPlaylistsJson);
-            jsonArrays.add(likedPlaylistsJson);
-            jsonArrays.add(randomMusicsJson);
-            jsonArrays.add(likedMusicsJson);
+            // JsonArray jsonArrays = new JsonArray();
+            // jsonArrays.add(createdPlaylistsJson);
+            // jsonArrays.add(likedPlaylistsJson);
+            // jsonArrays.add(randomMusicsJson);
+            // jsonArrays.add(likedMusicsJson);
             // Building controllerArrays
-            List<List<InjectableController>> controllerArrays = new ArrayList<>();
-            controllerArrays.add(createdPlaylists);
-            controllerArrays.add(likedPlaylists);
-            controllerArrays.add(suggestedMusics);
-            controllerArrays.add(likedMusics);
             // Assigning thread to download profilePictures
-            DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
-            Thread thread_0 = new Thread(downloadFilesTask);
+            DownloadFiles createdPlaylistsDownload = new DownloadFiles(createdPlaylistsJson, createdPlaylists, "profilePath", clientSocket);
+            DownloadFiles likedPlaylistsDownload = new DownloadFiles(likedPlaylistsJson, likedPlaylists, "profilePath", clientSocket);
+            DownloadFiles suggestedMusicsDownload = new DownloadFiles(randomMusicsJson, suggestedMusics, "profilePath", clientSocket);
+            DownloadFiles likedMusicsDownload = new DownloadFiles(likedMusicsJson, likedMusics, "profilePath", clientSocket);
+
+
+            ArrayList<DownloadFile> downloadFile = new ArrayList<DownloadFile>();
+            ArrayList<DownloadFiles> downloadFiles = new ArrayList<DownloadFiles>();
+            downloadFiles.add(createdPlaylistsDownload);
+            downloadFiles.add(likedPlaylistsDownload);
+            downloadFiles.add(suggestedMusicsDownload);
+            downloadFiles.add(likedMusicsDownload);
+            Download download = new Download(downloadFile, downloadFiles);
+            Thread thread = new Thread(download);
             // Starting thread
-            thread_0.start();
+            thread.start();
 
         } catch (IOException io) {
             io.printStackTrace();
