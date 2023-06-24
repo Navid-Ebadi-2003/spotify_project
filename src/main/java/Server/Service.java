@@ -370,7 +370,6 @@ public class Service implements Runnable {
         // Uploading profile pictures
         uploadFile(profilePath);
         uploadFiles(tracksJson, "profilePath");
-        uploadFiles(tracksJson, "trackPath");
     }
     public void uploadWatchPlaylist(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
