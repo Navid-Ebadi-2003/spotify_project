@@ -3,6 +3,7 @@ package Client.Controllers.Boxes.PlaylistSecondBox;
 import Client.Controllers.InjectableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -85,9 +86,11 @@ public class PlaylistSecondBoxController implements InjectableController {
         this.playlistPicture.setImage(profilePic);
     }
 
-    public HBox getPlaylistHbox() {
-        return playlistHbox;
+    @Override
+    public Node getMainScene() {
+        return this.playlistHbox;
     }
+
 
     public void setPlaylistHbox(HBox playlistHbox) {
         this.playlistHbox = playlistHbox;

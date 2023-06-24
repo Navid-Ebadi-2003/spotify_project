@@ -1,5 +1,6 @@
 package Client.Controllers.MainPage;
 import Client.Controllers.Boxes.BoxBuilder;
+import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
 import Client.DownloadFiles;
@@ -189,16 +190,25 @@ public class MainPageController  {
             System.out.println(likedMusicsJson);
             System.out.println(randomMusicsJson);
             // Building Hashmaps
-            HashMap<HBox, InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
-            HashMap<HBox, InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
-            HashMap<VBox, InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
-            HashMap<VBox, InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
+            ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult");
+            ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult");
+            ArrayList<InjectableController> suggestedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "randomMusicsResult");
+            ArrayList<InjectableController> likedMusics = BoxBuilder.buildMusicMainBox(jsonResults, "likedPlaylistsResult");
             // Adding playlistBoxes to mainPage
-            playlistVbox.getChildren().addAll(createdPlaylists.keySet());
-            playlistVbox.getChildren().addAll(likedPlaylists.keySet());
+            for (InjectableController controller : createdPlaylists) {
+                this.playlistVbox.getChildren().add(controller.getMainScene());
+            }
+            for (InjectableController controller : likedPlaylists) {
+                this.playlistVbox.getChildren().add(controller.getMainScene());
+            }
             // Adding randomMusics & likedMusics Boxes to homePage
-            homePageController.getSuggestedMusicsHbox().getChildren().addAll(suggestedMusics.keySet());
-            homePageController.getLikedMusicsHbox().getChildren().addAll(likedMusics.keySet());
+            for (InjectableController controller : suggestedMusics) {
+                homePageController.getSuggestedMusicsHbox().getChildren().add(controller.getMainScene());
+            }
+            for (InjectableController controller : likedMusics) {
+                homePageController.getLikedMusicsHbox().getChildren().add(controller.getMainScene());
+            }
+
             // Building jsonArrays
             JsonArray jsonArrays = new JsonArray();
             jsonArrays.add(createdPlaylistsJson);
@@ -207,10 +217,10 @@ public class MainPageController  {
             jsonArrays.add(likedMusicsJson);
             // Building controllerArrays
             List<List<InjectableController>> controllerArrays = new ArrayList<>();
-            controllerArrays.add(createdPlaylists.values().stream().toList());
-            controllerArrays.add(likedPlaylists.values().stream().toList());
-            controllerArrays.add(suggestedMusics.values().stream().toList());
-            controllerArrays.add(likedMusics.values().stream().toList());
+            controllerArrays.add(createdPlaylists);
+            controllerArrays.add(likedPlaylists);
+            controllerArrays.add(suggestedMusics);
+            controllerArrays.add(likedMusics);
             // Assigning thread to download profilePictures
             DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
             Thread thread_0 = new Thread(downloadFilesTask);

@@ -3,6 +3,7 @@ package Client.Controllers.Boxes.MusicMainBox;
 import Client.Controllers.InjectableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,8 +54,8 @@ public class MusicMainBoxController implements InjectableController {
         return trackTitle;
     }
 
-    public void setTrackTitle(Hyperlink trackTitle) {
-        this.trackTitle = trackTitle;
+    public void setTrackTitle(String trackTitle) {
+        this.trackTitle.setText(trackTitle);
     }
 
     public UUID getAlbumId() {
@@ -81,12 +82,13 @@ public class MusicMainBoxController implements InjectableController {
         this.trackPicture.setImage(profilePic);
     }
 
-    public void setArtistsHbox(HBox artistsHbox) {
-        this.artistsHbox = artistsHbox;
+    @Override
+    public Node getMainScene() {
+        return this.musicMainVbox;
     }
 
-    public VBox getMusicMainVbox() {
-        return musicMainVbox;
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
     }
 
     public void setMusicMainVbox(VBox musicMainVbox) {
