@@ -1047,13 +1047,7 @@ public class Query {
 
                 usersResult.add(user);
             }
-
-            if (usersResult.isEmpty()){
-                return null;
-            }
-            else {
                 return usersResult;
-            }
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -1104,13 +1098,7 @@ public class Query {
 
                 playlistsResult.add(playlist);
             }
-
-            if (playlistsResult.isEmpty()){
-                return null;
-            }
-            else {
                 return playlistsResult;
-            }
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -1144,8 +1132,9 @@ public class Query {
                 String title = rs.getString("title");
                 music.addProperty("title", title);
 
-                String artistId = rs.getString("artist_id");
-                music.addProperty("artistId" , artistId);
+                JsonArray artistsId = getSubjectsFromHistory(UUID.fromString(trackId), "ARTIST_ADD_TRACK");
+                JsonArray artists = getArtists(artistsId);
+                music.add("artists", artists);
 
                 String albumId = rs.getString("album_id");
                 music.addProperty("albumId" , albumId);
@@ -1170,13 +1159,7 @@ public class Query {
 
                 musicsResult.add(music);
             }
-
-            if (musicsResult.isEmpty()){
-                return null;
-            }
-            else {
                 return musicsResult;
-            }
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -1219,15 +1202,11 @@ public class Query {
                 String profilePath = rs.getString("profile_path");
                 artist.addProperty("profilePath" , profilePath);
 
+                artist.addProperty("fileName" , artistId.toString());
+
                 artistsResult.add(artist);
             }
-
-            if (artistsResult.isEmpty()){
-                return null;
-            }
-            else {
                 return artistsResult;
-            }
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -1261,8 +1240,9 @@ public class Query {
                 String title = rs.getString("title");
                 album.addProperty("title", title);
 
-                String artistId = rs.getString("artist_id");
-                album.addProperty("artistId", artistId);
+                JsonArray artistsId = getSubjectsFromHistory(UUID.fromString(albumId), "ADD_ARTIST_ALBUM");
+                JsonArray artists = getArtists(artistsId);
+                album.add("artists", artists);
 
                 String genreId = rs.getString("genre_id");
                 album.addProperty("gereId" , genreId);
@@ -1279,13 +1259,7 @@ public class Query {
 
                 albumsResult.add(album);
             }
-
-            if (albumsResult.isEmpty()){
-                return null;
-            }
-            else {
                 return albumsResult;
-            }
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -1303,7 +1277,6 @@ public class Query {
         searchResult.add("musicsResult" , searchMusic(userInput));
         searchResult.add("artistsResult" , searchArtist(userInput));
         searchResult.add("albumResult" , searchAlbum(userInput));
-
 
         return searchResult;
     }
