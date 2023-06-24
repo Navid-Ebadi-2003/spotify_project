@@ -3,6 +3,9 @@ import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
+import Client.Controllers.LoginPage.LoginPageController;
+import Client.Controllers.SearchPage.SearchPageController;
+import Client.Controllers.SignupPage.SignupPageController;
 import Client.DownloadFiles;
 import Client.Download;
 import Client.DownloadFile;
@@ -15,6 +18,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -158,10 +170,6 @@ public class MainPageController implements InjectableController, Initializable{
 
     }
 
-    @FXML
-    void goSearchPage(ActionEvent event) {
-
-    }
 
     @FXML
     void logout(ActionEvent event) {
@@ -175,10 +183,21 @@ public class MainPageController implements InjectableController, Initializable{
             isPlayingMusic = true;
         }
     }
-
-    @FXML
     void shuffleTracks(ActionEvent event) {
+    
+    }
 
+    void goSearchPage(ActionEvent event) {
+        Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+        FXMLLoader searchPageLoader = new FXMLLoader(MainPageController.class.getResource("../SearchPage/search-page.fxml"));
+        try {
+            this.pageHolder.setContent(searchPageLoader.load());
+            SearchPageController searchPageController = searchPageLoader.getController();
+            searchPageController.setter(clientSocket);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -193,7 +212,6 @@ public class MainPageController implements InjectableController, Initializable{
     /*
         methods related to initializing object
      */
-
 
     public void setter(Socket clientSocket, UUID userId) {
         this.clientSocket = clientSocket;
@@ -280,9 +298,15 @@ public class MainPageController implements InjectableController, Initializable{
         }
     }
 
+
+
+    /*
+        setter and getters
+     */
     public void switchPage(Node page) {
         this.pageHolder.setContent(page);
     }
+
     public MenuItem getAccountPageButton() {
         return accountPageButton;
     }
