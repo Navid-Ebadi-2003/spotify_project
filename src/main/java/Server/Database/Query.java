@@ -1050,6 +1050,9 @@ public class Query {
                 String profilePath = rs.getString("profile_path");
                 user.addProperty("profilePath" , profilePath);
 
+                String fileName = userId.toString();
+                user.addProperty("fileName", fileName);
+
                 usersResult.add(user);
             }
                 return usersResult;
@@ -1091,6 +1094,9 @@ public class Query {
 
                 String profilePath = rs.getString("profile_path");
                 playlist.addProperty("profilePath" , profilePath);
+
+                String fileName = playlistId.toString();
+                playlist.addProperty("fileName", fileName);
 
                 String description = rs.getString("description");
                 playlist.addProperty("description" , description);
@@ -1152,6 +1158,9 @@ public class Query {
 
                 String trackPath = rs.getString("track_path");
                 music.addProperty("trackPath" , trackPath);
+
+                String fileName = trackId.toString();
+                music.addProperty("fileName", fileName);
 
                 String releaseDate = rs.getString("release_date");
                 music.addProperty("releaseDate" , releaseDate);
@@ -1255,6 +1264,9 @@ public class Query {
                 String profilePath = rs.getString("profile_path");
                 album.addProperty("profilePath" , profilePath);
 
+                String fileName = albumId.toString();
+                album.addProperty("fileName", fileName);
+
                 String releaseDate = rs.getString("release_date");
                 album.addProperty("releaseDate" , releaseDate);
 
@@ -1281,7 +1293,7 @@ public class Query {
         searchResult.add("playlistsResult" , searchPlaylist(userInput));
         searchResult.add("musicsResult" , searchMusic(userInput));
         searchResult.add("artistsResult" , searchArtist(userInput));
-        searchResult.add("albumResult" , searchAlbum(userInput));
+        searchResult.add("albumsResult" , searchAlbum(userInput));
 
         return searchResult;
     }
