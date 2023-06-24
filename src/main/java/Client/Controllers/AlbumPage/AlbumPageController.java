@@ -1,20 +1,27 @@
 package Client.Controllers.AlbumPage;
 
+import Client.Controllers.InjectableController;
 import Shared.Request;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class AlbumPageController{
+public class AlbumPageController implements InjectableController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+
+    @FXML
+    private AnchorPane albumPageMainAnchorPane;
     @FXML
     private ImageView albumPicture;
 
@@ -70,5 +77,15 @@ public class AlbumPageController{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.albumPicture.setImage(profilePic);
+    }
+
+    @Override
+    public Node getMainScene() {
+        return this.albumPageMainAnchorPane;
     }
 }
