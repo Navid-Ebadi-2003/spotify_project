@@ -1,5 +1,6 @@
 package Client.Controllers.PlaylistPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +18,8 @@ public class PlaylistController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private ScrollPane bottomScrollPane;
 
@@ -31,7 +34,8 @@ public class PlaylistController {
 
     @FXML
     private VBox tracksVbox;
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {
@@ -88,4 +92,5 @@ public class PlaylistController {
     public void setTracksVbox(VBox tracksVbox) {
         this.tracksVbox = tracksVbox;
     }
+
 }

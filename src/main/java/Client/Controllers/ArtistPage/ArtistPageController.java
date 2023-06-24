@@ -1,5 +1,6 @@
 package Client.Controllers.ArtistPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,6 +31,7 @@ public class ArtistPageController {
 
     @FXML
     private Label artistName;
+    private MainPageController mainPageController;
 
     /*
         setter and getters
@@ -74,7 +76,8 @@ public class ArtistPageController {
     public void setArtistName(Label artistName) {
         this.artistName = artistName;
     }
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {

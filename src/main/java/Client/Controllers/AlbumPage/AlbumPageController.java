@@ -1,6 +1,7 @@
 package Client.Controllers.AlbumPage;
 
 import Client.Controllers.InjectableController;
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,6 +20,8 @@ public class AlbumPageController implements InjectableController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
 
     @FXML
     private AnchorPane albumPageMainAnchorPane;
@@ -69,7 +72,8 @@ public class AlbumPageController implements InjectableController {
     public void setTracksVbox(VBox tracksVbox) {
         this.tracksVbox = tracksVbox;
     }
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {

@@ -1,5 +1,7 @@
 package Client.Controllers.Boxes.PlaylistMainBox;
 
+import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -7,9 +9,17 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class PlaylistMainBoxController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private Hyperlink creatorNameHyperLink;
 
@@ -74,5 +84,15 @@ public class PlaylistMainBoxController {
 
     public void setCreatorId(UUID creatorId) {
         this.creatorId = creatorId;
+    }
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

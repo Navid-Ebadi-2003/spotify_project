@@ -1,5 +1,6 @@
 package Client.Controllers.LyricsPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -12,6 +13,8 @@ public class LyricsPageController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private Text lyricsText;
 
@@ -26,7 +29,8 @@ public class LyricsPageController {
     public void setLyricsText(Text lyricsText) {
         this.lyricsText = lyricsText;
     }
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {

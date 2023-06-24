@@ -3,6 +3,7 @@ package Client.Controllers.Boxes.MusicMainBox;
 import Client.Controllers.AlbumPage.AlbumPageController;
 import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
+import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +19,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class MusicMainBoxController implements InjectableController {
+    public Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private MainPageController mainPageController;
+
 
     @FXML
     private HBox artistsHbox;
@@ -53,6 +60,13 @@ public class MusicMainBoxController implements InjectableController {
 
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
+        this.clientSocket = clientSocket;
+        this.requestObject = new Request(this.clientSocket);
+        try {
+            this.in = new Scanner(clientSocket.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     /*
         setter and getters
@@ -114,4 +128,5 @@ public class MusicMainBoxController implements InjectableController {
     public void setMusicMainVbox(VBox musicMainVbox) {
         this.musicMainVbox = musicMainVbox;
     }
+
 }

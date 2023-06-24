@@ -1,5 +1,6 @@
 package Client.Controllers.UserPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,8 @@ public class UserPageController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
 
     @FXML
     private HBox albumsHBox;
@@ -107,7 +110,8 @@ public class UserPageController {
     public void setUsername(Label username) {
         this.username = username;
     }
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {

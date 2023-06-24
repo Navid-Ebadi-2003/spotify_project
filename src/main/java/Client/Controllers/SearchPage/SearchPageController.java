@@ -1,5 +1,6 @@
 package Client.Controllers.SearchPage;
 
+import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ public class SearchPageController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
+    private MainPageController mainPageController;
+
     @FXML
     private HBox albumsHBox;
 
@@ -99,7 +102,8 @@ public class SearchPageController {
     public void setUsersHBox(HBox usersHBox) {
         this.usersHBox = usersHBox;
     }
-    public void setter(Socket clientSocket) {
+    public void setter(Socket clientSocket, MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
         this.requestObject = new Request(this.clientSocket);
         try {
