@@ -103,7 +103,7 @@ public class Query {
     }
 
     // If null is returned(and the username exists) then that means the password is incorrect
-    public static synchronized UUID logIn(String username, String password) {
+    public static synchronized JsonObject logIn(String username, String password) {
         final String query = """
                 SELECT user_id,username,password,profile_path FROM User
                 WHERE username=?;
@@ -119,7 +119,11 @@ public class Query {
                 UUID userId = UUID.fromString(rs.getString("user_id"));
                 String profilePath = rs.getString("profile_path");
                 if(Miscellaneous.checkHash(storedPass, password)) {
-                    return userId;
+                    JsonObject userJson = new JsonObject();
+                    userJson.addProperty("userId", userId.toString());
+                    userJson.addProperty("profilePath", profilePath);
+                    userJson.addProperty("fileName", userId.toString());
+                    return userJson;
                 } else {
                     // If null then it means that the password is incorrect
                     return null;

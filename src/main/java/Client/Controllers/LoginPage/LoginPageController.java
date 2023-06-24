@@ -113,16 +113,22 @@ public class LoginPageController {
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();
         if (result){
-            UUID userId = UUID.fromString(responseBody.get("userId").getAsString());
+            JsonObject jsonResults = responseBody.getAsJsonObject("jsonResults");
+            UUID userId = UUID.fromString(jsonResults.get("userId").getAsString());
             Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
             FXMLLoader mainPageLoader = new FXMLLoader(LoginPageController.class.getResource("../MainPage/main-page.fxml"));
             try {
                 Scene mainPageScene = new Scene(mainPageLoader.load());
                 MainPageController mainPageController = mainPageLoader.getController();
                 mainPageController.setter(clientSocket, userId);
-                DownloadFile downloadFile = new DownloadFile(userId.toString(), mainPageController, "profilePath", clientSocket);
+                DownloadFile downloadFile = new DownloadFile(jsonResults.get("fileName").getAsString(), mainPageController, "profilePath", clientSocket);
                 Thread thread_0 = new Thread(downloadFile);
                 thread_0.start();
+                try {
+                    thread_0.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 mainPageController.buildPages();
                 currentStage.setScene(mainPageScene);
             } catch (IOException e) {

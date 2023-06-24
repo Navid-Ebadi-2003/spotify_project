@@ -111,12 +111,22 @@ public class Service implements Runnable {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
                 String username = requestBody.get("username").getAsString();
                 String password = requestBody.get("password").getAsString();
-                UUID userId = Query.logIn(username, password);
+                JsonObject jsonResults = Query.logIn(username, password);
 
-                this.userId=userId;
+                this.userId = UUID.fromString(jsonResults.get("userId").getAsString());
 
                 if (userId != null){
-                    responseObject.loginRes(true, userId);
+                    responseObject.loginRes(true, jsonResults);
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+                    try {
+                        uploadUserProfilePic(jsonResults);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 } else {
                     responseObject.loginRes(false, null);
                 }
@@ -225,6 +235,10 @@ public class Service implements Runnable {
             String profilePath = arrayItem.get(filePathKey).getAsString();
             uploadFile(profilePath);
         }
+    }
+    public void uploadUserProfilePic(JsonObject jsonResults) throws IOException {
+        String profilePath = jsonResults.get("profilePath").getAsString();
+        uploadFile(profilePath);
     }
     public void uploadHomePage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResults:

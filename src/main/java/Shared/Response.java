@@ -40,7 +40,7 @@ public class Response {
         out.flush();
     }
 
-    public void loginRes(Boolean result, UUID userId) {
+    public void loginRes(Boolean result, JsonObject jsonResults) {
         // Template of responseBody :
         // {
         // "result" : %s,
@@ -50,8 +50,8 @@ public class Response {
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
         // Building jsons
-        if (userId != null){
-            responseBody.addProperty("userId", userId.toString());
+        if (!jsonResults.isEmpty()){
+            responseBody.add("jsonResults", jsonResults);
         }
         responseBody.addProperty("result", result);
         jsonTemplate.addProperty("responseType", "login response");
