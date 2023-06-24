@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_X">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -10,16 +10,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:17.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:20.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:17.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:17.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:win:17.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:win:20.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:11.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.dlsc.formsfx:formsfx-core:11.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0" level="project" />
@@ -46,5 +42,11 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.42.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.10.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.4" level="project" />
   </component>
 </module>
