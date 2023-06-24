@@ -2,6 +2,7 @@ package Client.Controllers.Boxes;
 
 import Client.Controllers.Boxes.ArtistBox.ArtistBoxController;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
+import Client.Controllers.Boxes.PlaylistMainBox.PlaylistMainBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.Boxes.UserBox.UserBoxController;
 import Client.Controllers.HomePage.HomePageController;
@@ -123,6 +124,30 @@ public class BoxBuilder {
            userControllers.add(userBoxController);
         }
         return userControllers;
+    }
+
+    public static ArrayList<InjectableController> buildPlaylistMainBox(JsonObject jsonResults, String jsonArrayKey) throws IOException {
+        // Parsing JsonObjects
+        JsonArray playlistsJson = jsonResults.getAsJsonArray(jsonArrayKey);
+        // This stores each VBox that we create for objects, and it's Controller
+        ArrayList<InjectableController> playlistControllers = new ArrayList<>();
+
+        // Parsing JsonObject of each individual playlist
+        for (JsonElement arrayItem : playlistsJson) {
+            JsonObject playlistJson = (JsonObject) arrayItem;
+            FXMLLoader playlistBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/PlaylistMainBox/playlist-main-box.fxml"));
+            playlistBoxLoader.load();
+            PlaylistMainBoxController playlistMainBoxController = playlistBoxLoader.getController();
+
+            // Setters :
+            playlistMainBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
+            playlistMainBoxController.setCreatorNameHyperLink(new Hyperlink(playlistJson.get("creator").getAsJsonObject().get("username").getAsString()));
+            playlistMainBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
+            playlistMainBoxController.setCreatorId(UUID.fromString(playlistJson.get("creator").getAsJsonObject().get("userId").getAsString()));
+
+            playlistControllers.add(playlistMainBoxController);
+        }
+        return playlistControllers;
     }
 
 }
