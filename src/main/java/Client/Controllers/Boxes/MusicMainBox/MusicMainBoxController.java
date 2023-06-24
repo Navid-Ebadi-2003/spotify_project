@@ -4,6 +4,7 @@ import Client.Controllers.AlbumPage.AlbumPageController;
 import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
+import Client.Download;
 import Client.DownloadFile;
 import Client.DownloadFiles;
 import Shared.Request;
@@ -65,27 +66,35 @@ public class MusicMainBoxController implements InjectableController {
         // Parsing JsonObject
         JsonObject jsonResults = responseBody.getAsJsonObject("results");
         // Building Arraylist of Controllers
-        ArrayList<InjectableController> musics = BoxBuilder.buildMusicThirdBox(jsonResults, "tracks", mainPageController, clientSocket);
+
+        ArrayList<InjectableController> musicControllers = BoxBuilder.buildMusicThirdBox(jsonResults, "tracks", mainPageController, clientSocket);
         // Adding musicBoxes to AlbumPage
-        for (InjectableController controller : musics) {
+        for (InjectableController controller : musicControllers) {
             albumPageController.getTracksVbox().getChildren().add(controller.getMainScene());
         }
         // AlbumPage setters:
         albumPageController.setAlbumTitle(new Label(jsonResults.get("title").getAsString()));
         DownloadFile downloadFileTask = new DownloadFile(jsonResults.get("fileName").getAsString(), albumPageController, "profilePath", clientSocket);
-        Thread thread_0 = new Thread(downloadFileTask);
-        thread_0.start();
+        ArrayList<DownloadFile> downloadFileArray = new ArrayList<DownloadFile>();
+        downloadFileArray.add(downloadFileTask);
+
+        // Thread thread_0 = new Thread(downloadFileTask);
+        // thread_0.start();
         // Building jsonArrays
-        JsonArray jsonArrays = new JsonArray();
-        jsonArrays.add(jsonResults.getAsJsonArray("tracks"));
+        JsonArray tracks = jsonResults.getAsJsonArray("tracks");
         // Building controllerArrays
-        List<List<InjectableController>> controllerArrays = new ArrayList<>();
-        controllerArrays.add(musics);
         // Assigning thread to download profilePictures
-        DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
-        Thread thread_1 = new Thread(downloadFilesTask);
-        // Starting thread
-        thread_1.start();
+        DownloadFiles downloadFilesTask = new DownloadFiles(tracks, musicControllers, "profilePath", clientSocket);
+        ArrayList<DownloadFiles> downloadFilesArray = new ArrayList<DownloadFiles>();
+        downloadFilesArray.add(downloadFilesTask);
+
+        Download download = new Download(downloadFileArray, downloadFilesArray);
+        download.start();
+
+        // Thread thread_1 = new Thread(downloadFilesTask);
+        // // Starting thread
+        // thread_1.start();
+        
     }
 
 
