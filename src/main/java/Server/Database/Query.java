@@ -379,6 +379,15 @@ public class Query {
         }
     }
 
+    public static synchronized JsonArray getTracks(JsonArray trackIds) {
+        JsonArray tracks = new JsonArray();
+        for(JsonElement trackIdElement: trackIds) {
+            UUID trackId = UUID.fromString(trackIdElement.getAsString());
+            tracks.add(getMusic(trackId));
+        }
+        return tracks;
+    }
+
     // Get an album's info from id
     public static synchronized JsonObject getAlbum(UUID albumId) {
         final String query = """
@@ -410,7 +419,8 @@ public class Query {
                 int popularity = rs.getInt("popularity");
                 albumJson.addProperty("popularity", popularity);
 
-                JsonArray tracks = getObjectsFromHistory(albumId, "ALBUM_ADD_TRACK");
+                JsonArray tracksIds = getObjectsFromHistory(albumId, "ALBUM_ADD_TRACK");
+                JsonArray tracks = getTracks(tracksIds);
                 albumJson.add("tracks", tracks);
 
                 String profilePath = rs.getString("profile_path");
