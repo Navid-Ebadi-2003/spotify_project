@@ -8,23 +8,31 @@ import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URL;
 import java.util.*;
 
-public class MainPageController  {
+public class MainPageController {
 
+    private Socket clientSocket;
+    private Request requestObject;
+    private Scanner in;
+    private UUID userId;
     @FXML
     private MenuItem accountPageButton;
 
@@ -44,6 +52,9 @@ public class MainPageController  {
     private Button lyricsButton;
 
     @FXML
+    private ProgressBar musicProgressBar;
+
+    @FXML
     private Button nextButton;
 
     @FXML
@@ -53,10 +64,10 @@ public class MainPageController  {
     private ScrollPane pageHolder;
 
     @FXML
-    private Button playStopButton;
+    private ImageView playStopButtonIcon;
 
     @FXML
-    private ImageView playStopButtonIcon;
+    private ToggleButton playStopToggleButton;
 
     @FXML
     private Button playlistPageButton;
@@ -80,75 +91,74 @@ public class MainPageController  {
     private Button searchPageButton;
 
     @FXML
-    private Button shuffleButton;
-
-    @FXML
     private ImageView shuffleButtonIcon;
 
-    private Socket clientSocket;
-    private Request requestObject;
-    private Scanner in;
-    private UUID userId;
+    @FXML
+    private ToggleButton shuffleToggleButton;
 
     @FXML
-    public void createPlaylist(ActionEvent event) {
+    private Slider volumeSlider;
+
+    @FXML
+    void createPlaylist(ActionEvent event) {
 
     }
 
     @FXML
-    public void goAccountPage(ActionEvent event) {
+    void goAccountPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goHomePage(ActionEvent event) {
+    void goHomePage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goLyricsPage(ActionEvent event) {
+    void goLyricsPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goNextTrack(ActionEvent event) {
+    void goNextTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPlaylistPage(ActionEvent event) {
+    void goPlaylistPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goPreviousTrack(ActionEvent event) {
+    void goPreviousTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void goProfilePage(ActionEvent event) {
+    void goProfilePage(ActionEvent event) {
 
     }
 
     @FXML
-    public void goSearchPage(ActionEvent event) {
+    void goSearchPage(ActionEvent event) {
 
     }
 
     @FXML
-    public void logout(ActionEvent event) {
+    void logout(ActionEvent event) {
 
     }
 
     @FXML
-    public void playStopTrack(ActionEvent event) {
+    void playStopTrack(ActionEvent event) {
 
     }
 
     @FXML
-    public void shuffleTracks(ActionEvent event) {
+    void shuffleTracks(ActionEvent event) {
 
     }
+
 
     /*
         methods related to initializing object
@@ -308,13 +318,6 @@ public class MainPageController  {
         this.pageHolder = pageHolder;
     }
 
-    public Button getPlayStopButton() {
-        return playStopButton;
-    }
-
-    public void setPlayStopButton(Button playStopButton) {
-        this.playStopButton = playStopButton;
-    }
 
     public ImageView getPlayStopButtonIcon() {
         return playStopButtonIcon;
@@ -380,13 +383,7 @@ public class MainPageController  {
         this.searchPageButton = searchPageButton;
     }
 
-    public Button getShuffleButton() {
-        return shuffleButton;
-    }
 
-    public void setShuffleButton(Button shuffleButton) {
-        this.shuffleButton = shuffleButton;
-    }
 
     public ImageView getShuffleButtonIcon() {
         return shuffleButtonIcon;
@@ -427,4 +424,17 @@ public class MainPageController  {
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
+
+    public ToggleButton getPlayStopToggleButton() {
+        return playStopToggleButton;
+    }
+
+    public void setPlayStopToggleButton(ToggleButton playStopToggleButton) {
+        this.playStopToggleButton = playStopToggleButton;
+    }
+
+    /*
+        related to music player
+     */
+
 }
