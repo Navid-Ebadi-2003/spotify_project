@@ -27,6 +27,7 @@ public class PlaylistMainBoxController implements InjectableController {
     // This stores id of the creator
     private UUID creatorId;
 
+    @FXML
     private VBox playlistMainVBox;
 
     @FXML

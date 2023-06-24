@@ -32,7 +32,7 @@ public class BoxBuilder {
         // Parsing JsonObject of each individual playlist
         for (JsonElement arrayItem : playlistsJson) {
             JsonObject playlistJson = (JsonObject) arrayItem;
-            JsonObject creatorJson = (playlistJson).getAsJsonObject("creator");
+            JsonObject creatorJson = playlistJson.getAsJsonObject("creator");
             FXMLLoader playlistBoxLoader = new FXMLLoader(MainPageController.class.getResource("../Boxes/PlaylistSecondBox/playlist-second-box.fxml"));
             playlistBoxLoader.load();
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
@@ -95,7 +95,7 @@ public class BoxBuilder {
             ArtistBoxController artistBoxController = artistBoxLoader.getController();
 
             // Setters :
-            artistBoxController.setArtistHyperLink(new Hyperlink(artistJson.get("name").getAsString()));
+            artistBoxController.setArtistHyperLink(artistJson.get("name").getAsString());
             artistBoxController.setArtistId(UUID.fromString(artistJson.get("artistId").getAsString()));
 
 

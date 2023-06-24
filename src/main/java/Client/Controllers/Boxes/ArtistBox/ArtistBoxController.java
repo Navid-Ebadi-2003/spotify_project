@@ -24,6 +24,7 @@ public class ArtistBoxController implements InjectableController {
     private ImageView artistPicture;
     private UUID artistId;
 
+    @FXML
     private VBox artistBox;
 
     @FXML
@@ -38,8 +39,8 @@ public class ArtistBoxController implements InjectableController {
         return artistHyperLink;
     }
 
-    public void setArtistHyperLink(Hyperlink artistHyperLink) {
-        this.artistHyperLink = artistHyperLink;
+    public void setArtistHyperLink(String artistName) {
+        this.artistHyperLink.setText(artistName);
     }
 
     public ImageView getArtistPicture() {

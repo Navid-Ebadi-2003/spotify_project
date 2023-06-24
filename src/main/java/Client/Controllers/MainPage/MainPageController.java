@@ -3,6 +3,9 @@ import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
+import Client.Controllers.LoginPage.LoginPageController;
+import Client.Controllers.SearchPage.SearchPageController;
+import Client.Controllers.SignupPage.SignupPageController;
 import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
@@ -11,12 +14,15 @@ import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -130,11 +136,6 @@ public class MainPageController  {
     }
 
     @FXML
-    public void goSearchPage(ActionEvent event) {
-
-    }
-
-    @FXML
     public void logout(ActionEvent event) {
 
     }
@@ -149,10 +150,26 @@ public class MainPageController  {
 
     }
 
+    @FXML
+
+    void goSearchPage(ActionEvent event) {
+        Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+        FXMLLoader searchPageLoader = new FXMLLoader(MainPageController.class.getResource("../SearchPage/search-page.fxml"));
+        try {
+            this.pageHolder.setContent(searchPageLoader.load());
+            SearchPageController searchPageController = searchPageLoader.getController();
+            searchPageController.setter(clientSocket);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     /*
         methods related to initializing object
      */
-
 
     public void setter(Socket clientSocket, UUID userId) {
         this.clientSocket = clientSocket;
@@ -282,11 +299,6 @@ public class MainPageController  {
 //
 //        }
 //    }
-
-
-
-
-
 
 
     /*

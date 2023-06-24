@@ -45,6 +45,7 @@ public class DownloadFiles implements Runnable{
             List<InjectableController> controllerArray = controllerArrays.get(i);
             for (int j = 0; j < jsonArray.size(); j++){
                 JsonObject arrayItem = jsonArray.get(j).getAsJsonObject();
+                System.out.println("arrayItem : " + arrayItem.toString());
                 String fileName = arrayItem.get("fileName").getAsString();
                 DownloadFile.downloadFile(fileName, controllerArray.get(j),filePathKey, clientSocket);
             }

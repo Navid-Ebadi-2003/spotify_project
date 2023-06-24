@@ -20,6 +20,7 @@ public class UserBoxController implements InjectableController {
     // This stores id of the user
     private UUID userId;
 
+    @FXML
     private VBox userBox;
 
     @FXML
