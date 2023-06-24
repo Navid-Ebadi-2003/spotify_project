@@ -1,10 +1,13 @@
 package Client.Controllers.Boxes.MusicSecondBox;
 
+import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
 import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -14,7 +17,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class MusicSecondBoxController {
+public class MusicSecondBoxController implements InjectableController {
     public Socket clientSocket;
     private Request requestObject;
     private Scanner in;
@@ -28,10 +31,11 @@ public class MusicSecondBoxController {
 
     @FXML
     private Hyperlink trackTitleHyperLink;
+    @FXML
+    private HBox musicMainHbox;
     // This stores artistName, artistId
     private HashMap<String, UUID> artists;
     // This stores id of the album
-    private UUID albumId;
 
     @FXML
     void goToAlbumPage(ActionEvent event) {
@@ -73,13 +77,6 @@ public class MusicSecondBoxController {
         this.artists = artists;
     }
 
-    public UUID getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(UUID albumId) {
-        this.albumId = albumId;
-    }
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
@@ -89,5 +86,15 @@ public class MusicSecondBoxController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void setControllerProfilePic(Image profilePic) {
+        this.trackPicture.setImage(profilePic);
+    }
+
+    @Override
+    public Node getMainScene() {
+        return this.musicMainHbox;
     }
 }

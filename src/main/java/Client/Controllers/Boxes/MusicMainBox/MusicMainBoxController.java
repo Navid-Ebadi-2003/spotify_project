@@ -1,9 +1,14 @@
 package Client.Controllers.Boxes.MusicMainBox;
 
 import Client.Controllers.AlbumPage.AlbumPageController;
+import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
+import Client.DownloadFiles;
 import Shared.Request;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class MusicMainBoxController implements InjectableController {
     public Socket clientSocket;
@@ -43,17 +46,43 @@ public class MusicMainBoxController implements InjectableController {
     private UUID albumId;
     // This stores artistName, artistId
     private HashMap<String, UUID> artists;
-    private MainPageController mainPageController;
 
     @FXML
     void goToAlbumPage(ActionEvent event) throws IOException {
+        // Loading albumPage
         FXMLLoader albumPageLoader = new FXMLLoader(MusicMainBoxController.class.getResource("../../AlbumPage/album-page.fxml"));
         albumPageLoader.load();
-        Scene currentScene = (((Node)event.getSource())).getScene();
+        // Passing albumPage Controller
         AlbumPageController albumPageController = albumPageLoader.getController();
-        currentScene = albumPageController.getMainScene().getScene();
+        // Switching pages from homePage to albumPage
+        mainPageController.switchPage(albumPageController.getMainScene());
+        // Sending Request
+        requestObject.watchAlbumPageReq(albumId);
+        // Receiving response
+        String response = in.nextLine();
+        JsonObject jsonTemplate = new Gson().fromJson(response, JsonObject.class);
+        JsonObject responseBody = jsonTemplate.getAsJsonObject("responseBody");
+        // Parsing JsonObject
+        JsonObject jsonResults = responseBody.getAsJsonObject("results");
+        System.out.println(jsonResults);
+        // Building Arraylist of Controllers
+        ArrayList<InjectableController> musics = BoxBuilder.buildMusicSecondBox(jsonResults, "tracks", mainPageController, clientSocket);
+        // Adding musicBoxes to AlbumPage
+        for (InjectableController controller : musics) {
+            this.musicMainVbox.getChildren().add(controller.getMainScene());
+        }
 
-
+        // Building jsonArrays
+        JsonArray jsonArrays = new JsonArray();
+        jsonArrays.add(jsonResults.getAsJsonArray("tracks"));
+        // Building controllerArrays
+        List<List<InjectableController>> controllerArrays = new ArrayList<>();
+        controllerArrays.add(musics);
+        // Assigning thread to download profilePictures
+        DownloadFiles downloadFilesTask = new DownloadFiles(jsonArrays, controllerArrays, "profilePath", clientSocket);
+        Thread thread_0 = new Thread(downloadFilesTask);
+        // Starting thread
+        thread_0.start();
     }
 
 
