@@ -10,8 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -80,7 +78,7 @@ public class BoxBuilder {
         return musicControllers;
     }
 
-    public static ArrayList<InjectableController> buildMusicSecondBox(JsonObject jsonResults, String jsonArrayKey, MainPageController mainPageController, Socket clientSocket) throws IOException {
+    public static ArrayList<InjectableController> buildMusicThirdBox(JsonObject jsonResults, String jsonArrayKey, MainPageController mainPageController, Socket clientSocket) throws IOException {
         // Parsing JsonObjects
         JsonArray musicsJson = jsonResults.getAsJsonArray(jsonArrayKey);
         // This stores each VBox that we create for objects, and it's Controller
