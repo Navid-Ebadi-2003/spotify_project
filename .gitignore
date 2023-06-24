@@ -18,9 +18,10 @@ target/
 src/main/java/Client/Downloads/
 src/main/java/Server/files/
 src/main/java/Server/files.zip
-.idea/misc.xml
-src/main/java/Server/log.txt
 
+.idea/misc.xml
+
+src/main/java/Server/log.txt
 # Generated files
 .idea/**/contentModel.xml
 

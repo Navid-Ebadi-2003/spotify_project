@@ -886,7 +886,7 @@ public class Query {
         for(JsonElement playlistIdString: createdPlaylistId) {
             UUID playlistId = UUID.fromString(playlistIdString.getAsString());
             // get playlist's meta-data
-            createdPlaylist.add(getMusic(playlistId));
+            createdPlaylist.add(getPlaylist(playlistId));
         }
         return createdPlaylist;
     }

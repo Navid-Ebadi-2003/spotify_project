@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalTime;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -16,10 +17,13 @@ public class Service implements Runnable {
     private Scanner in;
     private Response responseObject;
 
+    private UUID userId;
+
     //Constructor
     public Service(Socket serverSocket) {
         this.serverSocket = serverSocket;
         responseObject = new Response(serverSocket);
+        this.userId = null;
         try {
             this.in = new Scanner(serverSocket.getInputStream());
         } catch (IOException e) {
@@ -43,6 +47,26 @@ public class Service implements Runnable {
             //Write in LOG FILE that client has been disconnected
             //TODO
             System.out.println("CLIENT WITH IP: " + serverSocket.getRemoteSocketAddress() + " HAS BEEN DISCONNECTED");
+        }
+    }
+
+    public void log (String requestType , UUID userId) {
+        try {
+            FileWriter writer = new FileWriter("log.txt");
+            LocalTime time = LocalTime.now();
+
+            if (!userId.equals(null)) {
+
+                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "userID: " + userId + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
+            }
+            else {
+                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
+            }
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -72,6 +96,7 @@ public class Service implements Runnable {
                 String email = requestBody.get("email").getAsString();
                 String username = requestBody.get("username").getAsString();
                 String password = requestBody.get("password").getAsString();
+
                 if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)){
                     Query.signUpUser(userId, username, email, password);
                     // Consider removing userId from that response because we have to login again
@@ -79,6 +104,8 @@ public class Service implements Runnable {
                 } else {
                     responseObject.signupRes(false);
                 }
+
+                log(requestType , this.userId );
             }
             case "login request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -86,11 +113,15 @@ public class Service implements Runnable {
                 String password = requestBody.get("password").getAsString();
                 UUID userId = Query.logIn(username, password);
 
+                this.userId=userId;
+
                 if (userId != null){
                     responseObject.loginRes(true, userId);
                 } else {
                     responseObject.loginRes(false, null);
                 }
+
+                log(requestType , this.userId);
             }
             case "go home page request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -149,12 +180,19 @@ public class Service implements Runnable {
     }
 
     // Upload method to send "goHomePage" Results from the server to the client
-    public void uploadFile(String filePathKey) throws IOException {
+    public void uploadFile(String filePath) throws IOException {
+        filePath = "src/main/java/Server/" + filePath;
         OutputStream outputStream = serverSocket.getOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-        File file = new File(filePathKey);
+        File file = new File(filePath);
         FileInputStream fileInputStream = new FileInputStream(file);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // Send the file size to client
         long fileSize = file.length();
@@ -192,14 +230,14 @@ public class Service implements Runnable {
         // Parsing Results
         JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
         JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
-        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
         JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
+        JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
 
         // Uploading profile pictures
         uploadFiles(createdPlaylistsJson, "profilePath");
         uploadFiles(likedPlaylistsJson, "profilePath");
-        uploadFiles(likedMusicsJson, "profilePath");
         uploadFiles(randomMusicsJson, "profilePath");
+        uploadFiles(likedMusicsJson, "profilePath");
     }
     public void uploadSearchPage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResults:

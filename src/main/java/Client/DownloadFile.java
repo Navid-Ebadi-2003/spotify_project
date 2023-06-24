@@ -41,10 +41,10 @@ public class DownloadFile implements Runnable{
         FileOutputStream fileOutputStream = null;
         if (filePathKey.equals("profilePath")) {
             // If filePathKey equals profilePath we have to store the file in profilePictures
-            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\ProfilePictures\\" + fileName + ".png");
+            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\files\\profile_pic\\" + fileName + ".jpg");
         } else {
             // Else we have to store in Musics
-            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\Musics\\" + fileName + ".mp3");
+            fileOutputStream = new FileOutputStream("src\\main\\java\\Client\\Downloads\\files\\track_file\\" + fileName + ".mp3");
         }
         InputStream inputStream = clientSocket.getInputStream();
 
@@ -61,15 +61,16 @@ public class DownloadFile implements Runnable{
             totalBytesRead += bytesRead;
         }
         if (filePathKey.equals("profilePath")){
-            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\ProfilePictures\\" + fileName + ".png");
+            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\files\\profile_pic\\" + fileName + ".jpg");
         } else {
-            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\Musics\\" + fileName + ".mp3");
+            replaceImage(controller, "src\\main\\java\\Client\\Downloads\\files\\track_file\\" + fileName + ".mp3");
         }
         fileOutputStream.flush();
         fileOutputStream.close();
     }
     public static void replaceImage(InjectableController controller, String imagePath){
-        Image image = new Image(imagePath);
+        System.out.println(imagePath);
+        Image image = new Image("file:"+ imagePath);
         controller.setControllerProfilePic(image);
     }
 }
