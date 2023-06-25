@@ -125,6 +125,7 @@ public class MainPageController implements InjectableController, Initializable{
 
     private Timer timer;
     private TimerTask timerTask;
+    private Duration playBackPosition;
 
 
     /*
@@ -185,21 +186,20 @@ public class MainPageController implements InjectableController, Initializable{
     @FXML
     void play(ActionEvent event) {
         if (!isPlayingMusic) {
-            if (musicPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
-                // If the media player is paused, resume playback from the current position
-                Duration currentPosition = musicPlayer.getCurrentTime();
-                System.out.println(currentPosition.toSeconds());
-                musicPlayer.seek(currentPosition);
-            }
             beginTimer();
+            System.out.println(playBackPosition);
+            musicPlayer.setStartTime(playBackPosition);
             musicPlayer.play();
             isPlayingMusic = true;
         }
     }
+
     @FXML
     void stop(ActionEvent event) {
         if (isPlayingMusic) {
             cancelTimer();
+            playBackPosition = musicPlayer.getCurrentTime();
+            System.out.println(playBackPosition);
             musicPlayer.stop();
             isPlayingMusic = false;
         }
