@@ -76,7 +76,7 @@ public class MusicMainBoxController implements InjectableController {
             albumPageController.getTracksVbox().getChildren().add(controller.getMainScene());
         }
         // AlbumPage setters:
-        albumPageController.setAlbumTitle(new Label(jsonResults.get("title").getAsString()));
+        albumPageController.setAlbumTitle(jsonResults.get("title").getAsString());
         DownloadFile downloadFileTask = new DownloadFile(jsonResults.get("fileName").getAsString(), albumPageController, "profilePath", clientSocket);
         ArrayList<DownloadFile> downloadFileArray = new ArrayList<DownloadFile>();
         downloadFileArray.add(downloadFileTask);

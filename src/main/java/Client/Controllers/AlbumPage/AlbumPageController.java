@@ -53,8 +53,8 @@ public class AlbumPageController implements InjectableController {
         return albumTitle;
     }
 
-    public void setAlbumTitle(Label albumTitle) {
-        this.albumTitle = albumTitle;
+    public void setAlbumTitle(String albumTitle) {
+        this.albumTitle.setText(albumTitle);
     }
 
     public ScrollPane getBottomScrollPane() {

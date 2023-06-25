@@ -65,8 +65,8 @@ public class MusicSecondBoxController implements InjectableController {
         return trackTitleHyperLink;
     }
 
-    public void setTrackTitleHyperLink(Hyperlink trackTitleHyperLink) {
-        this.trackTitleHyperLink = trackTitleHyperLink;
+    public void setTrackTitleHyperLink(String trackTitle) {
+        this.trackTitleHyperLink.setText(trackTitle);
     }
 
     public HashMap<String, UUID> getArtists() {

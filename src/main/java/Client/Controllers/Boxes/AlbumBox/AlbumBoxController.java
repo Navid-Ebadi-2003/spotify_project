@@ -54,8 +54,8 @@ public class AlbumBoxController {
         return albumTitleHyperLink;
     }
 
-    public void setAlbumTitleHyperLink(Hyperlink albumTitleHyperLink) {
-        this.albumTitleHyperLink = albumTitleHyperLink;
+    public void setAlbumTitleHyperLink(String albumTitle) {
+        this.albumTitleHyperLink.setText(albumTitle);
     }
 
     public HBox getArtistsHbox() {

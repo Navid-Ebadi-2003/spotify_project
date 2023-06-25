@@ -69,7 +69,7 @@ public class MusicThirdBoxController implements InjectableController {
                 musicSecondBoxLoader.load();
                 MusicSecondBoxController musicSecondBoxController = musicSecondBoxLoader.getController();
                 musicSecondBoxController.setControllerProfilePic(this.trackPicture.getImage());
-                musicSecondBoxController.setTrackTitleHyperLink(this.getTrackTitleHyperLink());
+                musicSecondBoxController.setTrackTitleHyperLink(this.trackTitleHyperLink.getText());
                 mainPageController.setMusicShowHbox((HBox) musicSecondBoxController.getMainScene());
 
             } catch (IOException e) {
@@ -130,8 +130,8 @@ public class MusicThirdBoxController implements InjectableController {
         return trackTitleHyperLink;
     }
 
-    public void setTrackTitleHyperLink(Hyperlink trackTitleHyperLink) {
-        this.trackTitleHyperLink = trackTitleHyperLink;
+    public void setTrackTitleHyperLink(String trackTitle) {
+        this.trackTitleHyperLink.setText(trackTitle);
     }
 
     public UUID getAlbumId() {

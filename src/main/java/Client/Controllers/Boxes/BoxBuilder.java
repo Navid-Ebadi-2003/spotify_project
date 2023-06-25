@@ -37,8 +37,8 @@ public class BoxBuilder {
             playlistBoxLoader.load();
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
             // Setting it's controller data
-            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
-            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
+            playlistSecondBoxController.setCreatorNameHyperLink(creatorJson.get("username").getAsString());
+            playlistSecondBoxController.setPlaylistTitleHyperLink(playlistJson.get("title").getAsString());
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
             playlistSecondBoxController.setter(clientSocket, mainPageController);

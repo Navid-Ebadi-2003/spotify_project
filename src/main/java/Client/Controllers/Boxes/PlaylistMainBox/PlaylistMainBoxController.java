@@ -55,8 +55,8 @@ public class PlaylistMainBoxController implements InjectableController {
         return creatorNameHyperLink;
     }
 
-    public void setCreatorNameHyperLink(Hyperlink creatorNameHyperLink) {
-        this.creatorNameHyperLink = creatorNameHyperLink;
+    public void setCreatorNameHyperLink(String creatorName) {
+        this.creatorNameHyperLink.setText(creatorName);
     }
 
     public ImageView getPlaylistPicture() {
@@ -71,8 +71,8 @@ public class PlaylistMainBoxController implements InjectableController {
         return playlistTitleHyperLink;
     }
 
-    public void setPlaylistTitleHyperLink(Hyperlink playlistTitleHyperLink) {
-        this.playlistTitleHyperLink = playlistTitleHyperLink;
+    public void setPlaylistTitleHyperLink(String playlistTitle) {
+        this.playlistTitleHyperLink.setText(playlistTitle);
     }
 
     public UUID getPlaylistId() {
