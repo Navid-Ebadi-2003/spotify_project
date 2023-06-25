@@ -47,6 +47,8 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:20.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:20.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:20.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:win:20.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.4" level="project" />
   </component>
 </module>

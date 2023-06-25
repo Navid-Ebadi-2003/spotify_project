@@ -165,7 +165,15 @@ public class Service implements Runnable {
                 //TODO
             }
             case "watch music page request" -> {
-                //TODO
+                JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
+                UUID trackId = UUID.fromString(requestBody.get("trackId").getAsString());
+                JsonObject jsonResults = Query.getMusic(trackId);
+                responseObject.watchMusicPageRes(jsonResults);
+                try {
+                    uploadWatchMusicPage(jsonResults);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
             case "watch album page request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -357,7 +365,7 @@ public class Service implements Runnable {
         String trackPath = jsonResults.get("trackPath").getAsString();
 
         // Uploading profile pictures
-        uploadFile(profilePath);
+//        uploadFile(profilePath);
         uploadFile(trackPath);
     }
     public void uploadWatchAlbum(JsonObject jsonResults) throws IOException {

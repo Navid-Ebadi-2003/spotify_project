@@ -178,6 +178,8 @@ public class BoxBuilder {
             musicThirdBoxController.setArtists(artists);
             musicThirdBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
             musicThirdBoxController.setTrackTitle(musicJson.get("title").getAsString());
+            musicThirdBoxController.setTrackId(UUID.fromString(musicJson.get("trackId").getAsString()));
+            musicThirdBoxController.setFileName(musicJson.get("fileName").getAsString());
             musicThirdBoxController.setter(clientSocket, mainPageController);
 
             musicControllers.add(musicThirdBoxController);

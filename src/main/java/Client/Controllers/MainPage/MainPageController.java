@@ -36,7 +36,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -121,6 +123,10 @@ public class MainPageController implements InjectableController, Initializable{
     @FXML
     private Button stopButton;
 
+    private Timer timer;
+    private TimerTask timerTask;
+
+
     /*
         related to musicPlayer
      */
@@ -179,8 +185,23 @@ public class MainPageController implements InjectableController, Initializable{
     @FXML
     void play(ActionEvent event) {
         if (!isPlayingMusic) {
+            if (musicPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+                // If the media player is paused, resume playback from the current position
+                Duration currentPosition = musicPlayer.getCurrentTime();
+                System.out.println(currentPosition.toSeconds());
+                musicPlayer.seek(currentPosition);
+            }
+            beginTimer();
             musicPlayer.play();
             isPlayingMusic = true;
+        }
+    }
+    @FXML
+    void stop(ActionEvent event) {
+        if (isPlayingMusic) {
+            cancelTimer();
+            musicPlayer.stop();
+            isPlayingMusic = false;
         }
     }
     @FXML
@@ -202,13 +223,7 @@ public class MainPageController implements InjectableController, Initializable{
         }
     }
 
-    @FXML
-    void stop(ActionEvent event) {
-        if (isPlayingMusic) {
-            musicPlayer.stop();
-            isPlayingMusic = false;
-        }
-    }
+
 
 
     /*
@@ -506,22 +521,122 @@ public class MainPageController implements InjectableController, Initializable{
         return null;
     }
 
+    public ProgressBar getMusicProgressBar() {
+        return musicProgressBar;
+    }
+
+    public void setMusicProgressBar(ProgressBar musicProgressBar) {
+        this.musicProgressBar = musicProgressBar;
+    }
+
+    public HBox getMusicShowHbox() {
+        return musicShowHbox;
+    }
+
+    public void setMusicShowHbox(HBox musicShowHbox) {
+        this.musicShowHbox = musicShowHbox;
+    }
+
+    public ToggleButton getShuffleToggleButton() {
+        return shuffleToggleButton;
+    }
+
+    public void setShuffleToggleButton(ToggleButton shuffleToggleButton) {
+        this.shuffleToggleButton = shuffleToggleButton;
+    }
+
+    public Slider getVolumeSlider() {
+        return volumeSlider;
+    }
+
+    public void setVolumeSlider(Slider volumeSlider) {
+        this.volumeSlider = volumeSlider;
+    }
+
+    public Button getPlayButton() {
+        return playButton;
+    }
+
+    public void setPlayButton(Button playButton) {
+        this.playButton = playButton;
+    }
+
+    public Button getStopButton() {
+        return stopButton;
+    }
+
+    public void setStopButton(Button stopButton) {
+        this.stopButton = stopButton;
+    }
+
+    public MediaPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
+
+    public void setMusicPlayer(MediaPlayer musicPlayer) {
+        this.musicPlayer = musicPlayer;
+    }
+
+    public Media getCurrentMusic() {
+        return currentMusic;
+    }
+
+    public void setCurrentMusic(Media currentMusic) {
+        this.currentMusic = currentMusic;
+    }
+
+    public boolean isPlayingMusic() {
+        return isPlayingMusic;
+    }
+
+    public void setPlayingMusic(boolean playingMusic) {
+        isPlayingMusic = playingMusic;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        this.musics = new HashMap<>();
 //        this.currentMusicIndex = 0;
         this.isPlayingMusic = false;
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+    }
+
+    public void beginTimer() {
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                double current = musicPlayer.getCurrentTime().toSeconds();
+                double end = currentMusic.getDuration().toSeconds();
+                musicProgressBar.setProgress(current/end);
+
+                if (current/end == 1){
+                    cancelTimer();
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+    }
+
+    public void cancelTimer() {
+        timer.cancel();
     }
 
     /*
         related to music player
      */
 
-    public void setTrackForMusicPlayer(String trackPath) {
+    public void setTrackForMusicPlayer(String fileName) {
         if (isPlayingMusic) {
             musicPlayer.stop();
         }
-        this.currentMusic = new Media(trackPath);
+        File file = new File("src/main/java/Client/Downloads/files/track_file/" + fileName + ".mp3");
+        this.currentMusic = new Media(file.toURI().toString());
         this.musicPlayer = new MediaPlayer(currentMusic);
     }
 }
