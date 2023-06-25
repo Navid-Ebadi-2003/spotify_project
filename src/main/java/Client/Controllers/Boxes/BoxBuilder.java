@@ -139,12 +139,13 @@ public class BoxBuilder {
             FXMLLoader playlistBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/PlaylistMainBox/playlist-main-box.fxml"));
             playlistBoxLoader.load();
             PlaylistMainBoxController playlistMainBoxController = playlistBoxLoader.getController();
+            JsonObject creatorJson = playlistJson.getAsJsonObject("creator");
 
             // Setters :
-            playlistMainBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
-            playlistMainBoxController.setCreatorNameHyperLink(new Hyperlink(playlistJson.get("creator").getAsJsonObject().get("username").getAsString()));
+            playlistMainBoxController.setPlaylistTitleHyperLink(playlistJson.get("title").getAsString());
+            playlistMainBoxController.setCreatorNameHyperLink(creatorJson.get("username").getAsString());
             playlistMainBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
-            playlistMainBoxController.setCreatorId(UUID.fromString(playlistJson.get("creator").getAsJsonObject().get("userId").getAsString()));
+            playlistMainBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
 
             playlistControllers.add(playlistMainBoxController);
         }

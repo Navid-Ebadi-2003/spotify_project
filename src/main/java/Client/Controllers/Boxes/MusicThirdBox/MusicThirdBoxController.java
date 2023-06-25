@@ -77,7 +77,8 @@ public class MusicThirdBoxController implements InjectableController {
             }
             this.setDownloaded(true);
         } else {
-            this.downloadPlayIcon.setDisable(true);
+//            this.downloadPlayIcon.setDisable(true);
+//            this.downloadPlayIcon.setVisible(false);
             mainPageController.setTrackForMusicPlayer(fileName);
         }
     }
