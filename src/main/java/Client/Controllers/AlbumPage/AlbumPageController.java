@@ -53,8 +53,8 @@ public class AlbumPageController implements InjectableController {
         return albumTitle;
     }
 
-    public void setAlbumTitle(Label albumTitle) {
-        this.albumTitle = albumTitle;
+    public void setAlbumTitle(String albumTitle) {
+        this.albumTitle.setText(albumTitle);
     }
 
     public ScrollPane getBottomScrollPane() {
@@ -72,6 +72,7 @@ public class AlbumPageController implements InjectableController {
     public void setTracksVbox(VBox tracksVbox) {
         this.tracksVbox = tracksVbox;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

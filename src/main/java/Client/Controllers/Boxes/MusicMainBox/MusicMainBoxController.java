@@ -24,7 +24,10 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.UUID;
 
 public class MusicMainBoxController implements InjectableController {
     public Socket clientSocket;
@@ -73,7 +76,7 @@ public class MusicMainBoxController implements InjectableController {
             albumPageController.getTracksVbox().getChildren().add(controller.getMainScene());
         }
         // AlbumPage setters:
-        albumPageController.setAlbumTitle(new Label(jsonResults.get("title").getAsString()));
+        albumPageController.setAlbumTitle(jsonResults.get("title").getAsString());
         DownloadFile downloadFileTask = new DownloadFile(jsonResults.get("fileName").getAsString(), albumPageController, "profilePath", clientSocket);
         ArrayList<DownloadFile> downloadFileArray = new ArrayList<DownloadFile>();
         downloadFileArray.add(downloadFileTask);
@@ -94,9 +97,8 @@ public class MusicMainBoxController implements InjectableController {
         // Thread thread_1 = new Thread(downloadFilesTask);
         // // Starting thread
         // thread_1.start();
-        
-    }
 
+    }
 
 
     public void setter(Socket clientSocket, MainPageController mainPageController) {
@@ -115,6 +117,10 @@ public class MusicMainBoxController implements InjectableController {
 
     public HBox getArtistsHbox() {
         return artistsHbox;
+    }
+
+    public void setArtistsHbox(HBox artistsHbox) {
+        this.artistsHbox = artistsHbox;
     }
 
     public ImageView getTrackPicture() {
@@ -148,6 +154,7 @@ public class MusicMainBoxController implements InjectableController {
     public void setArtists(HashMap<String, UUID> artists) {
         this.artists = artists;
     }
+
     public void addHyperLink(Hyperlink hyperlink) {
         this.artistsHbox.getChildren().add(hyperlink);
     }
@@ -160,10 +167,6 @@ public class MusicMainBoxController implements InjectableController {
     @Override
     public Node getMainScene() {
         return this.musicMainVbox;
-    }
-
-    public void setArtistsHbox(HBox artistsHbox) {
-        this.artistsHbox = artistsHbox;
     }
 
     public void setMusicMainVbox(VBox musicMainVbox) {

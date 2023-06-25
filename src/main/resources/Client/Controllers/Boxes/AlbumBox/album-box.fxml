@@ -5,14 +5,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox id="main-vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" stylesheets="@album-box-css-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController">
-   <children>
-      <ImageView fx:id="albumPicture" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../Icons/unknownFile.png" />
-         </image></ImageView>
-      <Hyperlink id="album-title-hyperlink" fx:id="albumTitleHyperLink" alignment="CENTER" onAction="#goToAlbumPage" prefHeight="24.0" prefWidth="199.0" text="AlbumTitle" />
-      <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER" prefHeight="88.0" prefWidth="200.0" />
-   </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" id="main-vbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
+      minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0"
+      stylesheets="@album-box-css-styles.css" xmlns="http://javafx.com/javafx/20.0.1"
+      fx:controller="Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController">
+    <children>
+        <ImageView fx:id="albumPicture" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../Icons/unknownFile.png"/>
+            </image>
+        </ImageView>
+        <Hyperlink id="album-title-hyperlink" fx:id="albumTitleHyperLink" alignment="CENTER" onAction="#goToAlbumPage"
+                   prefHeight="24.0" prefWidth="199.0" text="AlbumTitle"/>
+        <HBox id="artists-hbox" fx:id="artistsHbox" alignment="CENTER" prefHeight="88.0" prefWidth="200.0"/>
+    </children>
 </VBox>

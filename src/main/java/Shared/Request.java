@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Request {
-    private Socket clientSocket;
-    private PrintWriter out;
+    private final Socket clientSocket;
+    private final PrintWriter out;
 
     //Constructor
 
@@ -32,6 +32,24 @@ public class Request {
     // An Explanation on format of requests; Request could be an object that gets initialized automatically withing a socket connection from client side.
     // It has some methods to send request for each of the clients to the server
     // Basically it takes some inputs in clientHandler and build up a json with this template {"requestType" : smth, "requestBody" : smth} and send the request to the server through socket
+
+    public static JsonObject hashmapToJson(HashMap<UUID, Boolean> hashMap) {
+        JsonObject jsonObject = new JsonObject();
+        for (Map.Entry<UUID, Boolean> entry : hashMap.entrySet()) {
+            String key = entry.getKey().toString();
+            Boolean value = entry.getValue();
+            jsonObject.addProperty(key, value);
+        }
+        return jsonObject;
+    }
+
+    public static JsonArray arraylistToJsonArray(ArrayList<UUID> arrayList) {
+        JsonArray jsonArray = new JsonArray();
+        for (int i = 0; i < arrayList.size(); i++) {
+            jsonArray.add(arrayList.get(i).toString());
+        }
+        return jsonArray;
+    }
 
     public void signupReq(String username, String email, String password) {
         // Creating jsons
@@ -148,6 +166,9 @@ public class Request {
         out.flush();
     }
 
+    // Artist-Page requests (Below, I will bring those method that have not been defined before)
+    // Nothing has been found to define
+
     public void watchPlaylistPageReq(UUID playlistId) {
         // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -179,9 +200,6 @@ public class Request {
         out.flush();
     }
 
-    // Artist-Page requests (Below, I will bring those method that have not been defined before)
-    // Nothing has been found to define
-
     // Music-Page requests (Below, I will bring those method that have not been defined before)
     // *This is a one-way operation*
     public void toggleLikeMusicReq(UUID userId, UUID trackId) {
@@ -198,6 +216,9 @@ public class Request {
         out.println(jsonTemplate);
         out.flush();
     }
+
+    // Album-Page requests (Below, I will bring those method that have not been defined before)
+    // Nothing has been found to define
 
     // *This is a one-way operation*
     public void downloadTrackReq(UUID userId, UUID trackId) {
@@ -231,9 +252,6 @@ public class Request {
         out.println(jsonTemplate);
         out.flush();
     }
-
-    // Album-Page requests (Below, I will bring those method that have not been defined before)
-    // Nothing has been found to define
 
     // Account-Page requests (Below, I will bring those method that have not been defined before)
     // *This is a one-way operation*
@@ -284,6 +302,8 @@ public class Request {
         out.flush();
     }
 
+    // Requirement methods
+
     // *This is a one-way operation*
     public void downloadPlaylistReq(UUID playlistId) {
         // Creating jsons
@@ -299,7 +319,6 @@ public class Request {
         out.flush();
     }
 
-
     public void watchLikedTracksReq(UUID userId) {
         // Creating jsons
         JsonObject jsonTemplate = new JsonObject();
@@ -312,25 +331,5 @@ public class Request {
         // Sending json over the socket
         out.println(jsonTemplate);
         out.flush();
-    }
-
-    // Requirement methods
-
-    public static JsonObject hashmapToJson(HashMap<UUID, Boolean> hashMap) {
-        JsonObject jsonObject = new JsonObject();
-        for (Map.Entry<UUID, Boolean> entry : hashMap.entrySet()) {
-            String key = entry.getKey().toString();
-            Boolean value = entry.getValue();
-            jsonObject.addProperty(key, value);
-        }
-        return jsonObject;
-    }
-
-    public static JsonArray arraylistToJsonArray(ArrayList<UUID> arrayList) {
-        JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < arrayList.size(); i++) {
-            jsonArray.add(arrayList.get(i).toString());
-        }
-        return jsonArray;
     }
 }

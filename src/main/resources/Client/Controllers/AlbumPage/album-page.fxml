@@ -9,29 +9,30 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="main-anchor-pane" fx:id="albumPageMainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1072.0" stylesheets="@album-page.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.AlbumPage.AlbumPageController">
-   <children>
-      <VBox layoutX="-0.800000011920929" layoutY="-0.800000011920929">
-         <children>
-            <HBox id="top-hbox" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="1072.0">
-               <children>
-                  <ImageView fx:id="albumPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Icons/unknownFile.png" />
-                     </image>
-                  </ImageView>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="463.0">
-                     <children>
-                        <Label id="playlist-label" prefHeight="18.0" prefWidth="580.0" text="Album" />
-                        <Label id="playlist-title" fx:id="albumTitle" prefHeight="118.0" prefWidth="578.0" text="Album Title" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <ScrollPane fx:id="bottomScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="200.0" vbarPolicy="ALWAYS">
-               <content>
-                  <VBox fx:id="tracksVbox" prefHeight="1000.0" prefWidth="1072.0" />
-               </content></ScrollPane>
-         </children>
-      </VBox>
-   </children>
+    <children>
+        <VBox layoutX="-0.800000011920929" layoutY="-0.800000011920929">
+            <children>
+                <HBox id="top-hbox" alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="1072.0">
+                    <children>
+                        <ImageView fx:id="albumPicture" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../Icons/unknownFile.png" />
+                            </image>
+                        </ImageView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="926.0">
+                            <children>
+                                <Label id="playlist-label" prefHeight="18.0" prefWidth="580.0" text="Album" />
+                                <Label id="playlist-title" fx:id="albumTitle" prefHeight="118.0" prefWidth="578.0" text="Album Title" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <ScrollPane fx:id="bottomScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="1000.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+                    <content>
+                        <VBox fx:id="tracksVbox" prefHeight="1000.0" prefWidth="1072.0" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

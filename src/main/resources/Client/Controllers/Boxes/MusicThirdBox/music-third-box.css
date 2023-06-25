@@ -1,5 +1,5 @@
 #main-hbox {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 #track-title-hyperlink {
@@ -10,7 +10,7 @@
 }
 
 #artists-hbox .hyperlink {
-    -fx-text-fill: rgb(145,145,145);
+    -fx-text-fill: rgb(145, 145, 145);
     -fx-font-size: 14;
     -fx-font-family: CircularSp;
 }

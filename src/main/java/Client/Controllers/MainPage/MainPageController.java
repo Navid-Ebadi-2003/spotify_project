@@ -1,14 +1,12 @@
 package Client.Controllers.MainPage;
+
 import Client.Controllers.Boxes.BoxBuilder;
-import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
-import Client.Controllers.LoginPage.LoginPageController;
 import Client.Controllers.SearchPage.SearchPageController;
-import Client.Controllers.SignupPage.SignupPageController;
-import Client.DownloadFiles;
 import Client.Download;
 import Client.DownloadFile;
+import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -18,15 +16,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -36,13 +25,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class MainPageController implements InjectableController, Initializable{
+public class MainPageController implements InjectableController, Initializable {
 
     private Socket clientSocket;
     private Request requestObject;
@@ -121,13 +113,18 @@ public class MainPageController implements InjectableController, Initializable{
     @FXML
     private Button stopButton;
 
+    private Timer timer;
+    private TimerTask timerTask;
+    private Duration playBackPosition;
+
+
     /*
         related to musicPlayer
      */
 //    private HashMap<String, HBox> musics;
     private MediaPlayer musicPlayer;
     private Media currentMusic;
-//    private int currentMusicIndex;
+    //    private int currentMusicIndex;
     private boolean isPlayingMusic;
 
     @FXML
@@ -179,13 +176,26 @@ public class MainPageController implements InjectableController, Initializable{
     @FXML
     void play(ActionEvent event) {
         if (!isPlayingMusic) {
+            beginTimer();
+            musicPlayer.setStartTime(playBackPosition);
             musicPlayer.play();
             isPlayingMusic = true;
         }
     }
+
+    @FXML
+    void stop(ActionEvent event) {
+        if (isPlayingMusic) {
+            cancelTimer();
+            playBackPosition = musicPlayer.getCurrentTime();
+            musicPlayer.stop();
+            isPlayingMusic = false;
+        }
+    }
+
     @FXML
     void shuffleTracks(ActionEvent event) {
-    
+
     }
 
     @FXML
@@ -202,13 +212,7 @@ public class MainPageController implements InjectableController, Initializable{
         }
     }
 
-    @FXML
-    void stop(ActionEvent event) {
-        if (isPlayingMusic) {
-            musicPlayer.stop();
-            isPlayingMusic = false;
-        }
-    }
+
 
 
     /*
@@ -226,7 +230,7 @@ public class MainPageController implements InjectableController, Initializable{
         }
     }
 
-    public void buildPages(){
+    public void buildPages() {
         // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
@@ -240,16 +244,11 @@ public class MainPageController implements InjectableController, Initializable{
             JsonObject jsonTemplate = new Gson().fromJson(response, JsonObject.class);
             JsonObject responseBody = jsonTemplate.getAsJsonObject("responseBody");
             JsonObject jsonResults = responseBody.getAsJsonObject("results");
-            System.out.println(jsonResults);
             // Parsing JsonArrays
             JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
             JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
             JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
             JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
-            System.out.println(createdPlaylistsJson);
-            System.out.println(likedPlaylistsJson);
-            System.out.println(likedMusicsJson);
-            System.out.println(randomMusicsJson);
             // Building Arraylists
             ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult", this, clientSocket);
             ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult", this, clientSocket);
@@ -299,7 +298,6 @@ public class MainPageController implements InjectableController, Initializable{
             io.printStackTrace();
         }
     }
-
 
 
     /*
@@ -447,7 +445,6 @@ public class MainPageController implements InjectableController, Initializable{
     }
 
 
-
     public ImageView getShuffleButtonIcon() {
         return shuffleButtonIcon;
     }
@@ -506,22 +503,122 @@ public class MainPageController implements InjectableController, Initializable{
         return null;
     }
 
+    public ProgressBar getMusicProgressBar() {
+        return musicProgressBar;
+    }
+
+    public void setMusicProgressBar(ProgressBar musicProgressBar) {
+        this.musicProgressBar = musicProgressBar;
+    }
+
+    public HBox getMusicShowHbox() {
+        return musicShowHbox;
+    }
+
+    public void setMusicShowHbox(HBox musicShowHbox) {
+        this.musicShowHbox = musicShowHbox;
+    }
+
+    public ToggleButton getShuffleToggleButton() {
+        return shuffleToggleButton;
+    }
+
+    public void setShuffleToggleButton(ToggleButton shuffleToggleButton) {
+        this.shuffleToggleButton = shuffleToggleButton;
+    }
+
+    public Slider getVolumeSlider() {
+        return volumeSlider;
+    }
+
+    public void setVolumeSlider(Slider volumeSlider) {
+        this.volumeSlider = volumeSlider;
+    }
+
+    public Button getPlayButton() {
+        return playButton;
+    }
+
+    public void setPlayButton(Button playButton) {
+        this.playButton = playButton;
+    }
+
+    public Button getStopButton() {
+        return stopButton;
+    }
+
+    public void setStopButton(Button stopButton) {
+        this.stopButton = stopButton;
+    }
+
+    public MediaPlayer getMusicPlayer() {
+        return musicPlayer;
+    }
+
+    public void setMusicPlayer(MediaPlayer musicPlayer) {
+        this.musicPlayer = musicPlayer;
+    }
+
+    public Media getCurrentMusic() {
+        return currentMusic;
+    }
+
+    public void setCurrentMusic(Media currentMusic) {
+        this.currentMusic = currentMusic;
+    }
+
+    public boolean isPlayingMusic() {
+        return isPlayingMusic;
+    }
+
+    public void setPlayingMusic(boolean playingMusic) {
+        isPlayingMusic = playingMusic;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        this.musics = new HashMap<>();
 //        this.currentMusicIndex = 0;
         this.isPlayingMusic = false;
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                musicPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+    }
+
+    public void beginTimer() {
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                double current = musicPlayer.getCurrentTime().toSeconds();
+                double end = currentMusic.getDuration().toSeconds();
+                musicProgressBar.setProgress(current / end);
+
+                if (current / end == 1) {
+                    cancelTimer();
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+    }
+
+    public void cancelTimer() {
+        timer.cancel();
     }
 
     /*
         related to music player
      */
 
-    public void setTrackForMusicPlayer(String trackPath) {
+    public void setTrackForMusicPlayer(String fileName) {
         if (isPlayingMusic) {
             musicPlayer.stop();
         }
-        this.currentMusic = new Media(trackPath);
+        File file = new File("src/main/java/Client/Downloads/files/track_file/" + fileName + ".mp3");
+        this.currentMusic = new Media(file.toURI().toString());
         this.musicPlayer = new MediaPlayer(currentMusic);
     }
 }

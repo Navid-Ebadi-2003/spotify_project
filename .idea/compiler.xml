@@ -13,4 +13,9 @@
       <module name="Spotify" target="17" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Spotify" options="--add-exports javafx.graphics/com.sun.glass.utils=com.sun.media.jfxmediaimpl" />
+    </option>
+  </component>
 </project>

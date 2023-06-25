@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Playlist {
-    private UUID playlistId;
-    private String title;
-    private String description;
-    private UUID userId;
-    private int popularity;
-    private ArrayList<UUID> tracks;
+    private final UUID playlistId;
+    private final String title;
+    private final String description;
+    private final UUID userId;
+    private final int popularity;
+    private final ArrayList<UUID> tracks;
 
     //added profilePath because each playlist has a profile picture
-    private String profilePath;
+    private final String profilePath;
 
     //Constructor
 

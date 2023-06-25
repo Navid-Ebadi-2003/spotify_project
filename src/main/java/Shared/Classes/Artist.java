@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Artist {
-    private UUID artistId;
-    private String name;
-    private UUID genreId;
+    private final UUID artistId;
+    private final String name;
+    private final UUID genreId;
     // Removed genres because it's simpler for artists to have only a genre
-    private String biography;
-    private HashMap<String, String> socialMediaLinks;
-    private ArrayList<UUID> albums;
+    private final String biography;
+    private final HashMap<String, String> socialMediaLinks;
+    private final ArrayList<UUID> albums;
 
     //added profilePath because each Artist has a profile picture
-    private String profilePath;
+    private final String profilePath;
 
     //Constructor
 

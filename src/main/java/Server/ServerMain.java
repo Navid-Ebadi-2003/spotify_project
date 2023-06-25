@@ -2,8 +2,6 @@ package Server;
 
 import Server.Database.DBConnection;
 import Server.Database.Query;
-import Server.Miscellaneous;
-
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,7 +10,6 @@ import java.net.Socket;
 public class ServerMain {
     public static void main(String[] args) {
         try {
-            System.out.println(Miscellaneous.hashText("123"));
             //Establishing server connection
             ServerSocket serverSocket = new ServerSocket(8888);
             System.out.println("SERVER HAS STARTED LISTENING ON PORT '8888'");
@@ -20,7 +17,7 @@ public class ServerMain {
             DBConnection dbConnection = new DBConnection();
             Query query = new Query(dbConnection.getConnection());
 
-            while (true){
+            while (true) {
                 //Waiting for clients to connect
                 Socket socket = serverSocket.accept();
                 //WRITE IN LOG FILE client has been connected
@@ -30,7 +27,7 @@ public class ServerMain {
                 Thread thread = new Thread(service);
                 thread.start();
             }
-        } catch (IOException io){
+        } catch (IOException io) {
             io.printStackTrace();
         }
     }

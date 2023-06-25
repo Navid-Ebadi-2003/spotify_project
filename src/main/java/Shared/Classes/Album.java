@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Album {
-    private UUID albumId;
-    private String title;
+    private final UUID albumId;
+    private final String title;
 
     // Changed datatype of artistId to ArrayList<UUID> because an album could belong to multiple artists
-    private ArrayList<UUID> artistId;
-    private UUID genreId;
-    private LocalDate releaseDate;
-    private int popularity;
-    private ArrayList<UUID> tracks;
+    private final ArrayList<UUID> artistId;
+    private final UUID genreId;
+    private final LocalDate releaseDate;
+    private final int popularity;
+    private final ArrayList<UUID> tracks;
 
     //added profilePath because each Album has a profile Picture
-    private String profilePath;
+    private final String profilePath;
 
     //Constructor
 

@@ -3,9 +3,9 @@ package Shared.Classes;
 import java.util.UUID;
 
 public class Genre {
-    private UUID genreId;
-    private String name;
-    private String description;
+    private final UUID genreId;
+    private final String name;
+    private final String description;
 
     //Constructor
 

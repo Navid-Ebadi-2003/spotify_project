@@ -1,6 +1,5 @@
 package Client.Controllers.LoginPage;
 
-import Client.Controllers.InjectableController;
 import Client.Controllers.MainPage.MainPageController;
 import Client.Controllers.SignupPage.SignupPageController;
 import Client.DownloadFile;
@@ -112,7 +111,7 @@ public class LoginPageController {
         JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();
-        if (result){
+        if (result) {
             JsonObject jsonResults = responseBody.getAsJsonObject("jsonResults");
             UUID userId = UUID.fromString(jsonResults.get("userId").getAsString());
             Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());

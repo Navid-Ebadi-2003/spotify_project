@@ -4,14 +4,20 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-
-<VBox id="main-vbox" fx:id="playlistMainVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" stylesheets="@playlist-main-box-css-styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controllers.Boxes.PlaylistMainBox.PlaylistMainBoxController">
-   <children>
-      <ImageView fx:id="playlistPicture" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../Icons/unknownFile.png" />
-         </image></ImageView>
-      <Hyperlink id="playlist-title-hyperlink" fx:id="playlistTitleHyperLink" alignment="CENTER" onAction="#goToPlaylistPage" prefHeight="35.0" prefWidth="198.0" text="PlaylistTitle" />
-      <Hyperlink id="playlist-creator-hyperlink" fx:id="creatorNameHyperLink" alignment="CENTER" onAction="#goToCreatorPage" prefHeight="24.0" prefWidth="199.0" text="CreatorName" />
-   </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" id="main-vbox" fx:id="playlistMainVBox" alignment="CENTER" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0"
+      prefWidth="200.0" stylesheets="@playlist-main-box-css-styles.css"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      fx:controller="Client.Controllers.Boxes.PlaylistMainBox.PlaylistMainBoxController">
+    <children>
+        <ImageView fx:id="playlistPicture" fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../Icons/unknownFile.png"/>
+            </image>
+        </ImageView>
+        <Hyperlink id="playlist-title-hyperlink" fx:id="playlistTitleHyperLink" alignment="CENTER"
+                   onAction="#goToPlaylistPage" prefHeight="35.0" prefWidth="198.0" text="PlaylistTitle"/>
+        <Hyperlink id="playlist-creator-hyperlink" fx:id="creatorNameHyperLink" alignment="CENTER"
+                   onAction="#goToCreatorPage" prefHeight="24.0" prefWidth="199.0" text="CreatorName"/>
+    </children>
 </VBox>

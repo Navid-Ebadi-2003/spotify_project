@@ -7,10 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -57,8 +55,8 @@ public class PlaylistMainBoxController implements InjectableController {
         return creatorNameHyperLink;
     }
 
-    public void setCreatorNameHyperLink(Hyperlink creatorNameHyperLink) {
-        this.creatorNameHyperLink = creatorNameHyperLink;
+    public void setCreatorNameHyperLink(String creatorName) {
+        this.creatorNameHyperLink.setText(creatorName);
     }
 
     public ImageView getPlaylistPicture() {
@@ -73,8 +71,8 @@ public class PlaylistMainBoxController implements InjectableController {
         return playlistTitleHyperLink;
     }
 
-    public void setPlaylistTitleHyperLink(Hyperlink playlistTitleHyperLink) {
-        this.playlistTitleHyperLink = playlistTitleHyperLink;
+    public void setPlaylistTitleHyperLink(String playlistTitle) {
+        this.playlistTitleHyperLink.setText(playlistTitle);
     }
 
     public UUID getPlaylistId() {
@@ -102,6 +100,7 @@ public class PlaylistMainBoxController implements InjectableController {
     public Node getMainScene() {
         return this.playlistMainVBox;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

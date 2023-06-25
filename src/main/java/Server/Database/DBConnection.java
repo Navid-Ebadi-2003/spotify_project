@@ -12,7 +12,7 @@ public class DBConnection {
     public DBConnection() {
         //SQLite connection string
         String url;
-        if(isWindows()) {
+        if (isWindows()) {
             url = "jdbc:sqlite:src\\main\\java\\DatabaseBackup\\Spotify.db";
         } else {
             url = "jdbc:sqlite:src/main/java/DatabaseBackup/Spotify.db";
@@ -30,11 +30,7 @@ public class DBConnection {
 
     public static boolean isWindows() {
         String operSys = System.getProperty("os.name").toLowerCase();
-        if (operSys.contains("win")) {
-            return true;
-        } else {
-            return false;
-        }
+        return operSys.contains("win");
     }
 
     public Connection getConnection() {

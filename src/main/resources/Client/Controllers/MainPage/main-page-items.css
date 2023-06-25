@@ -21,9 +21,11 @@
 .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
+
 .corner {
     -fx-background-color: transparent;
 }
+
 .scroll-bar:vertical .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
@@ -31,6 +33,7 @@
 .scroll-bar:horizontal .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
+
 .scroll-pane {
     -fx-background-color: red;
     -fx-border-color: black;
@@ -47,20 +50,20 @@
  */
 
 .split-menu-button .arrow-button {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 .split-menu-button .button {
-    -fx-background-color :rgb(20,20,20);
-    -fx-text-fill : black ;
+    -fx-background-color: rgb(20, 20, 20);
+    -fx-text-fill: black;
 }
 
 .split-menu-button .label {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 .split-menu-button .menu-item {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 /*
@@ -73,16 +76,16 @@
 
 
 .split-pane:vertical > .split-pane-divider {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 .split-pane {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 
 .separator-overlay {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
     -fx-background-insets: 0;
 }
 
@@ -105,11 +108,11 @@
 }
 
 #top-hbox {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 #left-vbox {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 #bottom-hbox {

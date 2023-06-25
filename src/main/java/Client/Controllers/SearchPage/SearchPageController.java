@@ -2,6 +2,7 @@ package Client.Controllers.SearchPage;
 
 import Client.Controllers.Boxes.BoxBuilder;
 import Client.Controllers.InjectableController;
+import Client.Controllers.MainPage.MainPageController;
 import Client.Download;
 import Client.DownloadFile;
 import Client.DownloadFiles;
@@ -9,8 +10,6 @@ import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import Client.Controllers.MainPage.MainPageController;
-import Shared.Request;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,6 +21,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 public class SearchPageController {
     public Socket clientSocket;
     private Request requestObject;
@@ -50,7 +50,7 @@ public class SearchPageController {
     private HBox usersHBox;
 
     @FXML
-    void searchText(ActionEvent event) throws IOException{
+    void searchText(ActionEvent event) throws IOException {
 
         String pattern = searchField.getText();
         requestObject.searchReq(pattern);

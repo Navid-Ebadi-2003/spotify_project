@@ -2,8 +2,8 @@ package Client.Controllers.Boxes;
 
 import Client.Controllers.Boxes.ArtistBox.ArtistBoxController;
 import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
-import Client.Controllers.Boxes.PlaylistMainBox.PlaylistMainBoxController;
 import Client.Controllers.Boxes.MusicThirdBox.MusicThirdBoxController;
+import Client.Controllers.Boxes.PlaylistMainBox.PlaylistMainBoxController;
 import Client.Controllers.Boxes.PlaylistSecondBox.PlaylistSecondBoxController;
 import Client.Controllers.Boxes.UserBox.UserBoxController;
 import Client.Controllers.HomePage.HomePageController;
@@ -37,8 +37,8 @@ public class BoxBuilder {
             playlistBoxLoader.load();
             PlaylistSecondBoxController playlistSecondBoxController = playlistBoxLoader.getController();
             // Setting it's controller data
-            playlistSecondBoxController.setCreatorNameHyperLink(new Hyperlink(creatorJson.get("username").getAsString()));
-            playlistSecondBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
+            playlistSecondBoxController.setCreatorNameHyperLink(creatorJson.get("username").getAsString());
+            playlistSecondBoxController.setPlaylistTitleHyperLink(playlistJson.get("title").getAsString());
             playlistSecondBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
             playlistSecondBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
             playlistSecondBoxController.setter(clientSocket, mainPageController);
@@ -62,8 +62,8 @@ public class BoxBuilder {
             MusicMainBoxController musicMainBoxController = musicMainBoxLoader.getController();
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
-            HashMap<String , UUID> artists = new HashMap<>();
-            for (int i = 0 ; i < artistsJson.size(); i++) {
+            HashMap<String, UUID> artists = new HashMap<>();
+            for (int i = 0; i < artistsJson.size(); i++) {
                 String artistName = artistsJson.get(i).getAsJsonObject().get("name").getAsString();
                 UUID artistID = UUID.fromString(artistsJson.get(i).getAsJsonObject().get("artistId").getAsString());
                 artists.put(artistName, artistID);
@@ -119,10 +119,10 @@ public class BoxBuilder {
             UserBoxController userBoxController = userBoxLoader.getController();
 
             // Setters :
-           userBoxController.setUsernameHyperLink(new Hyperlink(userJson.get("username").getAsString()));
-           userBoxController.setUserId(UUID.fromString(userJson.get("userId").getAsString()));
+            userBoxController.setUsernameHyperLink(new Hyperlink(userJson.get("username").getAsString()));
+            userBoxController.setUserId(UUID.fromString(userJson.get("userId").getAsString()));
 
-           userControllers.add(userBoxController);
+            userControllers.add(userBoxController);
         }
         return userControllers;
     }
@@ -139,12 +139,13 @@ public class BoxBuilder {
             FXMLLoader playlistBoxLoader = new FXMLLoader(HomePageController.class.getResource("../Boxes/PlaylistMainBox/playlist-main-box.fxml"));
             playlistBoxLoader.load();
             PlaylistMainBoxController playlistMainBoxController = playlistBoxLoader.getController();
+            JsonObject creatorJson = playlistJson.getAsJsonObject("creator");
 
             // Setters :
-            playlistMainBoxController.setPlaylistTitleHyperLink(new Hyperlink(playlistJson.get("title").getAsString()));
-            playlistMainBoxController.setCreatorNameHyperLink(new Hyperlink(playlistJson.get("creator").getAsJsonObject().get("username").getAsString()));
+            playlistMainBoxController.setPlaylistTitleHyperLink(playlistJson.get("title").getAsString());
+            playlistMainBoxController.setCreatorNameHyperLink(creatorJson.get("username").getAsString());
             playlistMainBoxController.setPlaylistId(UUID.fromString(playlistJson.get("playlistId").getAsString()));
-            playlistMainBoxController.setCreatorId(UUID.fromString(playlistJson.get("creator").getAsJsonObject().get("userId").getAsString()));
+            playlistMainBoxController.setCreatorId(UUID.fromString(creatorJson.get("userId").getAsString()));
 
             playlistControllers.add(playlistMainBoxController);
         }
@@ -165,8 +166,8 @@ public class BoxBuilder {
             MusicThirdBoxController musicThirdBoxController = musicThirdBoxLoader.getController();
             // Parsing artists of music
             JsonArray artistsJson = (musicJson).getAsJsonArray("artists");
-            HashMap<String , UUID> artists = new HashMap<>();
-            for (int i = 0 ; i < artistsJson.size(); i++) {
+            HashMap<String, UUID> artists = new HashMap<>();
+            for (int i = 0; i < artistsJson.size(); i++) {
                 String artistName = artistsJson.get(i).getAsJsonObject().get("name").getAsString();
                 UUID artistID = UUID.fromString(artistsJson.get(i).getAsJsonObject().get("artistId").getAsString());
                 artists.put(artistName, artistID);
@@ -178,6 +179,8 @@ public class BoxBuilder {
             musicThirdBoxController.setArtists(artists);
             musicThirdBoxController.setAlbumId(UUID.fromString(musicJson.get("albumId").getAsString()));
             musicThirdBoxController.setTrackTitle(musicJson.get("title").getAsString());
+            musicThirdBoxController.setTrackId(UUID.fromString(musicJson.get("trackId").getAsString()));
+            musicThirdBoxController.setFileName(musicJson.get("fileName").getAsString());
             musicThirdBoxController.setter(clientSocket, mainPageController);
 
             musicControllers.add(musicThirdBoxController);
