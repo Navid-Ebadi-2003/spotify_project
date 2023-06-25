@@ -75,6 +75,7 @@ public class UserBoxController implements InjectableController {
     public Node getMainScene() {
         return this.userBox;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

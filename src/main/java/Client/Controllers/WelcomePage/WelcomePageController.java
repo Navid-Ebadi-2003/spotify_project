@@ -1,9 +1,8 @@
 package Client.Controllers.WelcomePage;
 
-import Client.ClientHandler;
 import Client.Controllers.LoginPage.LoginPageController;
 import Client.Controllers.SignupPage.SignupPageController;
-import Shared.Request;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,8 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -38,6 +35,7 @@ public class WelcomePageController implements Initializable {
     public void setClientSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
+
     public Button getLoginPageButton() {
         return loginPageButton;
     }

@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class DownloadFile implements Runnable{
-//    String fileName, InjectableController controller, String filePathKey, Socket clientSocket
-    private String fileName;
-    private InjectableController controller;
-    private String filePathKey;
-    private Socket clientSocket;
+public class DownloadFile implements Runnable {
+    //    String fileName, InjectableController controller, String filePathKey, Socket clientSocket
+    private final String fileName;
+    private final InjectableController controller;
+    private final String filePathKey;
+    private final Socket clientSocket;
 
     // Constructor
 
@@ -24,15 +24,6 @@ public class DownloadFile implements Runnable{
         this.controller = controller;
         this.filePathKey = filePathKey;
         this.clientSocket = clientSocket;
-    }
-
-    @Override
-    public void run() {
-        try {
-            downloadFile(fileName, controller, filePathKey, clientSocket);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /*
@@ -61,7 +52,7 @@ public class DownloadFile implements Runnable{
             fileOutputStream.write(buffer, 0, bytesRead);
             totalBytesRead += bytesRead;
         }
-        if (filePathKey.equals("profilePath")){
+        if (filePathKey.equals("profilePath")) {
             loadFileIntoController(controller, "src\\main\\java\\Client\\Downloads\\files\\profile_pic\\" + fileName + ".jpg");
         } else {
             loadFileIntoController(controller, "src\\main\\java\\Client\\Downloads\\files\\track_file\\" + fileName + ".mp3");
@@ -69,9 +60,10 @@ public class DownloadFile implements Runnable{
         fileOutputStream.flush();
         fileOutputStream.close();
     }
-    public static void loadFileIntoController(InjectableController controller, String filePath){
+
+    public static void loadFileIntoController(InjectableController controller, String filePath) {
         System.out.println(filePath);
-        Image image = new Image("file:"+ filePath);
+        Image image = new Image("file:" + filePath);
         controller.setControllerProfilePic(image);
     }
 
@@ -95,5 +87,14 @@ public class DownloadFile implements Runnable{
         musicThirdBoxController.changeDownToPlayIcon();
         fileOutputStream.flush();
         fileOutputStream.close();
+    }
+
+    @Override
+    public void run() {
+        try {
+            downloadFile(fileName, controller, filePathKey, clientSocket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

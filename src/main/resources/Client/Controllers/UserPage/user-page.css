@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 .label {
@@ -28,9 +28,11 @@
 .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
+
 .corner {
     -fx-background-color: transparent;
 }
+
 .scroll-bar:vertical .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
@@ -38,6 +40,7 @@
 .scroll-bar:horizontal .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
+
 .scroll-pane {
     -fx-background-color: red;
     -fx-border-color: black;
@@ -46,16 +49,16 @@
 }
 
 #main-anchor-pane {
-    -fx-background-color: rgb(20,20,20);
+    -fx-background-color: rgb(20, 20, 20);
 }
 
 #username {
-    -fx-font-size : 60;
+    -fx-font-size: 60;
 }
 
 #followButton {
-    -fx-font-size : 15;
-        -fx-background-color: transparent;
-        -fx-text-fill: rgb(255, 255, 255);
-        -fx-border-color: rgb(255,255,255);
+    -fx-font-size: 15;
+    -fx-background-color: transparent;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-border-color: rgb(255, 255, 255);
 }

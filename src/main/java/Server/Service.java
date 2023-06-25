@@ -13,9 +13,9 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class Service implements Runnable {
-    private Socket serverSocket;
-    private Scanner in;
-    private Response responseObject;
+    private final Socket serverSocket;
+    private final Scanner in;
+    private final Response responseObject;
 
     private UUID userId;
 
@@ -50,17 +50,16 @@ public class Service implements Runnable {
         }
     }
 
-    public void log (String requestType , UUID userId) {
+    public void log(String requestType, UUID userId) {
         try {
             FileWriter writer = new FileWriter("log.txt");
             LocalTime time = LocalTime.now();
 
             if (!userId.equals(null)) {
 
-                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "userID: " + userId + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
-            }
-            else {
-                writer.write(time + "\n" + "IP address: "+serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
+                writer.write(time + "\n" + "IP address: " + serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "userID: " + userId + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
+            } else {
+                writer.write(time + "\n" + "IP address: " + serverSocket.getLocalAddress() + "\n" + "port number: " + serverSocket.getPort() + "\n" + "request type: " + requestType + "\n" + "\n" + "\n");
             }
             writer.flush();
             writer.close();
@@ -78,7 +77,6 @@ public class Service implements Runnable {
 
         if (jsonRequest.get("requestType").getAsString().equals("EXIT")) {
             //Terminate the program
-            return;
         } else {
             //Execute desired request
             executeRequest(jsonRequest);
@@ -97,7 +95,7 @@ public class Service implements Runnable {
                 String username = requestBody.get("username").getAsString();
                 String password = requestBody.get("password").getAsString();
 
-                if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)){
+                if (!Query.doesEmailExist(email) && !Query.doesUsernameExist(username)) {
                     Query.signUpUser(userId, username, email, password);
                     // Consider removing userId from that response because we have to login again
                     responseObject.signupRes(true);
@@ -105,7 +103,7 @@ public class Service implements Runnable {
                     responseObject.signupRes(false);
                 }
 
-                log(requestType , this.userId );
+                log(requestType, this.userId);
             }
             case "login request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -115,7 +113,7 @@ public class Service implements Runnable {
 
                 this.userId = UUID.fromString(jsonResults.get("userId").getAsString());
 
-                if (userId != null){
+                if (userId != null) {
                     responseObject.loginRes(true, jsonResults);
 //                    try {
 //                        Thread.sleep(5000);
@@ -131,7 +129,7 @@ public class Service implements Runnable {
                     responseObject.loginRes(false, null);
                 }
 
-                log(requestType , this.userId);
+                log(requestType, this.userId);
             }
             case "go home page request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -144,7 +142,7 @@ public class Service implements Runnable {
                     throw new RuntimeException(e);
                 }
 
-                log(requestType , this.userId);
+                log(requestType, this.userId);
             }
             case "search request" -> {
                 JsonObject requestBody = jsonRequest.getAsJsonObject("requestBody");
@@ -246,8 +244,9 @@ public class Service implements Runnable {
         outputStream.flush();
         fileInputStream.close();
     }
+
     public void uploadFiles(JsonArray jsonArray, String filePathKey) throws IOException {
-        
+
         for (int i = 0; i < jsonArray.size(); i++) {
             // Extract profilePath
             JsonObject arrayItem = jsonArray.get(i).getAsJsonObject();
@@ -255,10 +254,12 @@ public class Service implements Runnable {
             uploadFile(profilePath);
         }
     }
+
     public void uploadUserProfilePic(JsonObject jsonResults) throws IOException {
         String profilePath = jsonResults.get("profilePath").getAsString();
         uploadFile(profilePath);
     }
+
     public void uploadHomePage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResults:
         //  {
@@ -280,6 +281,7 @@ public class Service implements Runnable {
         uploadFiles(randomMusicsJson, "profilePath");
         uploadFiles(likedMusicsJson, "profilePath");
     }
+
     public void uploadSearchPage(JsonObject jsonResults) throws IOException {
         //  Template of jsonResults:
         //  {
@@ -304,6 +306,7 @@ public class Service implements Runnable {
         uploadFiles(playlistsJson, "profilePath");
         uploadFiles(usersJson, "profilePath");
     }
+
     public void uploadWatchUserPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResults:
         // {
@@ -323,6 +326,7 @@ public class Service implements Runnable {
         uploadFiles(createdPlaylistsJson, "profilePath");
         uploadFiles(likedPlaylistsJson, "profilePath");
     }
+
     public void uploadWatchArtistPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResults:
         // {
@@ -344,6 +348,7 @@ public class Service implements Runnable {
         uploadFile(profilePath);
         uploadFiles(albumsJson, "profilePath");
     }
+
     public void uploadWatchMusicPage(JsonObject jsonResults) throws IOException {
         // Template of jsonResults:
         // {
@@ -368,6 +373,7 @@ public class Service implements Runnable {
 //        uploadFile(profilePath);
         uploadFile(trackPath);
     }
+
     public void uploadWatchAlbum(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
         // {
@@ -390,6 +396,7 @@ public class Service implements Runnable {
         uploadFile(profilePath);
         uploadFiles(tracksJson, "profilePath");
     }
+
     public void uploadWatchPlaylist(JsonObject jsonResults) throws IOException {
         // Template of jsonResult:
         // {
@@ -413,6 +420,7 @@ public class Service implements Runnable {
         uploadFiles(tracksJson, "profilePath");
         uploadFiles(tracksJson, "trackPath");
     }
+
     public void uploadWatchLikedTracks(JsonArray jsonResults) throws IOException {
         // Template of jsonResults :
         // [

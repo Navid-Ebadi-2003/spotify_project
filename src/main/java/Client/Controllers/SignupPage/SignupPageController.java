@@ -135,7 +135,7 @@ public class SignupPageController {
         JsonObject jsonResponse = new Gson().fromJson(response, JsonObject.class);
         JsonObject responseBody = jsonResponse.getAsJsonObject("responseBody");
         boolean result = responseBody.get("result").getAsBoolean();
-        if (result){
+        if (result) {
             // Taking stage from even
             Stage currentStage = (Stage) (((Node) event.getSource()).getScene().getWindow());
             FXMLLoader loginPageLoader = new FXMLLoader(SignupPageController.class.getResource("../LoginPage/login-page.fxml"));

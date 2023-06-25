@@ -72,6 +72,7 @@ public class AlbumPageController implements InjectableController {
     public void setTracksVbox(VBox tracksVbox) {
         this.tracksVbox = tracksVbox;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

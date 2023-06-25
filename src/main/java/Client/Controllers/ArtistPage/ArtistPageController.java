@@ -76,6 +76,7 @@ public class ArtistPageController {
     public void setArtistName(Label artistName) {
         this.artistName = artistName;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

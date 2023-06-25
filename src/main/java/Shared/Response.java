@@ -1,16 +1,14 @@
 package Shared;
 
-import Shared.Classes.User;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.UUID;
 
 public class Response {
-    private Socket serverSocket;
-    private PrintWriter out;
+    private final Socket serverSocket;
+    private final PrintWriter out;
 
     // Constructor
 
@@ -50,7 +48,7 @@ public class Response {
         JsonObject jsonTemplate = new JsonObject();
         JsonObject responseBody = new JsonObject();
         // Building jsons
-        if (!jsonResults.isEmpty()){
+        if (!jsonResults.isEmpty()) {
             responseBody.add("jsonResults", jsonResults);
         }
         responseBody.addProperty("result", result);

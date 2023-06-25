@@ -110,6 +110,7 @@ public class UserPageController {
     public void setUsername(Label username) {
         this.username = username;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

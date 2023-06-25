@@ -2,7 +2,7 @@
 /*    -fx-background-color: rgb(20,20,20);*/
 /*}*/
 .root {
-    -fx-background-color: rgb(0,0,0);
+    -fx-background-color: rgb(0, 0, 0);
 }
 
 .label {
@@ -27,9 +27,11 @@
 .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
+
 .corner {
     -fx-background-color: transparent;
 }
+
 .scroll-bar:vertical .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
@@ -37,6 +39,7 @@
 .scroll-bar:horizontal .thumb {
     -fx-background-color: rgb(135, 206, 235);
 }
+
 .scroll-pane {
     -fx-background-color: red;
     -fx-border-color: black;

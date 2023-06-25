@@ -5,20 +5,20 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class User {
-    private UUID userId;
-    private String username;
-    private String email;
-    private String password;
-    private String profilePath;
+    private final UUID userId;
+    private final String username;
+    private final String email;
+    private final String password;
+    private final String profilePath;
 
     //Hashmap because it has to save either if the playlist is public or private, if true:public, false:private
-    private HashMap<UUID, Boolean> createdPlaylists;
-    private HashMap<UUID, Boolean> likedPlaylists;
+    private final HashMap<UUID, Boolean> createdPlaylists;
+    private final HashMap<UUID, Boolean> likedPlaylists;
 
     //added followers and following because users can follow artists and users and could be followed by other users
-    private ArrayList<UUID> followers;
-    private ArrayList<UUID> followings;
-    private ArrayList<UUID> likedTracks;
+    private final ArrayList<UUID> followers;
+    private final ArrayList<UUID> followings;
+    private final ArrayList<UUID> likedTracks;
 
     //Constructor
 

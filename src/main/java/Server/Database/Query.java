@@ -1,19 +1,15 @@
 package Server.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
+import Server.Miscellaneous;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import Server.Miscellaneous;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
 
 public class Query {
@@ -33,7 +29,7 @@ public class Query {
                 SELECT username FROM User
                 WHERE username=?;
                 """;
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             // Setting the username value into the query
@@ -41,16 +37,12 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If a match was found, then that means such a username exists, if not
             // then that means there's no such username.
-            if(rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return true;
-        }  
-        
+        }
+
     }
 
     // A query to check whether a particular email exists or not
@@ -59,7 +51,7 @@ public class Query {
                 SELECT email FROM User
                 WHERE email=?;
                 """;
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             // Setting the email value into the query
@@ -67,22 +59,18 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If a match was found, then that means such a email exists, if not
             // then that means there's no such email.
-            if(rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return true;
-        }  
+        }
 
     }
 
     public static synchronized void signUpUser(UUID userId, String username, String email, String password) {
         final String query = """
                 INSERT INTO User values(?, ?, ?, ?, ?);
-                """; 
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -94,11 +82,11 @@ public class Query {
             // Setting the profile_path value to none. That's because the user
             // hasn't set their profile picture yet
             pstmt.setString(5, null);
-            
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }  
+        }
 
     }
 
@@ -114,11 +102,11 @@ public class Query {
             // Setting the username value into the query
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 String storedPass = rs.getString("password");
                 UUID userId = UUID.fromString(rs.getString("user_id"));
                 String profilePath = rs.getString("profile_path");
-                if(Miscellaneous.checkHash(storedPass, password)) {
+                if (Miscellaneous.checkHash(storedPass, password)) {
                     JsonObject userJson = new JsonObject();
                     userJson.addProperty("userId", userId.toString());
                     userJson.addProperty("profilePath", profilePath);
@@ -153,11 +141,11 @@ public class Query {
             pstmt.setString(2, newUserInfo.get("email").getAsString());
             pstmt.setString(3, newUserInfo.get("profile_path").getAsString());
             pstmt.setString(4, userId.toString());
-            
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
     }
 
     /*
@@ -200,8 +188,8 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             JsonArray objects = new JsonArray();
 
-            while(rs.next()) {
-                objects.add(rs.getString("object"));;
+            while (rs.next()) {
+                objects.add(rs.getString("object"));
             }
 
             return objects;
@@ -226,8 +214,8 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             JsonArray subjects = new JsonArray();
 
-            while(rs.next()) {
-                subjects.add(rs.getString("subject"));;
+            while (rs.next()) {
+                subjects.add(rs.getString("subject"));
             }
 
             return subjects;
@@ -255,11 +243,11 @@ public class Query {
 
     public static synchronized void deleteFromHistory(UUID subject, UUID object, String action) {
         final String query = """
-            DELETE FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                DELETE FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -288,7 +276,7 @@ public class Query {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, artistId.toString());
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 JsonObject artistJson = new JsonObject();
                 artistJson.addProperty("artistId", artistId.toString());
                 String name = rs.getString("name");
@@ -301,7 +289,7 @@ public class Query {
                 // file name will be the id of the artist
                 artistJson.addProperty("fileName", artistId.toString());
 
-                
+
                 JsonArray socialMediaLinks = getObjectsFromHistory(artistId, "ADD_ARTIST_SOCIALMEDIA");
                 artistJson.add("socialMediaLinks", socialMediaLinks);
 
@@ -321,7 +309,7 @@ public class Query {
 
     public static synchronized JsonArray getArtists(JsonArray artistsArray) {
         JsonArray artists = new JsonArray();
-        for(JsonElement artistsIdString: artistsArray) {
+        for (JsonElement artistsIdString : artistsArray) {
             UUID artistsId = UUID.fromString(artistsIdString.getAsString());
             artists.add(getArtist(artistsId));
         }
@@ -339,7 +327,7 @@ public class Query {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, trackId.toString());
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 JsonObject musicJson = new JsonObject();
                 musicJson.addProperty("trackId", trackId.toString());
 
@@ -367,7 +355,7 @@ public class Query {
 
                 String profilePath = rs.getString("profile_path");
                 musicJson.addProperty("profilePath", profilePath);
-    
+
                 String trackPath = rs.getString("track_path");
                 musicJson.addProperty("trackPath", trackPath);
 
@@ -387,7 +375,7 @@ public class Query {
 
     public static synchronized JsonArray getTracks(JsonArray trackIds) {
         JsonArray tracks = new JsonArray();
-        for(JsonElement trackIdElement: trackIds) {
+        for (JsonElement trackIdElement : trackIds) {
             UUID trackId = UUID.fromString(trackIdElement.getAsString());
             tracks.add(getMusic(trackId));
         }
@@ -405,7 +393,7 @@ public class Query {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, albumId.toString());
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 JsonObject albumJson = new JsonObject();
                 albumJson.addProperty("albumId", albumId.toString());
 
@@ -457,7 +445,7 @@ public class Query {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, playlistId.toString());
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 JsonObject playlistJson = new JsonObject();
                 playlistJson.addProperty("playlistId", playlistId.toString());
 
@@ -480,7 +468,7 @@ public class Query {
 
                 int isPrivate = rs.getInt("is_private");
                 playlistJson.addProperty("isPrivate", isPrivate);
-        
+
                 String profilePath = rs.getString("profile_path");
                 playlistJson.addProperty("profilePath", profilePath);
 
@@ -499,7 +487,7 @@ public class Query {
             e.printStackTrace();
             return null;
         }
-}
+    }
 
     /*
      * Methods related to a user doing an action
@@ -508,11 +496,11 @@ public class Query {
     // Follow/unfollow a user
     public static synchronized void toggleFollowUser(UUID selfId, UUID userId) {
         final String query = """
-            SELECT * FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                SELECT * FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -522,55 +510,53 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If the user has followed the user before, then they're going to unfollow.
             // else they're going to follow
-            if(rs.next()) {
+            if (rs.next()) {
                 deleteFromHistory(selfId, userId, "USER_FOLLOW_USER");
             } else {
                 addToHistory(selfId, userId, "USER_FOLLOW_USER");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
     // Follow/unfollow an artist
     public static synchronized void toggleFollowArtist(UUID userId, UUID artistId) {
         final String query = """
-            SELECT * FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                SELECT * FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
-            try {
-                PreparedStatement pstmt = connection.prepareStatement(query);
-                pstmt.setString(1, userId.toString());
-                pstmt.setString(2, artistId.toString());
-                pstmt.setString(3, "USER_FOLLOW_ARTIST");
-                ResultSet rs = pstmt.executeQuery();
-                // If the user has followed the artist before, then they're going to unfollow.
-                // else they're going to follow
-                if(rs.next()) {
-                    deleteFromHistory(userId, artistId, "USER_FOLLOW_ARTIST");
-                } else {
-                    addToHistory(userId, artistId, "USER_FOLLOW_ARTIST");
-                }
-                
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return;
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, userId.toString());
+            pstmt.setString(2, artistId.toString());
+            pstmt.setString(3, "USER_FOLLOW_ARTIST");
+            ResultSet rs = pstmt.executeQuery();
+            // If the user has followed the artist before, then they're going to unfollow.
+            // else they're going to follow
+            if (rs.next()) {
+                deleteFromHistory(userId, artistId, "USER_FOLLOW_ARTIST");
+            } else {
+                addToHistory(userId, artistId, "USER_FOLLOW_ARTIST");
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // Like/unlike a track
     public static synchronized void toggleLikeTrack(UUID userId, UUID trackId) {
         final String query = """
-            SELECT * FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                SELECT * FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -580,28 +566,27 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If the user has liked the track before, then they're going to unlike.
             // else they're going to like
-            if(rs.next()) {
+            if (rs.next()) {
                 deleteFromHistory(userId, trackId, "USER_LIKE_TRACK");
             } else {
                 addToHistory(userId, trackId, "USER_LIKE_TRACK");
             }
             JsonArray trackLikes = getSubjectsFromHistory(trackId, "USER_LIKE_TRACK");
-            updateMusicPopularity(trackId, trackLikes.size());     
-            
+            updateMusicPopularity(trackId, trackLikes.size());
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
     // Like/unlike an album
     public static synchronized void toggleLikeAlbum(UUID userId, UUID albumId) {
         final String query = """
-            SELECT * FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                SELECT * FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -611,28 +596,27 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If the user has liked the album before, then they're going to unlike.
             // else they're going to like
-            if(rs.next()) {
+            if (rs.next()) {
                 deleteFromHistory(userId, albumId, "USER_LIKE_ALBUM");
             } else {
                 addToHistory(userId, albumId, "USER_LIKE_ALBUM");
             }
             JsonArray albumLikes = getSubjectsFromHistory(albumId, "USER_LIKE_ALBUM");
-            updateAlbumPopularity(albumId, albumLikes.size());            
+            updateAlbumPopularity(albumId, albumLikes.size());
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
     // Like/unlike a plalist
     public static synchronized void toggleLikePlaylist(UUID userId, UUID playlistId) {
         final String query = """
-            SELECT * FROM History
-            WHERE subject=?
-            AND object=?
-            AND action=?;
-            """;
+                SELECT * FROM History
+                WHERE subject=?
+                AND object=?
+                AND action=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -642,17 +626,16 @@ public class Query {
             ResultSet rs = pstmt.executeQuery();
             // If the user has liked the playlist before, then they're going to unlike.
             // else they're going to like
-            if(rs.next()) {
+            if (rs.next()) {
                 deleteFromHistory(userId, playlistId, "USER_LIKE_PLAYLIST");
             } else {
                 addToHistory(userId, playlistId, "USER_LIKE_PLAYLIST");
             }
             JsonArray playlistLikes = getSubjectsFromHistory(playlistId, "USER_LIKE_PLAYLIST");
-            updatePlaylistPopularity(playlistId, playlistLikes.size());            
+            updatePlaylistPopularity(playlistId, playlistLikes.size());
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -667,16 +650,15 @@ public class Query {
                 WHERE track_id=?;
                 """;
 
-            try {
-                PreparedStatement pstmt = connection.prepareStatement(query);
-                pstmt.setInt(1, popularity);
-                pstmt.setString(2, trackId.toString());
-                pstmt.executeUpdate();
-                
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return;
-            }
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, popularity);
+            pstmt.setString(2, trackId.toString());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static synchronized void updatePlaylistPopularity(UUID playlistId, int popularity) {
@@ -686,16 +668,15 @@ public class Query {
                 WHERE playlist_id=?;
                 """;
 
-            try {
-                PreparedStatement pstmt = connection.prepareStatement(query);
-                pstmt.setInt(1, popularity);
-                pstmt.setString(2, playlistId.toString());
-                pstmt.executeUpdate();
-                
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return;
-            }
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, popularity);
+            pstmt.setString(2, playlistId.toString());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static synchronized void updateAlbumPopularity(UUID albumId, int popularity) {
@@ -705,61 +686,60 @@ public class Query {
                 WHERE album_id=?;
                 """;
 
-            try {
-                PreparedStatement pstmt = connection.prepareStatement(query);
-                pstmt.setInt(1, popularity);
-                pstmt.setString(2, albumId.toString());
-                pstmt.executeUpdate();
-                
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return;
-            }
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, popularity);
+            pstmt.setString(2, albumId.toString());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public static synchronized String getMusicPath(UUID trackId){
+    public static synchronized String getMusicPath(UUID trackId) {
         final String query = """
-            SELECT * FROM Music
-            WHERE track_id=?;
-            """;
+                SELECT * FROM Music
+                WHERE track_id=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, trackId.toString());
             ResultSet rs = pstmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("profile_path");
             } else {
                 return null;
             }
-            
-            
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static synchronized String getUserPicPath(UUID userId){
+    public static synchronized String getUserPicPath(UUID userId) {
         final String query = """
-            SELECT * FROM User
-            WHERE user_id=?;
-            """;
+                SELECT * FROM User
+                WHERE user_id=?;
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, userId.toString());
             ResultSet rs = pstmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("profile_path");
             } else {
                 return null;
             }
-            
-            
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -772,8 +752,8 @@ public class Query {
 
     public static synchronized void createPlaylist(UUID userId, JsonObject playListJson) {
         final String query = """
-            INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?);
-            """;
+                INSERT INTO Playlist values(?, ?, ?, ?, ?, ?, ?);
+                """;
 
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
@@ -790,7 +770,7 @@ public class Query {
             UUID playlistId = UUID.fromString(playListJson.get("playlistId").getAsString());
 
             addToHistory(userId, playlistId, "USER_CREATE_PLAYLIST");
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -807,10 +787,10 @@ public class Query {
             // Setting the userId value into the query
             pstmt.setString(1, userId.toString());
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 JsonObject userJson = new JsonObject();
                 userJson.addProperty("userId", userId.toString());
-                
+
                 String username = rs.getString("username");
                 userJson.addProperty("username", username);
 
@@ -838,8 +818,8 @@ public class Query {
     // get all existing tracks' id
     public static synchronized JsonArray getAllTracksId() {
         final String query = """
-            SELECT track_id FROM Music;
-            """;
+                SELECT track_id FROM Music;
+                """;
 
 
         try {
@@ -847,12 +827,12 @@ public class Query {
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 tracks.add(rs.getString("track_id"));
             }
             return tracks;
-            
-            
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -871,7 +851,7 @@ public class Query {
 
         JsonArray randomTracks = new JsonArray();
 
-        for(JsonElement randomTrackId: randomTracksId) {
+        for (JsonElement randomTrackId : randomTracksId) {
             UUID trackId = UUID.fromString(randomTrackId.getAsString());
             // get music's meta-data
             randomTracks.add(getMusic(trackId));
@@ -885,7 +865,7 @@ public class Query {
         // get all user's liked tracks
         JsonArray likedTracksId = getObjectsFromHistory(userId, "USER_LIKE_TRACK");
         JsonArray likedTracks = new JsonArray();
-        for(JsonElement trackIdString: likedTracksId) {
+        for (JsonElement trackIdString : likedTracksId) {
             UUID trackId = UUID.fromString(trackIdString.getAsString());
             // get music's meta-data
             likedTracks.add(getMusic(trackId));
@@ -899,7 +879,7 @@ public class Query {
         // get all user's created playlists
         JsonArray createdPlaylistId = getObjectsFromHistory(userId, "USER_CREATE_PLAYLIST");
         JsonArray createdPlaylist = new JsonArray();
-        for(JsonElement playlistIdString: createdPlaylistId) {
+        for (JsonElement playlistIdString : createdPlaylistId) {
             UUID playlistId = UUID.fromString(playlistIdString.getAsString());
             // get playlist's meta-data
             createdPlaylist.add(getPlaylist(playlistId));
@@ -911,7 +891,7 @@ public class Query {
     public static synchronized JsonArray getLikedPlaylists(UUID userId) {
         JsonArray likedPlaylistId = getObjectsFromHistory(userId, "USER_LIKE_PLAYLIST");
         JsonArray likedPlaylist = new JsonArray();
-        for(JsonElement playlistIdString: likedPlaylistId) {
+        for (JsonElement playlistIdString : likedPlaylistId) {
             UUID playlistId = UUID.fromString(playlistIdString.getAsString());
             // get playlist's meta-data
             likedPlaylist.add(getPlaylist(playlistId));
@@ -923,7 +903,7 @@ public class Query {
     public static synchronized JsonArray getLikedAlbums(UUID userId) {
         JsonArray likedAlbumIds = getObjectsFromHistory(userId, "USER_LIKE_likedALBUM");
         JsonArray likedAlbums = new JsonArray();
-        for(JsonElement likedAlbumIdString: likedAlbumIds) {
+        for (JsonElement likedAlbumIdString : likedAlbumIds) {
             UUID likedAlbumId = UUID.fromString(likedAlbumIdString.getAsString());
             // get likedalbum's meta-data
             likedAlbums.add(getAlbum(likedAlbumId));
@@ -935,7 +915,7 @@ public class Query {
     public static synchronized JsonArray getFollowedArtists(UUID userId) {
         JsonArray artistsId = getObjectsFromHistory(userId, "USER_FOLLOW_ARTIST");
         JsonArray artists = new JsonArray();
-        for(JsonElement artistIdString: artistsId) {
+        for (JsonElement artistIdString : artistsId) {
             UUID artistId = UUID.fromString(artistIdString.getAsString());
             // get artist's meta-data
             artists.add(getArtist(artistId));
@@ -947,7 +927,7 @@ public class Query {
     public static synchronized JsonArray getUsersFollowings(UUID userId) {
         JsonArray followedUsersId = getObjectsFromHistory(userId, "USER_FOLLOW_USER");
         JsonArray followedUserdId = new JsonArray();
-        for(JsonElement followedUserIdString: followedUsersId) {
+        for (JsonElement followedUserIdString : followedUsersId) {
             UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
             // get user's meta-data
             followedUserdId.add(getUser(followedUserId));
@@ -961,26 +941,26 @@ public class Query {
         JsonArray usersPlaylists = new JsonArray();
 
         // loop over users and get the their playlists
-        for(JsonElement followedUserElement: followedUsersId) {
+        for (JsonElement followedUserElement : followedUsersId) {
             UUID followedUserId = UUID.fromString(followedUserElement.getAsString());
             JsonArray playlists = getCreatedPlaylists(followedUserId);
-            for(JsonElement playlist: playlists) {
+            for (JsonElement playlist : playlists) {
                 UUID playlistId = UUID.fromString(playlist.getAsString());
                 JsonObject playlistJson = getPlaylist(playlistId);
                 // checking whether a playlists is private or not
-                if(playlistJson.get("isPrivate").getAsInt() == 0) {
+                if (playlistJson.get("isPrivate").getAsInt() == 0) {
                     usersPlaylists.add(playlistJson);
                 }
             }
         }
         return usersPlaylists;
-    }  
+    }
 
     // get all users a given user has followed
     public static synchronized JsonArray getUsersFollowers(UUID userId) {
         JsonArray followedUsersId = getSubjectsFromHistory(userId, "USER_FOLLOW_USER");
         JsonArray followedUserdId = new JsonArray();
-        for(JsonElement followedUserIdString: followedUsersId) {
+        for (JsonElement followedUserIdString : followedUsersId) {
             UUID followedUserId = UUID.fromString(followedUserIdString.getAsString());
             // get user's meta-data
             followedUserdId.add(getUser(followedUserId));
@@ -1021,16 +1001,15 @@ public class Query {
     }
 
 
-
-    public static synchronized JsonArray searchUser (String userInput){
+    public static synchronized JsonArray searchUser(String userInput) {
 
         final String query = """
                 SELECT * FROM User
                 WHERE username LIKE ?;
                 """;
-        
+
         final String pattern = "%" + userInput + "%";
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, pattern);
@@ -1048,31 +1027,31 @@ public class Query {
                 user.addProperty("username", username);
 
                 String profilePath = rs.getString("profile_path");
-                user.addProperty("profilePath" , profilePath);
+                user.addProperty("profilePath", profilePath);
 
-                String fileName = userId.toString();
+                String fileName = userId;
                 user.addProperty("fileName", fileName);
 
                 usersResult.add(user);
             }
-                return usersResult;
+            return usersResult;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-    public static synchronized JsonArray searchPlaylist (String userInput){
+    public static synchronized JsonArray searchPlaylist(String userInput) {
 
         final String query = """
                 SELECT * FROM Playlist
                 WHERE title LIKE ?;
                 """;
-        
+
         final String pattern = "%" + userInput + "%";
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, pattern);
@@ -1090,43 +1069,43 @@ public class Query {
                 playlist.addProperty("title", title);
 
                 String userId = rs.getString("user_id");
-                playlist.addProperty("userId" , userId);
+                playlist.addProperty("userId", userId);
 
                 String profilePath = rs.getString("profile_path");
-                playlist.addProperty("profilePath" , profilePath);
+                playlist.addProperty("profilePath", profilePath);
 
-                String fileName = playlistId.toString();
+                String fileName = playlistId;
                 playlist.addProperty("fileName", fileName);
 
                 String description = rs.getString("description");
-                playlist.addProperty("description" , description);
+                playlist.addProperty("description", description);
 
                 int popularity = rs.getInt("popularity");
-                playlist.addProperty("popularity" , popularity);
+                playlist.addProperty("popularity", popularity);
 
                 int isPrivate = rs.getInt("is_private");
-                playlist.addProperty("isPrivate" , isPrivate);
+                playlist.addProperty("isPrivate", isPrivate);
 
                 playlistsResult.add(playlist);
             }
-                return playlistsResult;
+            return playlistsResult;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-    public static synchronized JsonArray searchMusic (String userInput){
+    public static synchronized JsonArray searchMusic(String userInput) {
 
         final String query = """
                 SELECT * FROM Music
                 WHERE title LIKE ?;
                 """;
-        
+
         final String pattern = "%" + userInput + "%";
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, pattern);
@@ -1148,49 +1127,49 @@ public class Query {
                 music.add("artists", artists);
 
                 String albumId = rs.getString("album_id");
-                music.addProperty("albumId" , albumId);
+                music.addProperty("albumId", albumId);
 
                 String genreId = rs.getString("genre_id");
-                music.addProperty("genreId" , genreId);
+                music.addProperty("genreId", genreId);
 
                 String profilePath = rs.getString("profile_path");
-                music.addProperty("profilePath" , profilePath);
+                music.addProperty("profilePath", profilePath);
 
                 String trackPath = rs.getString("track_path");
-                music.addProperty("trackPath" , trackPath);
+                music.addProperty("trackPath", trackPath);
 
-                String fileName = trackId.toString();
+                String fileName = trackId;
                 music.addProperty("fileName", fileName);
 
                 String releaseDate = rs.getString("release_date");
-                music.addProperty("releaseDate" , releaseDate);
+                music.addProperty("releaseDate", releaseDate);
 
                 int popularity = rs.getInt("popularity");
-                music.addProperty("popularity" , popularity);
+                music.addProperty("popularity", popularity);
 
                 int duration = rs.getInt("duration");
-                music.addProperty("duration" , duration);
+                music.addProperty("duration", duration);
 
                 musicsResult.add(music);
             }
-                return musicsResult;
+            return musicsResult;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-    public static synchronized JsonArray searchArtist (String userInput){
+    public static synchronized JsonArray searchArtist(String userInput) {
 
         final String query = """
                 SELECT * FROM Artist
                 WHERE name LIKE ?;
                 """;
-        
+
         final String pattern = "%" + userInput + "%";
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, pattern);
@@ -1208,36 +1187,36 @@ public class Query {
                 artist.addProperty("name", name);
 
                 String genreId = rs.getString("genre_id");
-                artist.addProperty("gereId" , genreId);
+                artist.addProperty("gereId", genreId);
 
                 String biography = rs.getString("biography");
-                artist.addProperty("biography" , biography);
+                artist.addProperty("biography", biography);
 
                 String profilePath = rs.getString("profile_path");
-                artist.addProperty("profilePath" , profilePath);
+                artist.addProperty("profilePath", profilePath);
 
-                artist.addProperty("fileName" , artistId.toString());
+                artist.addProperty("fileName", artistId);
 
                 artistsResult.add(artist);
             }
-                return artistsResult;
+            return artistsResult;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-    public static synchronized JsonArray searchAlbum (String userInput){
+    public static synchronized JsonArray searchAlbum(String userInput) {
 
         final String query = """
                 SELECT * FROM Album
                 WHERE title LIKE ?;
                 """;
-        
+
         final String pattern = "%" + userInput + "%";
-        
+
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             pstmt.setString(1, pattern);
@@ -1259,41 +1238,41 @@ public class Query {
                 album.add("artists", artists);
 
                 String genreId = rs.getString("genre_id");
-                album.addProperty("gereId" , genreId);
+                album.addProperty("gereId", genreId);
 
                 String profilePath = rs.getString("profile_path");
-                album.addProperty("profilePath" , profilePath);
+                album.addProperty("profilePath", profilePath);
 
-                String fileName = albumId.toString();
+                String fileName = albumId;
                 album.addProperty("fileName", fileName);
 
                 String releaseDate = rs.getString("release_date");
-                album.addProperty("releaseDate" , releaseDate);
+                album.addProperty("releaseDate", releaseDate);
 
                 int popularity = rs.getInt("popularity");
-                album.addProperty("popularity" , popularity);
+                album.addProperty("popularity", popularity);
 
 
                 albumsResult.add(album);
             }
-                return albumsResult;
+            return albumsResult;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
 
-    public static synchronized JsonObject search (String userInput){
+    public static synchronized JsonObject search(String userInput) {
 
         JsonObject searchResult = new JsonObject();
 
-        searchResult.add("usersResult" , searchUser(userInput));
-        searchResult.add("playlistsResult" , searchPlaylist(userInput));
-        searchResult.add("musicsResult" , searchMusic(userInput));
-        searchResult.add("artistsResult" , searchArtist(userInput));
-        searchResult.add("albumsResult" , searchAlbum(userInput));
+        searchResult.add("usersResult", searchUser(userInput));
+        searchResult.add("playlistsResult", searchPlaylist(userInput));
+        searchResult.add("musicsResult", searchMusic(userInput));
+        searchResult.add("artistsResult", searchArtist(userInput));
+        searchResult.add("albumsResult", searchAlbum(userInput));
 
         return searchResult;
     }

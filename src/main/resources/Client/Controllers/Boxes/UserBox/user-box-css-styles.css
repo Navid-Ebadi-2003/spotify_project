@@ -1,15 +1,16 @@
 #main-vbox {
-    -fx-background-color: rgb(40,40,40);
+    -fx-background-color: rgb(40, 40, 40);
 }
+
 #username-hyperlink {
     -fx-font-family: CircularSp;
     -fx-font-weight: bold;
-    -fx-text-fill: rgb(256,256,256);
+    -fx-text-fill: rgb(256, 256, 256);
     -fx-font-size: 18;
 }
 
-#profile-label{
-    -fx-text-fill: rgb(145,145,145);
+#profile-label {
+    -fx-text-fill: rgb(145, 145, 145);
     -fx-font-size: 14;
     -fx-font-family: CircularSp;
 }

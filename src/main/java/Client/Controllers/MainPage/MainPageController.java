@@ -1,14 +1,12 @@
 package Client.Controllers.MainPage;
+
 import Client.Controllers.Boxes.BoxBuilder;
-import Client.Controllers.Boxes.MusicMainBox.MusicMainBoxController;
 import Client.Controllers.HomePage.HomePageController;
 import Client.Controllers.InjectableController;
-import Client.Controllers.LoginPage.LoginPageController;
 import Client.Controllers.SearchPage.SearchPageController;
-import Client.Controllers.SignupPage.SignupPageController;
-import Client.DownloadFiles;
 import Client.Download;
 import Client.DownloadFile;
+import Client.DownloadFiles;
 import Shared.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -18,15 +16,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -36,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -44,7 +34,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-public class MainPageController implements InjectableController, Initializable{
+public class MainPageController implements InjectableController, Initializable {
 
     private Socket clientSocket;
     private Request requestObject;
@@ -134,7 +124,7 @@ public class MainPageController implements InjectableController, Initializable{
 //    private HashMap<String, HBox> musics;
     private MediaPlayer musicPlayer;
     private Media currentMusic;
-//    private int currentMusicIndex;
+    //    private int currentMusicIndex;
     private boolean isPlayingMusic;
 
     @FXML
@@ -204,9 +194,10 @@ public class MainPageController implements InjectableController, Initializable{
             isPlayingMusic = false;
         }
     }
+
     @FXML
     void shuffleTracks(ActionEvent event) {
-    
+
     }
 
     @FXML
@@ -241,7 +232,7 @@ public class MainPageController implements InjectableController, Initializable{
         }
     }
 
-    public void buildPages(){
+    public void buildPages() {
         // Loading homePage
         FXMLLoader homePageLoader = new FXMLLoader(MainPageController.class.getResource("../HomePage/home-page.fxml"));
         try {
@@ -314,7 +305,6 @@ public class MainPageController implements InjectableController, Initializable{
             io.printStackTrace();
         }
     }
-
 
 
     /*
@@ -460,7 +450,6 @@ public class MainPageController implements InjectableController, Initializable{
     public void setSearchPageButton(Button searchPageButton) {
         this.searchPageButton = searchPageButton;
     }
-
 
 
     public ImageView getShuffleButtonIcon() {
@@ -613,9 +602,9 @@ public class MainPageController implements InjectableController, Initializable{
             public void run() {
                 double current = musicPlayer.getCurrentTime().toSeconds();
                 double end = currentMusic.getDuration().toSeconds();
-                musicProgressBar.setProgress(current/end);
+                musicProgressBar.setProgress(current / end);
 
-                if (current/end == 1){
+                if (current / end == 1) {
                     cancelTimer();
                 }
             }

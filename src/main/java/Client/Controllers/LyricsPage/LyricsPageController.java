@@ -29,6 +29,7 @@ public class LyricsPageController {
     public void setLyricsText(Text lyricsText) {
         this.lyricsText = lyricsText;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;

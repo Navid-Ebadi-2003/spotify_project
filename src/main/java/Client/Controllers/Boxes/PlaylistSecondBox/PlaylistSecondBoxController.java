@@ -7,10 +7,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
 
 import java.io.IOException;
 import java.net.Socket;
@@ -90,6 +89,7 @@ public class PlaylistSecondBoxController implements InjectableController {
     public void setPlaylistId(UUID playlistId) {
         this.playlistId = playlistId;
     }
+
     @Override
     public void setControllerProfilePic(Image profilePic) {
         this.playlistPicture.setImage(profilePic);
@@ -104,6 +104,7 @@ public class PlaylistSecondBoxController implements InjectableController {
     public void setPlaylistHbox(HBox playlistHbox) {
         this.playlistHbox = playlistHbox;
     }
+
     public void setter(Socket clientSocket, MainPageController mainPageController) {
         this.mainPageController = mainPageController;
         this.clientSocket = clientSocket;
