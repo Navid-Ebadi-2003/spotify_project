@@ -15,8 +15,6 @@ public class ClientHandler extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        URL url = getClass().getResource("Controllers/WelcomePage/welcome-page.fxml");
-        System.out.println(url.toString());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Controllers/WelcomePage/welcome-page.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);

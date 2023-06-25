@@ -177,7 +177,6 @@ public class MainPageController implements InjectableController, Initializable {
     void play(ActionEvent event) {
         if (!isPlayingMusic) {
             beginTimer();
-            System.out.println(playBackPosition);
             musicPlayer.setStartTime(playBackPosition);
             musicPlayer.play();
             isPlayingMusic = true;
@@ -189,7 +188,6 @@ public class MainPageController implements InjectableController, Initializable {
         if (isPlayingMusic) {
             cancelTimer();
             playBackPosition = musicPlayer.getCurrentTime();
-            System.out.println(playBackPosition);
             musicPlayer.stop();
             isPlayingMusic = false;
         }
@@ -246,16 +244,11 @@ public class MainPageController implements InjectableController, Initializable {
             JsonObject jsonTemplate = new Gson().fromJson(response, JsonObject.class);
             JsonObject responseBody = jsonTemplate.getAsJsonObject("responseBody");
             JsonObject jsonResults = responseBody.getAsJsonObject("results");
-            System.out.println(jsonResults);
             // Parsing JsonArrays
             JsonArray createdPlaylistsJson = jsonResults.getAsJsonArray("createdPlaylistsResult");
             JsonArray likedPlaylistsJson = jsonResults.getAsJsonArray("likedPlaylistsResult");
             JsonArray likedMusicsJson = jsonResults.getAsJsonArray("likedMusicsResult");
             JsonArray randomMusicsJson = jsonResults.getAsJsonArray("randomMusicsResult");
-            System.out.println(createdPlaylistsJson);
-            System.out.println(likedPlaylistsJson);
-            System.out.println(likedMusicsJson);
-            System.out.println(randomMusicsJson);
             // Building Arraylists
             ArrayList<InjectableController> createdPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "createdPlaylistsResult", this, clientSocket);
             ArrayList<InjectableController> likedPlaylists = BoxBuilder.buildPlaylistSecondBox(jsonResults, "likedPlaylistsResult", this, clientSocket);

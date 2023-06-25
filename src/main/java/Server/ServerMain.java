@@ -10,7 +10,6 @@ import java.net.Socket;
 public class ServerMain {
     public static void main(String[] args) {
         try {
-            System.out.println(Miscellaneous.hashText("123"));
             //Establishing server connection
             ServerSocket serverSocket = new ServerSocket(8888);
             System.out.println("SERVER HAS STARTED LISTENING ON PORT '8888'");

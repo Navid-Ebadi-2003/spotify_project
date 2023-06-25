@@ -62,7 +62,6 @@ public class DownloadFile implements Runnable {
     }
 
     public static void loadFileIntoController(InjectableController controller, String filePath) {
-        System.out.println(filePath);
         Image image = new Image("file:" + filePath);
         controller.setControllerProfilePic(image);
     }
